@@ -6,6 +6,7 @@ Core
 The core is written in C++ and listens on a TCP socket for communication from the Wikipedia interface.  It can be compiled by typing 'make', but has a number of prerequisites.  For several of these prerequisites, it uses relatively new features, so the version is important.  If you have all of these prerequisites but still get compile errors, try installing the latest version.
 
 Prerequisites:
+
 * Expat 2.0.1, http://expat.sourceforge.net/
 * MathEval 1.1.7, http://www.gnu.org/software/libmatheval/
 * Berkeley DB 4.x C++ Bindings, http://www.oracle.com/technetwork/database/berkeleydb/
