@@ -1,0 +1,29 @@
+<?PHP
+	class Config {
+		public static $user = 'ClueBot NG';
+		public static $pass = null;
+		public static $status = 'auto';
+		public static $angry = false;
+		public static $owner = 'Cobi';
+		public static $friends = 'ClueBot,DASHBotAV';
+		
+		public static $mysqlhost = '';
+		public static $mysqlport = 3306;
+		public static $mysqluser = '';
+		public static $mysqlpass = '';
+		public static $mysqldb = '';
+		
+		public static $udphost = 'localhost';
+		public static $udpport = 3334;
+		
+		public static $coreip = 'localhost';
+		public static $coreport = 3565;
+		
+		public static $fork = true;
+		public static $dry = false;
+		
+//		public static $proxyhost = null;
+//		public static $proxyport = null;
+//		public static $proxytype = null;
+	}
+?>

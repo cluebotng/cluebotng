@@ -1,0 +1,13 @@
+# Compiled stuff
+cluebotng
+create_ann
+create_bayes_db
+print_bayes_db
+
+# Config stuff
+bot/cluebot-ng.config.php
+relay.conf.js
+
+# Dynamic stuff
+bot/oftenvandalized.txt
+bot/titles.txt

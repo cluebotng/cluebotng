@@ -1,0 +1,41 @@
+# Put any local configuration in a file called localtoolconfig
+
+ANN_SIZE=100
+ANN_MAX_EPOCHS=150
+ANN_TARGET_ERROR=0.037
+
+EDITSET_PARENT_DIR=./editsets
+EDITSET_TRAIN_FILENAME=train.xml
+EDITSET_BAYESTRAIN_FILENAME=bayestrain.xml
+EDITSET_TRIAL_FILENAME=trial.xml
+
+EDITSET="C"
+
+BINARY_DIR="."
+DATA_DIR="./data"
+
+LOCAL_CONFIG_FILENAME="`dirname $0`/localtoolconfig"
+if [ -f "$LOCAL_CONFIG_FILENAME" ]; then
+. "$LOCAL_CONFIG_FILENAME"
+fi
+
+if [ "A$1" != "A" ]; then
+	EDITSET="$1"
+fi
+
+TRAINFILE="$EDITSET_PARENT_DIR/$EDITSET/$EDITSET_TRAIN_FILENAME"
+BAYESTRAINFILE="$EDITSET_PARENT_DIR/$EDITSET/$EDITSET_BAYESTRAIN_FILENAME"
+TRIALFILE="$EDITSET_PARENT_DIR/$EDITSET/$EDITSET_TRIAL_FILENAME"
+
+if [ ! -f "$BAYESTRAINFILE" ]; then
+BAYESTRAINFILE="$TRAINFILE"
+fi
+
+if [ "A$WROTE_CONFIG_HEADER" != "ATRUE" ]; then
+export WROTE_CONFIG_HEADER=TRUE
+echo "Using training file: $TRAINFILE"
+echo "Using Bayesian training file: $BAYESTRAINFILE"
+echo "Using trial file: $TRIALFILE"
+echo
+fi
+

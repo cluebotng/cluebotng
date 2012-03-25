@@ -1,0 +1,3 @@
+exports.nick = 'CBNGRelay';
+exports.server = 'irc.cluenet.org';
+exports.extra = [];
