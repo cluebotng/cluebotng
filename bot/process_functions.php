@@ -46,6 +46,7 @@
 			//IRC::say( 'debugchannel', '( http://en.wikipedia.org/w/index.php?title=' . urlencode( $change[ 'title' ] ) . '&action=history | ' . $change[ 'url' ] . ' )' );
 			$ircreport = "\x0315[[\x0307" . $change[ 'title' ] . "\x0315]] by \"\x0303" . $change[ 'user' ] . "\x0315\" (\x0312 " . $change[ 'url' ] . " \x0315) \x0306" . $s . "\x0315 (";
 
+			checkMySQL();
 			$query = 'INSERT INTO `vandalism` ' .
 				'(`id`,`user`,`article`,`heuristic`' . ( ( is_array( $log ) ) ? ',`regex`' : '' ) . ',`reason`,`diff`,`old_id`,`new_id`,`reverted`) ' .
 				'VALUES ' .
@@ -57,9 +58,7 @@
 				'\'' . mysql_real_escape_string( $change[ 'url' ] ) . '\',' .
 				'\'' . mysql_real_escape_string( $change[ 'old_revid' ] ) . '\',' .
 				'\'' . mysql_real_escape_string( $change[ 'revid' ] ) . '\',0)';
-			print "\n\nQuery:\n" . $query . "\n\n";
-			print "\n"; print_r( $change ); print "\n";
-			checkMySQL();
+
 			mysql_query( $query );
 			$change[ 'mysqlid' ] = mysql_insert_id();
 			
@@ -83,6 +82,7 @@
 						//IRC::say( 'debugchannel', 'Grr! Beaten by ' . $rv2[ 0 ][ 'user' ] );
 						IRC::say( 'debugchannel', $ircreport . "\x0303Not Reverted\x0315) (\x0313Beaten by " . $rv2[ 0 ][ 'user' ] . "\x0315) (\x0302" . ( microtime( true ) - $change[ 'startTime' ] ) . " \x0315s)" );
 						checkMySQL();
+
 						mysql_query( 'INSERT INTO `beaten` (`id`,`article`,`diff`,`user`) VALUES (NULL,\'' . mysql_real_escape_string( $change['title'] ) . '\',\'' . mysql_real_escape_string( $change[ 'url' ] ) . '\',\'' . mysql_real_escape_string( $rv2[ 0 ][ 'user' ] ) . '\')' );
 						Feed::bail( $change, 'Beaten by ' . $rv2[ 0 ][ 'user' ], $s );
 					}
