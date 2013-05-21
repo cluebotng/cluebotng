@@ -62,7 +62,11 @@
     // If anon (ip)
     if(long2ip(ip2long($user)) == $user) {
         // User registration time
-        $data['user_reg_time'] = gmmktime();
+        $q1 = $db->prepare('SELECT UNIX_TIMESTAMP() AS `user_editcount`');
+        $q1->execute();
+        $q1->bind_result($data['user_reg_time']);
+        $q1->fetch();
+        $q1->close();
 
         // User edit count
         $q1 = $db->prepare('SELECT COUNT(*) AS `user_editcount` FROM `revision_userindex` WHERE `rev_user_text` = ?');
@@ -93,7 +97,7 @@
 
     // User warnings
     $q1 = $db->prepare("SELECT COUNT(*) FROM `page` JOIN `revision` ON `rev_page` = `page_id` WHERE `page_namespace` = 3 AND `page_title` = ? AND (`rev_comment` LIKE '%warning%' OR `rev_comment` LIKE 'General note: Nonconstructive%')");
-    $q1->bind_param('s', $user);
+    $q1->bind_param('s', $userPage);
     $q1->execute();
     $q1->bind_result($data['user_warns']);
     $q1->fetch();
@@ -107,15 +111,24 @@
     $q1->fetch();
     $q1->close();
 
-    $db->close();
-    
     if($data['common']['page_made_time']) {
         $data['common']['page_made_time'] = gmmktime(substr($data['common']['page_made_time'], 8, 2),
-                                                    substr($data['common']['page_made_time'], 10, 2),
-                                                    substr($data['common']['page_made_time'], 12, 2),
-                                                    substr($data['common']['page_made_time'], 4, 2),
-                                                    substr($data['common']['page_made_time'], 6, 2),
-                                                    substr($data['common']['page_made_time'], 0, 4));
+                                            substr($data['common']['page_made_time'], 10, 2),
+                                            substr($data['common']['page_made_time'], 12, 2),
+                                            substr($data['common']['page_made_time'], 4, 2),
+                                            substr($data['common']['page_made_time'], 6, 2),
+                                            substr($data['common']['page_made_time'], 0, 4));
     }
+
+    if($data['user_reg_time']) {
+        $data['user_reg_time'] = gmmktime(substr($data['user_reg_time'], 8, 2),
+                                            substr($data['user_reg_time'], 10, 2),
+                                            substr($data['user_reg_time'], 12, 2),
+                                            substr($data['user_reg_time'], 4, 2),
+                                            substr($data['user_reg_time'], 6, 2),
+                                            substr($data['user_reg_time'], 0, 4));
+    }
+
+    $db->close();
     die(serialize($data));
 ?>
