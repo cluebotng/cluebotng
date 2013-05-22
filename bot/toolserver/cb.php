@@ -1,6 +1,4 @@
 <?php
-    set_time_limit(10);
-
     $cfg = Array();
     $cnf = explode("\n", file_get_contents( '/data/project/cluebot/replica.my.cnf' ));
     foreach($cnf as $line) {
@@ -104,7 +102,7 @@
     $q1->close();
 
     // User distinct pages
-    $q1 = $db->prepare('select count(*) from (select distinct rev_page from revision_userindex where `rev_user_text` = ?) as a');
+    $q1 = $db->prepare('select count(distinct rev_page) from revision_userindex where `rev_user_text` = ?');
     $q1->bind_param('s', $user);
     $q1->execute();
     $q1->bind_result($data['user_distinct_pages']);
