@@ -157,14 +157,16 @@
 		$startTime = microtime( true );
 		
 		$urls = Array(
-			'http://toolserver.org/~cobi/cb' . ( $useOld ? 'old' : '' ) . '.php?user=' . urlencode( $feedData[ 'user' ] ) . '&ns=' . $feedData[ 'namespaceid' ] . '&title=' . urlencode( $feedData[ 'title' ] ) . '&timestamp=' . urlencode( $feedData[ 'timestamp' ] ),
+			//'http://toolserver.org/~cobi/cb' . ( $useOld ? 'old' : '' ) . '.php?user=' . urlencode( $feedData[ 'user' ] ) . '&ns=' . $feedData[ 'namespaceid' ] . '&title=' . urlencode( $feedData[ 'title' ] ) . '&timestamp=' . urlencode( $feedData[ 'timestamp' ] ),
+			//'http://tools-webproxy/cluebot/cb.php?user=' . urlencode( $feedData[ 'user' ] ) . '&ns=' . $feedData[ 'namespaceid' ] . '&title=' . urlencode( $feedData[ 'title' ] ) . '&timestamp=' . urlencode( $feedData[ 'timestamp' ] ),
 			'http://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=' . urlencode( ( $feedData[ 'namespaceid' ] == 0 ? '' : $feedData[ 'namespace' ] . ':' ) . $feedData[ 'title' ] ) . '&rvstartid=' . $feedData[ 'revid' ] . '&rvlimit=2&rvprop=timestamp|user|content&format=php'
 		);
 
-		list( $cb, $api ) = getUrlsInParallel( $urls );
-		
+		list( $api ) = getUrlsInParallel( $urls );
 		$api = current( $api[ 'query' ][ 'pages' ] );
-		
+
+		$cb = getCbData( $feedData[ 'user' ], $feedData[ 'namespaceid' ], $feedData[ 'title' ], $feedData[ 'timestamp' ] );
+
 		if(
 			!(
 				isset( $cb[ 'user_edit_count' ] )
@@ -184,8 +186,8 @@
 		) {
 			print "\n" . date("d/m/Y H:i:s") . "\n"; // Damian added this
 			var_dump( $feedData );
+
 			var_dump( $cb );
-			var_dump( $api );
 			if( !$pleasedontdie )
 				die( 'API error.' );
 			return false;
@@ -233,7 +235,7 @@
 	}
 	
 	function isVandalism( $data, &$score ) {
-		$fp = fsockopen( Config::$coreip, Config::$coreport, $errno, $errstr, 15 );
+		$fp = fsockopen( trim(file_get_contents(getenv("HOME") . '/.current_core_node')), Config::$coreport, $errno, $errstr, 15 );
 		if( !$fp )
 			return false;
 		fwrite( $fp, str_replace( '</WPEditSet>', '', toXML( $data ) ) );

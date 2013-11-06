@@ -11,7 +11,7 @@
 	
 	function doInit() {
 		if( Config::$pass == null )
-			Config::$pass = trim( file_get_contents( '/mnt/share/cluebot/cluebotng.password.only' ) );
+			Config::$pass = trim( file_get_contents(getenv("HOME") . '/.cluebotng.password.only' ) );
 		
 		API::init();
 		API::$a->login( Config::$user, Config::$pass );

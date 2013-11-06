@@ -59,7 +59,7 @@
 				'\'' . mysql_real_escape_string( $change[ 'old_revid' ] ) . '\',' .
 				'\'' . mysql_real_escape_string( $change[ 'revid' ] ) . '\',0)';
 
-			mysql_query( $query );
+			mysql_query( $query, Globals::$mysql );
 			$change[ 'mysqlid' ] = mysql_insert_id();
 			
 			echo 'Should revert?' . "\n";
@@ -74,7 +74,7 @@
 					IRC::say( 'debugchannel', $ircreport . "\x0304Reverted\x0315) (\x0313" . $revertReason . "\x0315) (\x0302" . ( microtime( true ) - $change[ 'startTime' ] ) . " \x0315s)" );
 					Action::doWarn( $change, $report );
 					checkMySQL();
-					mysql_query( 'UPDATE `vandalism` SET `reverted` = 1 WHERE `id` = \'' . mysql_real_escape_string( $change[ 'mysqlid' ] ) . '\'' );
+					mysql_query( 'UPDATE `vandalism` SET `reverted` = 1 WHERE `id` = \'' . mysql_real_escape_string( $change[ 'mysqlid' ] ) . '\'', Globals::$mysql );
 					Feed::bail( $change, $revertReason, $s, true );
 				} else {
 					$rv2 = API::$a->revisions( $change[ 'title' ], 1 );
@@ -83,7 +83,7 @@
 						IRC::say( 'debugchannel', $ircreport . "\x0303Not Reverted\x0315) (\x0313Beaten by " . $rv2[ 0 ][ 'user' ] . "\x0315) (\x0302" . ( microtime( true ) - $change[ 'startTime' ] ) . " \x0315s)" );
 						checkMySQL();
 
-						mysql_query( 'INSERT INTO `beaten` (`id`,`article`,`diff`,`user`) VALUES (NULL,\'' . mysql_real_escape_string( $change['title'] ) . '\',\'' . mysql_real_escape_string( $change[ 'url' ] ) . '\',\'' . mysql_real_escape_string( $rv2[ 0 ][ 'user' ] ) . '\')' );
+						mysql_query( 'INSERT INTO `beaten` (`id`,`article`,`diff`,`user`) VALUES (NULL,\'' . mysql_real_escape_string( $change['title'] ) . '\',\'' . mysql_real_escape_string( $change[ 'url' ] ) . '\',\'' . mysql_real_escape_string( $rv2[ 0 ][ 'user' ] ) . '\')', Globals::$mysql );
 						Feed::bail( $change, 'Beaten by ' . $rv2[ 0 ][ 'user' ], $s );
 					}
 				}
