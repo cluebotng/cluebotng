@@ -69,6 +69,8 @@
 		curl_setopt( $ch, CURLOPT_TIMEOUT, 120 );
 		curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 10 );
 		curl_setopt( $ch, CURLOPT_HTTPGET, 1 );
+		curl_setopt( $ch, CURLOPT_FORBID_REUSE, 1 );
+		curl_setopt( $ch, CURLOPT_FRESH_CONNECT, 1 );
 		curl_setopt( $ch, CURLOPT_ENCODING, '' );
 		curl_setopt( $ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 ); // Damian added this
 		return $ch;

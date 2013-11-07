@@ -26,6 +26,8 @@
 			curl_setopt( $this->ch, CURLOPT_CLOSEPOLICY, CURLCLOSEPOLICY_LEAST_RECENTLY_USED );
 			curl_setopt( $this->ch, CURLOPT_USERAGENT, 'ClueBot/2.0' );
 			curl_setopt( $this->ch, CURLOPT_ENCODING, '' );
+			curl_setopt( $this->ch, CURLOPT_FORBID_REUSE, 1 );
+			curl_setopt( $this->ch, CURLOPT_FRESH_CONNECT, 1 );
 			if( isset( Config::$proxyhost ) and isset( Config::$proxyport ) and ( Config::$proxyport != null ) and ( Config::$proxyhost != null ) ) {
 				curl_setopt( $this->ch, CURLOPT_PROXYTYPE, isset( Config::$proxytype ) ? Config::$proxytype : CURLPROXY_HTTP );
 				curl_setopt( $this->ch, CURLOPT_PROXY, Config::$proxyhost );
@@ -50,6 +52,8 @@
 			curl_setopt( $this->ch, CURLOPT_RETURNTRANSFER, 1 );
 			curl_setopt( $this->ch, CURLOPT_TIMEOUT, 30 );
 			curl_setopt( $this->ch, CURLOPT_CONNECTTIMEOUT, 10 );
+			curl_setopt( $this->ch, CURLOPT_FRESH_CONNECT, 1 );
+			curl_setopt( $this->ch, CURLOPT_FORBID_REUSE, 1 );
 			curl_setopt( $this->ch, CURLOPT_POST, 1 );
 			curl_setopt( $this->ch, CURLOPT_POSTFIELDS, $data );
 			curl_setopt( $this->ch, CURLOPT_HTTPHEADER, array( 'Expect:' ) );
