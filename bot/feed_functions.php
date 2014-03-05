@@ -27,6 +27,8 @@
 		}
 		
 		public static function bail( $change, $why = '', $score = 'N/A', $reverted = false ) {
+			RedisProxy::send( $change );
+
 			$udp = fsockopen( 'udp://' . trim(file_get_contents(getenv("HOME") . '/.current_relay_node')), Config::$udpport );
 			fwrite( $udp, $change[ 'rawline' ] . "\003 # " . $score . ' # ' . $why . ' # ' . ( $reverted ? 'Reverted' : 'Not reverted' ) );
 			fclose( $udp );

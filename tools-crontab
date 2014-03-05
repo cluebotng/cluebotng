@@ -1,0 +1,6 @@
+*/2 * * * * /usr/bin/qstat 2>&1 | /bin/grep -q cluebot3 || sleep 20 && /usr/bin/jsub -once -continuous -e $HOME/logs/cluebot3.err -o $HOME/logs/cluebot3.out -N cluebot3 -mem 2G php -f $HOME/cluebot3/cluebot3.php
+*/2 * * * * /usr/bin/qstat 2>&1 | /bin/grep -q cbng_bot || sleep 20 && /usr/bin/jsub -once -continuous -e $HOME/logs/cbng_bot.err -o $HOME/logs/cbng_bot.out -N cbng_bot -mem 6G $HOME/cluebotng/run_bot.sh &> /dev/null
+*/2 * * * * /usr/bin/qstat 2>&1 | /bin/grep -q cbng_relay || sleep 20 && /usr/bin/jsub -once -continuous -e $HOME/logs/cbng_relay.err -o $HOME/logs/cbng_relay.out -N cbng_relay -mem 2G $HOME/cluebotng/run_relay.sh &> /dev/null
+*/2 * * * * /usr/bin/qstat 2>&1 | /bin/grep -q cbng_redis_relay || sleep 20 && /usr/bin/jsub -once -continuous -e $HOME/logs/cbng_redis_relay.err -o $HOME/logs/cbng_redis_relay.out -N cbng_redis_relay -mem 2G $HOME/cluebotng/run_redis_relay.sh &> /dev/null
+*/2 * * * * /usr/bin/qstat 2>&1 | /bin/grep -q cbng_core || sleep 20 && /usr/bin/jsub -once -continuous -e $HOME/logs/cbng_core.err -o $HOME/logs/cbng_core.out -N cbng_core -mem 2G $HOME/cluebotng/run_core.sh &> /dev/null
+*/30 * * * * /data/project/cluebot/backup_database.sh &> /dev/null

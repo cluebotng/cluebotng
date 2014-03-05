@@ -1,6 +1,7 @@
 <?PHP
 	class Process {
 		public static function processEditThread( $change ) {
+			$change[ 'edit_status' ] = 'not_reverted';
 			if( !isVandalism( $change[ 'all' ], $s ) ) {
 				Feed::bail( $change, 'Below threshold', $s );
 				return;
@@ -70,6 +71,8 @@
 				echo 'Yes.' . "\n";
 				$rbret = Action::doRevert( $change );
 				if ($rbret !== false) {
+					$change[ 'edit_status' ] = 'reverted';
+					RedisProxy::send( $change );
 					//IRC::say( 'debugchannel', 'Reverted. (' . ( microtime( true ) - $change[ 'startTime' ] ) . ' s)' );
 					IRC::say( 'debugchannel', $ircreport . "\x0304Reverted\x0315) (\x0313" . $revertReason . "\x0315) (\x0302" . ( microtime( true ) - $change[ 'startTime' ] ) . " \x0315s)" );
 					Action::doWarn( $change, $report );
@@ -77,9 +80,11 @@
 					mysql_query( 'UPDATE `vandalism` SET `reverted` = 1 WHERE `id` = \'' . mysql_real_escape_string( $change[ 'mysqlid' ] ) . '\'', Globals::$mysql );
 					Feed::bail( $change, $revertReason, $s, true );
 				} else {
+					$change[ 'edit_status' ] = 'beaten';
 					$rv2 = API::$a->revisions( $change[ 'title' ], 1 );
 					if( $change[ 'user' ] != $rv2[ 0 ][ 'user' ] ) {
 						//IRC::say( 'debugchannel', 'Grr! Beaten by ' . $rv2[ 0 ][ 'user' ] );
+						RedisProxy::send( $change );
 						IRC::say( 'debugchannel', $ircreport . "\x0303Not Reverted\x0315) (\x0313Beaten by " . $rv2[ 0 ][ 'user' ] . "\x0315) (\x0302" . ( microtime( true ) - $change[ 'startTime' ] ) . " \x0315s)" );
 						checkMySQL();
 
@@ -88,6 +93,7 @@
 					}
 				}
 			} else {
+				RedisProxy::send( $change );
 				IRC::say( 'debugchannel', $ircreport . "\x0303Not Reverted\x0315) (\x0313" . $revertReason . "\x0315) (\x0302" . ( microtime( true ) - $change[ 'startTime' ] ) . " \x0315s)" );
 				Feed::bail( $change, $revertReason, $s );
 			}

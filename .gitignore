@@ -6,7 +6,8 @@ print_bayes_db
 
 # Config stuff
 bot/cluebot-ng.config.php
-relay.conf.js
+relay_irc.conf.js
+relay_redis.conf.js
 
 # Dynamic stuff
 bot/oftenvandalized.txt

@@ -5,7 +5,7 @@ var dgram = require("dgram");
 var relay1 = dgram.createSocket("udp4");
 var relay2 = dgram.createSocket("udp4");
 var relay3 = dgram.createSocket("udp4");
-var config = require("./relay.conf.js");
+var config = require("./relay_irc.conf.js");
 
 function in_array( array, obj ) {
 	for( var i = 0; i < array.length; i++ ) {
