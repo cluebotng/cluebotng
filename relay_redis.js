@@ -8,7 +8,6 @@ var client = redis.createClient(config.port, config.server);
 
 relay.on('message', function(data, info) {
 	for ( var i = 0; i < config.keys.length; i++ ) {
-		console.log("Sending" + data + " to " + config.keys[i]);
 		client.publish(config.keys[i], data);
 	}
 });
