@@ -118,12 +118,13 @@
 		
 		$root = $doc->createElement( 'WPEditSet' );
 		$doc->appendChild( $root );
-		
+
 		if( isset( $data[ 0 ] ) )
 			foreach( $data as $entry )
 				$root->appendChild( xmlizePart( $doc, 'WPEdit', $entry ) );
 		else
 			$root->appendChild( xmlizePart( $doc, 'WPEdit', $data ) );
+
 		return $doc->saveXML();
 	}
 	

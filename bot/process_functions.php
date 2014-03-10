@@ -2,6 +2,11 @@
 	class Process {
 		public static function processEditThread( $change ) {
 			$change[ 'edit_status' ] = 'not_reverted';
+			if(!isset($s)) {
+				$change[ 'edit_score' ] = 'N/A';
+			} else {
+				$change[ 'edit_score' ] = $s;
+			}
 			if( !isVandalism( $change[ 'all' ], $s ) ) {
 				Feed::bail( $change, 'Below threshold', $s );
 				return;
@@ -66,6 +71,7 @@
 			echo 'Should revert?' . "\n";
 
 			list( $shouldRevert, $revertReason ) = Action::shouldRevert( $change );
+			$change[ 'revert_reason' ] = $revertReason;
 			
 			if( $shouldRevert ) {
 				echo 'Yes.' . "\n";
