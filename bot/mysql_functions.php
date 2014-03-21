@@ -64,7 +64,7 @@
 		$data['common']['num_recent_reversions'] = $d['count'];
 
 		// If anon
-		if(long2ip(ip2long($user)) == $user) {
+		if( filter_var( $user, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) || filter_var( $user, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
 			$res = mysql_query( 'SELECT UNIX_TIMESTAMP() AS `user_regtime`', Globals::$rep_mysql );
 			$d = mysql_fetch_assoc( $res );
 			$data['user_reg_time'] = $d['user_regtime'];
