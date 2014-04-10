@@ -81,6 +81,13 @@
 			$d = mysql_fetch_assoc( $res );
 			$data['user_reg_time'] = $d['user_registration'];
 
+			if( ! $data['user_reg_time'] ) {
+				$res = mysql_query( 'SELECT `rev_timestamp` FROM `revision_userindex` WHERE `rev_user` = "' .
+							mysql_real_escape_string($user) . '" ORDER BY `rev_timestamp` LIMIT 0,1', Globals::$rep_mysql );
+				$d = mysql_fetch_assoc( $res );
+				$data['user_reg_time'] = $d['rev_timestamp'];
+			}
+
 			$res = mysql_query( 'SELECT `user_editcount` FROM `user` WHERE `user_name` =  "' .
 						mysql_real_escape_string($user) . '"', Globals::$rep_mysql );
 			$d = mysql_fetch_assoc( $res );
