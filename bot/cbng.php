@@ -136,7 +136,7 @@
 	function genOldFeedData( $id ) {
 		/* namespace, namespaceid, title, flags, url, revid, old_revid, user, length, comment, timestamp */
 		ini_set( 'user_agent', 'ClueBot/2.0 (Training EditDB Scraper)' );
-		$data = unserialize( file_get_contents( 'http://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=timestamp|user|comment&format=php&revids=' . urlencode( $id ) ) );
+		$data = unserialize( file_get_contents( 'http://en.wikipedia.org/w/api.php?action=query&rawcontinue=1&prop=revisions&rvprop=timestamp|user|comment&format=php&revids=' . urlencode( $id ) ) );
 		if( isset( $data[ 'query' ][ 'badrevids' ] ) )
 			return false;
 		$data = current( $data[ 'query' ][ 'pages' ] );
@@ -162,7 +162,7 @@
 		$urls = Array(
 			//'http://toolserver.org/~cobi/cb' . ( $useOld ? 'old' : '' ) . '.php?user=' . urlencode( $feedData[ 'user' ] ) . '&ns=' . $feedData[ 'namespaceid' ] . '&title=' . urlencode( $feedData[ 'title' ] ) . '&timestamp=' . urlencode( $feedData[ 'timestamp' ] ),
 			//'http://tools-webproxy/cluebot/cb.php?user=' . urlencode( $feedData[ 'user' ] ) . '&ns=' . $feedData[ 'namespaceid' ] . '&title=' . urlencode( $feedData[ 'title' ] ) . '&timestamp=' . urlencode( $feedData[ 'timestamp' ] ),
-			'http://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=' . urlencode( ( $feedData[ 'namespaceid' ] == 0 ? '' : $feedData[ 'namespace' ] . ':' ) . $feedData[ 'title' ] ) . '&rvstartid=' . $feedData[ 'revid' ] . '&rvlimit=2&rvprop=timestamp|user|content&format=php'
+			'http://en.wikipedia.org/w/api.php?action=query&rawcontinue=1&prop=revisions&titles=' . urlencode( ( $feedData[ 'namespaceid' ] == 0 ? '' : $feedData[ 'namespace' ] . ':' ) . $feedData[ 'title' ] ) . '&rvstartid=' . $feedData[ 'revid' ] . '&rvlimit=2&rvprop=timestamp|user|content&format=php'
 		);
 
 		list( $api ) = getUrlsInParallel( $urls );

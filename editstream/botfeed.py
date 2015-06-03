@@ -121,7 +121,7 @@ class editpuller(Thread):
 		
 	def gen(self,id,title):
 		r={}
-		url="""http://en.wikipedia.org/w/api.php?action=query&format=json&rvlimit=2&prop=revisions&titles=%s&rvprop=timestamp|user|comment|flags|content|ids&rvstartid=%d"""%(quote(title),int(id))
+		url="""http://en.wikipedia.org/w/api.php?action=query&rawcontinue=1&format=json&rvlimit=2&prop=revisions&titles=%s&rvprop=timestamp|user|comment|flags|content|ids&rvstartid=%d"""%(quote(title),int(id))
 		#print url
 		url = urlopen(url).read()
 		

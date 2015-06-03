@@ -230,7 +230,7 @@
 			if (isset($this->tokencache[$title]) && (!$flush)) {
 				return $this->tokencache[$title]['tokens'];
 			} else {
-				$x = $this->http->get($this->apiurl.'?action=query&format=php&prop=info&intoken=edit|delete|protect|move|block|unblock|email&titles='.urlencode($title));
+				$x = $this->http->get($this->apiurl.'?action=query&rawcontinue=1&format=php&prop=info&intoken=edit|delete|protect|move|block|unblock|email&titles='.urlencode($title));
 				$x = unserialize($x);
 				foreach ($x['query']['pages'] as $y) {
 					$tokens = array();
@@ -270,7 +270,7 @@
 			if ($ts !== null) { $append .= '&rcstart='.urlencode($ts); }
 			$append .= '&rcdir='.urlencode($dir);
 			if ($namespace !== null) { $append .= '&rcnamespace='.urlencode($namespace); }
-			$x = $this->http->get($this->apiurl.'?action=query&list=recentchanges&rcprop=user|comment|flags|timestamp|title|ids|sizes&format=php&rclimit='.$count.$append);
+			$x = $this->http->get($this->apiurl.'?action=query&rawcontinue=1&list=recentchanges&rcprop=user|comment|flags|timestamp|title|ids|sizes&format=php&rclimit='.$count.$append);
 			$x = unserialize($x);
 			return $x['query']['recentchanges'];
 		}
@@ -293,7 +293,7 @@
 			if ($what != null) $append .= '&srwhat='.urlencode($what);
 			if ($redirs == true) $append .= '&srredirects=1';
 			else $append .= '&srredirects=0';
-			$x = $this->http->get($this->apiurl.'?action=query&list=search&format=php&srsearch='.urlencode($search).$append);
+			$x = $this->http->get($this->apiurl.'?action=query&rawcontinue=1&list=search&format=php&srsearch='.urlencode($search).$append);
 			$x = unserialize($x);
 			return $x['query']['search'];
 		}
@@ -318,7 +318,7 @@
 			if ($start != null) $append.= '&lestart='.urlencode($start);
 			if ($end != null) $append.= '&leend='.urlencode($end);
 			if ($dir != null) $append.= '&ledir='.urlencode($dir);
-			$x = $this->http->get($this->apiurl.'?action=query&format=php&list=logevents&leprop=ids|title|type|user|timestamp|comment|details'.$append);
+			$x = $this->http->get($this->apiurl.'?action=query&rawcontinue=1&format=php&list=logevents&leprop=ids|title|type|user|timestamp|comment|details'.$append);
 			$x = unserialize($x);
 			return $x['query']['logevents'];
 		}
@@ -337,7 +337,7 @@
 			} else {
 				$append = '';
 			}
-			$x = $this->http->get($this->apiurl.'?action=query&format=php&list=usercontribs&ucuser='.urlencode($user).'&uclimit='.urlencode($count).'&ucdir='.urlencode($dir).$append);
+			$x = $this->http->get($this->apiurl.'?action=query&rawcontinue=1&format=php&list=usercontribs&ucuser='.urlencode($user).'&uclimit='.urlencode($count).'&ucdir='.urlencode($dir).$append);
 			$x = unserialize($x);
 			$continue = $x['query-continue']['usercontribs']['ucstart'];
 			return $x['query']['usercontribs'];
@@ -357,7 +357,7 @@
 		 * @return Associative array of revision data.
 		 **/
 		function revisions ($page,$count = 1,$dir = 'older',$content = false,$revid = null,$wait = true,$getrbtok = false,$dieonerror = true,$redirects = false) {
-			$x = $this->http->get($this->apiurl.'?action=query&prop=revisions&titles='.urlencode($page).'&rvlimit='.urlencode($count).'&rvprop=timestamp|ids|user|comment'.(($content)?'|content':'').'&format=php&meta=userinfo&rvdir='.urlencode($dir).(($revid !== null)?'&rvstartid='.urlencode($revid):'').(($getrbtok == true)?'&rvtoken=rollback':'').(($redirects == true)?'&redirects':''));
+			$x = $this->http->get($this->apiurl.'?action=query&rawcontinue=1&prop=revisions&titles='.urlencode($page).'&rvlimit='.urlencode($count).'&rvprop=timestamp|ids|user|comment'.(($content)?'|content':'').'&format=php&meta=userinfo&rvdir='.urlencode($dir).(($revid !== null)?'&rvstartid='.urlencode($revid):'').(($getrbtok == true)?'&rvtoken=rollback':'').(($redirects == true)?'&redirects':''));
 			$x = unserialize($x);
 
 			if ($revid !== null) {
@@ -410,7 +410,7 @@
 			$append = '';
 			if ($start != null) $append .= '&aufrom='.urlencode($start);
 			if ($group != null) $append .= '&augroup='.urlencode($group);
-			$x = $this->http->get($this->apiurl.'?action=query&list=allusers&format=php&auprop=blockinfo|editcount|registration|groups&aulimit='.urlencode($limit).$append);
+			$x = $this->http->get($this->apiurl.'?action=query&rawcontinue=1&list=allusers&format=php&auprop=blockinfo|editcount|registration|groups&aulimit='.urlencode($limit).$append);
 			$x = unserialize($x);
 			$continue = $x['query-continue']['allusers']['aufrom'];
 			if (($requirestart == true) and ($x['query']['allusers'][0]['name'] != $start)) return false;
@@ -431,7 +431,7 @@
 				$append = '';
 			}
 			$category = 'Category:'.str_ireplace('category:','',$category);
-			$x = $this->http->get($this->apiurl.'?action=query&list=categorymembers&cmtitle='.urlencode($category).'&format=php&cmlimit='.$count.$append);
+			$x = $this->http->get($this->apiurl.'?action=query&rawcontinue=1&list=categorymembers&cmtitle='.urlencode($category).'&format=php&cmlimit='.$count.$append);
 			$x = unserialize($x);
 			$continue = $x['query-continue']['categorymembers']['cmcontinue'];
 			return $x['query']['categorymembers'];
@@ -452,7 +452,7 @@
 			if ($dir != null) $append .= '&acdir='.urlencode($dir);
 			if ($prefix != null) $append .= '&acprefix='.urlencode($prefix);
 
-			$x = $this->http->get($this->apiurl.'?action=query&list=allcategories&acprop=size&format=php'.$append);
+			$x = $this->http->get($this->apiurl.'?action=query&rawcontinue=1&list=allcategories&acprop=size&format=php'.$append);
 			$x = unserialize($x);
 
 			$start = $x['query-continue']['allcategories']['acfrom'];
@@ -478,7 +478,7 @@
 				$append .= '&blfilterredir='.urlencode($filter);
 			}
 
-			$x = $this->http->get($this->apiurl.'?action=query&list=backlinks&bltitle='.urlencode($page).'&format=php&bllimit='.$count.$append);
+			$x = $this->http->get($this->apiurl.'?action=query&rawcontinue=1&list=backlinks&bltitle='.urlencode($page).'&format=php&bllimit='.$count.$append);
 			$x = unserialize($x);
 			$continue = $x['query-continue']['backlinks']['blcontinue'];
 			return $x['query']['backlinks'];
@@ -497,7 +497,7 @@
 			} else {
 				$append = '';
 			}
-			$x = $this->http->get($this->apiurl.'?action=query&list=embeddedin&eititle='.urlencode($page).'&format=php&eilimit='.$count.$append);
+			$x = $this->http->get($this->apiurl.'?action=query&rawcontinue=1&list=embeddedin&eititle='.urlencode($page).'&format=php&eilimit='.$count.$append);
 			$x = unserialize($x);
 			$continue = $x['query-continue']['embeddedin']['eicontinue'];
 			return $x['query']['embeddedin'];
@@ -516,7 +516,7 @@
 			if ($continue != null) {
 				$append .= '&apfrom='.urlencode($continue);
 			}
-			$x = $this->http->get($this->apiurl.'?action=query&list=allpages&apprefix='.urlencode($prefix).'&format=php&aplimit='.$count.$append);
+			$x = $this->http->get($this->apiurl.'?action=query&rawcontinue=1&list=allpages&apprefix='.urlencode($prefix).'&format=php&aplimit='.$count.$append);
 			$x = unserialize($x);
 			$continue = $x['query-continue']['allpages']['apfrom'];
 			return $x['query']['allpages'];
