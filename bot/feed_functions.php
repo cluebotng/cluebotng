@@ -89,7 +89,7 @@
 
 							foreach( $stalkchannel as $chan )
 								IRC::say(
-									$chan, 'New edit: [[' . ( $data[ 'namespace' ] == 'Main:' ? '' : $data[ 'namespace' ] ) . $data[ 'title' ] . ']] http://en.wikipedia.org/w/index.php?title=' .
+									$chan, 'New edit: [[' . ( $data[ 'namespace' ] == 'Main:' ? '' : $data[ 'namespace' ] ) . $data[ 'title' ] . ']] https://en.wikipedia.org/w/index.php?title=' .
 									urlencode( $data[ 'namespace' ] . $data[ 'title' ] ) . '&diff=prev&oldid=' . urlencode( $data[ 'revid' ] ) . ' * ' . $data[ 'user' ] .
 									' * ' . $data[ 'comment' ]
 								);

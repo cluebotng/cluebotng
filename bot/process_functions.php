@@ -25,7 +25,7 @@
 			$heuristic = '';
 			$log = null;
 			
-			$diff = 'http://en.wikipedia.org/w/index.php' .
+			$diff = 'https://en.wikipedia.org/w/index.php' .
 				'?title=' . urlencode( $change[ 'title' ] ) .
 				'&diff=' . urlencode( $change[ 'revid' ] ) .
 				'&oldid=' . urlencode( $change[ 'old_revid' ] );
@@ -49,7 +49,7 @@
 			file_put_contents( 'oftenvandalized.txt', serialize( $oftVand ) );
 
 			//IRC::say( 'debugchannel', 'Possible vandalism: ' . $change[ 'title' ] . ' changed by ' . $change[ 'user' ] . ' ' . $reason . '(' . $s . ')' );
-			//IRC::say( 'debugchannel', '( http://en.wikipedia.org/w/index.php?title=' . urlencode( $change[ 'title' ] ) . '&action=history | ' . $change[ 'url' ] . ' )' );
+			//IRC::say( 'debugchannel', '( https://en.wikipedia.org/w/index.php?title=' . urlencode( $change[ 'title' ] ) . '&action=history | ' . $change[ 'url' ] . ' )' );
 			$ircreport = "\x0315[[\x0307" . $change[ 'title' ] . "\x0315]] by \"\x0303" . $change[ 'user' ] . "\x0315\" (\x0312 " . $change[ 'url' ] . " \x0315) \x0306" . $s . "\x0315 (";
 
 			checkMySQL();

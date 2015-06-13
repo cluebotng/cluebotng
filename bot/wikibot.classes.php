@@ -104,7 +104,7 @@
 	class wikipediaquery {
 		private $http;
 		private $api;
-		public $queryurl = 'http://en.wikipedia.org/w/query.php'; //Obsolete, but kept for compatibility purposes.
+		public $queryurl = 'https://en.wikipedia.org/w/query.php'; //Obsolete, but kept for compatibility purposes.
 
 		/**
 		 * This is our constructor.
@@ -171,7 +171,7 @@
 		private $edittoken;
 		private $tokencache;
 		private $user, $pass;
-		public $apiurl = 'http://en.wikipedia.org/w/api.php';
+		public $apiurl = 'https://en.wikipedia.org/w/api.php';
 
 		/**
 		 * This is our constructor.
@@ -638,7 +638,7 @@
 	 **/
 	class wikipediaindex {
 		private $http;
-		public $indexurl = 'http://en.wikipedia.org/w/index.php';
+		public $indexurl = 'https://en.wikipedia.org/w/index.php';
 		private $postinterval = 0;
 		private $lastpost;
 		private $edittoken;
