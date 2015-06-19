@@ -536,10 +536,6 @@
 		function edit ($page,$data,$summary = '',$minor = false,$bot = true,$wpStarttime = null,$wpEdittime = null,$checkrun = true) {
 			$wpq = new wikipediaquery; $wpq->queryurl = str_replace('api.php','query.php',$this->apiurl);
 
-			if ($checkrun == true)
-				if (!preg_match('/(yes|enable|true)/iS',((isset(Globals::$run))?Globals::$run:$wpq->getpage('User:'.Config::$user.'/Run'))))
-					return false; /* Check /Run page */
-
 			$params = Array(
 				'action' => 'edit',
 				'format' => 'php',
@@ -691,7 +687,6 @@
 			if (preg_match('/'.preg_quote('{{bots|deny=','/').'(.*)'.preg_quote('}}','/').'/iS',$rv[0]['*'],$m)) { if (in_array(explode(',',$m[1]),Config::$user)) { return false; } } /* /Honor the bots flags */
 			if (!preg_match('/'.preg_quote($user,'/').'/iS',$rv['currentuser'])) { return false; } /* We need to be logged in */
 //			if (preg_match('/'.preg_quote('You have new messages','/').'/iS',$rv[0]['*'])) { return false; } /* Check talk page */
-			if (!preg_match('/(yes|enable|true)/iS',((isset(Globals::$run))?Globals::$run:$wpq->getpage('User:'.Config::$user.'/Run')))) { return false; } /* Check /Run page */
 
 			$x = $this->forcepost($page,$data,$summery,$minor,$html,Config::$maxlag,Config::$maxlagkeepgoing,$bot); /* Go ahead and post. */
 			$this->lastpost = time();
