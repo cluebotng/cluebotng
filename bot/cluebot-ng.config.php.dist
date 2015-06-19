@@ -17,6 +17,7 @@
         public static $rep_mysqlport = 3306;
         public static $rep_mysqluser = '';
         public static $rep_mysqlpass = '';
+        public static $rep_mysqldb = '';
 		
 		public static $udpport = 3334;
 		public static $coreport = 3565;
