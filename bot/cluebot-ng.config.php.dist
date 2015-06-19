@@ -13,10 +13,10 @@
 		public static $mysqlpass = '';
 		public static $mysqldb = '';
 
-        public static $repl_mysqlhost = '';
-        public static $repl_mysqlport = 3306;
-        public static $repl_mysqluser = '';
-        public static $repl_mysqlpass = '';
+        public static $rep_mysqlhost = '';
+        public static $rep_mysqlport = 3306;
+        public static $rep_mysqluser = '';
+        public static $rep_mysqlpass = '';
 		
 		public static $udpport = 3334;
 		public static $coreport = 3565;
