@@ -91,11 +91,11 @@
 			$rbret = API::$a->rollback(
 				$change[ 'title' ],
 				$change[ 'user' ],
-				'Reverting possible vandalism by [[Special:Contributions/' . $change[ 'user' ] . '|' . $change[ 'user' ] . ']] ' .
+				'Reverting possible vandalism by [[Special:Contribs/' . $change[ 'user' ] . '|' . $change[ 'user' ] . ']] ' .
 				'to ' . ( ( $revid == 0 ) ? 'older version' : 'version by ' . $revdata[ 'user' ] ) . '. ' .
 				//'False positive? [[User:' . Config::$user . '/FalsePositives|Report it]]. ' .
-				'False positive? [[User:' . Config::$user . '/FalsePositives|Report it]]. ' .
-				'Thanks, [[User:' . Config::$user . '|' . Config::$user . ']]. (' . $change[ 'mysqlid' ] . ') (Bot)',
+				'False positive? [[Wikipedia:CBFP|Report it]]. ' .
+				'Thanks, [[WP:CBNG|' . Config::$user . ']]. (' . $change[ 'mysqlid' ] . ') (Bot)',
 				$rbtok
 			);
 			return $rbret;
