@@ -94,7 +94,7 @@
 				'Reverting possible vandalism by [[Special:Contribs/' . $change[ 'user' ] . '|' . $change[ 'user' ] . ']] ' .
 				'to ' . ( ( $revid == 0 ) ? 'older version' : 'version by ' . $revdata[ 'user' ] ) . '. ' .
 				//'False positive? [[User:' . Config::$user . '/FalsePositives|Report it]]. ' .
-				'False positive? [[Wikipedia:CBFP|Report it]]. ' .
+				'False positive? [[WP:CBFP|Report it]]. ' .
 				'Thanks, [[WP:CBNG|' . Config::$user . ']]. (' . $change[ 'mysqlid' ] . ') (Bot)',
 				$rbtok
 			);
