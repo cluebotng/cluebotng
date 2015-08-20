@@ -390,8 +390,12 @@
 				$data['revisions']['ns'] = $data['ns'];
 				$data['revisions']['title'] = $data['title'];
 				$data['revisions']['currentuser'] = $x['query']['userinfo']['name'];
-//				$data['revisions']['currentuser'] = $x['query']['userinfo']['currentuser']['name'];
-				$data['revisions']['continue'] = $x['query-continue']['revisions']['rvstartid'];
+				if (array_key_exists('query-continue', $x) &&
+					array_key_exists('revisions', $x['query-continue']) &&
+					array_key_exists('rvstartid', $x['query-continue']['revisions'])
+				) {
+					$data['revisions']['continue'] = $x['query-continue']['revisions']['rvstartid'];
+				}
 				$data['revisions']['pageid'] = $key;
 				return $data['revisions'];
 			}
