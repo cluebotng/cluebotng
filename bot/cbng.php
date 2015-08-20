@@ -251,7 +251,7 @@
     }
     function isVandalism($data, &$score)
     {
-        $fp = fsockopen(Db::getCurrentCoreNode(), Config::$coreport, $errno, $errstr, 15);
+        $fp = fsockopen(Db::getCurrentCoreNode(), config::$coreport, $errno, $errstr, 15);
         if (!$fp) {
             return false;
         }
@@ -273,8 +273,8 @@
             $score = 0;
             $isVand = false;
         } else {
-            $score = (string)$data->WPEdit->score;
-            $isVand = ((string)$data->WPEdit->think_vandalism) == 'true';
+            $score = (string) $data->WPEdit->score;
+            $isVand = ((string) $data->WPEdit->think_vandalism) == 'true';
         }
 
         return $isVand;

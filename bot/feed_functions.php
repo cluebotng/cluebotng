@@ -30,7 +30,7 @@
             if (!self::$fd) {
                 return;
             }
-            $nick = str_replace(' ', '_', Config::$user);
+            $nick = str_replace(' ', '_', config::$user);
             self::send('USER '.$nick.' "1" "1" :ClueBot Wikipedia Bot 2.0.');
             self::send('NICK '.$nick);
             while (!feof(self::$fd)) {
@@ -48,7 +48,7 @@
             $rchange = $change;
             $rchange[ 'edit_reason' ] = $why;
             $rchange[ 'edit_score' ] = $score;
-            $udp = fsockopen('udp://'.Db::getCurrentRelayNode(), Config::$udpport);
+            $udp = fsockopen('udp://'.Db::getCurrentRelayNode(), config::$udpport);
             fwrite($udp, $change[ 'rawline' ]."\003 # ".$score.' # '.$why.' # '.($reverted ? 'Reverted' : 'Not reverted'));
             fclose($udp);
         }
@@ -87,12 +87,12 @@
                                 return;
                             }
                             $stalkchannel = array();
-                            foreach (Globals::$stalk as $key => $value) {
+                            foreach (globals::$stalk as $key => $value) {
                                 if (myfnmatch(str_replace('_', ' ', $key), str_replace('_', ' ', $data[ 'user' ]))) {
                                     $stalkchannel = array_merge($stalkchannel, explode(',', $value));
                                 }
                             }
-                            foreach (Globals::$edit as $key => $value) {
+                            foreach (globals::$edit as $key => $value) {
                                 if (myfnmatch(str_replace('_', ' ', $key), str_replace('_', ' ', ($data[ 'namespace' ] == 'Main:' ? '' : $data[ 'namespace' ]).$data[ 'title' ]))) {
                                     $stalkchannel = array_merge($stalkchannel, explode(',', $value));
                                 }
@@ -106,22 +106,22 @@
                                 );
                             }
                             switch ($data[ 'namespace' ].$data[ 'title' ]) {
-                                case 'User:'.Config::$user.'/Run':
-                                    Globals::$run = API::$q->getpage('User:'.Config::$user.'/Run');
+                                case 'User:'.config::$user.'/Run':
+                                    globals::$run = API::$q->getpage('User:'.config::$user.'/Run');
                                     break;
                                 case 'Wikipedia:Huggle/Whitelist';
-                                    Globals::$wl = API::$q->getpage('Wikipedia:Huggle/Whitelist');
+                                    globals::$wl = API::$q->getpage('Wikipedia:Huggle/Whitelist');
                                     break;
-                                case 'User:'.Config::$user.'/Optin':
-                                    Globals::$optin = API::$q->getpage('User:'.Config::$user.'/Optin');
+                                case 'User:'.config::$user.'/Optin':
+                                    globals::$optin = API::$q->getpage('User:'.config::$user.'/Optin');
                                     break;
-                                case 'User:'.Config::$user.'/AngryOptin':
-                                    Globals::$aoptin = API::$q->getpage('User:'.Config::$user.'/AngryOptin');
+                                case 'User:'.config::$user.'/AngryOptin':
+                                    globals::$aoptin = API::$q->getpage('User:'.config::$user.'/AngryOptin');
                                     break;
                             }
                             if (
                                 ($data[ 'namespace' ] != 'Main:')
-                                and ((!preg_match('/\* \[\[('.preg_quote($data[ 'namespace' ].$data[ 'title' ], '/').')\]\] \- .*/i', Globals::$optin)))
+                                and ((!preg_match('/\* \[\[('.preg_quote($data[ 'namespace' ].$data[ 'title' ], '/').')\]\] \- .*/i', globals::$optin)))
                             ) {
                                 self::bail($data, 'Outside of valid namespaces');
 

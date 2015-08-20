@@ -99,13 +99,13 @@
         public static function processEdit($change)
         {
             if (
-                (time() - Globals::$tfas) >= 1800
+                (time() - globals::$tfas) >= 1800
                 and (preg_match('/\(\'\'\'\[\[([^|]*)\|more...\]\]\'\'\'\)/iU', API::$q->getpage('Wikipedia:Today\'s featured article/'.date('F j, Y')), $tfam))
             ) {
-                Globals::$tfas = time();
-                Globals::$tfa = $tfam[ 1 ];
+                globals::$tfas = time();
+                globals::$tfa = $tfam[ 1 ];
             }
-            if (Config::$fork) {
+            if (config::$fork) {
                 $pid = pcntl_fork();
                 if ($pid != 0) {
                     echo 'Forked - '.$pid."\n";
@@ -119,7 +119,7 @@
                 $change[ 'title' ] = $change[ 'namespace' ].$change[ 'title' ];
             }
             self::processEditThread($change);
-            if (Config::$fork) {
+            if (config::$fork) {
                 die();
             }
         }

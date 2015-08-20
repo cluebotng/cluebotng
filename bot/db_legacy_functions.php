@@ -34,15 +34,15 @@ class LegacyDb
             '\''.mysql_real_escape_string($url).'\','.
             '\''.mysql_real_escape_string($old_rev_id).'\','.
             '\''.mysql_real_escape_string($rev_id).'\',0)';
-        mysql_query($query, Globals::$legacy_mysql);
+        mysql_query($query, globals::$legacy_mysql);
 
-        return mysql_insert_id(Globals::$legacy_mysql);
+        return mysql_insert_id(globals::$legacy_mysql);
     }
     // Returns nothing
     public static function vandalismReverted($edit_id)
     {
         checkLegacyMySQL();
-        mysql_query('UPDATE `vandalism` SET `reverted` = 1 WHERE `id` = \''.mysql_real_escape_string($edit_id).'\'', Globals::$legacy_mysql);
+        mysql_query('UPDATE `vandalism` SET `reverted` = 1 WHERE `id` = \''.mysql_real_escape_string($edit_id).'\'', globals::$legacy_mysql);
     }
     // Returns nothing
     public static function vandalismRevertBeaten($edit_id, $title, $user, $diff)
@@ -50,18 +50,18 @@ class LegacyDb
         checkLegacyMySQL();
         mysql_query('UPDATE `vandalism` SET `reverted` = 0 WHERE `id` = \''.
                         mysql_real_escape_string($edit_id).
-                    '\'', Globals::$legacy_mysql);
+                    '\'', globals::$legacy_mysql);
         mysql_query('INSERT INTO `beaten` (`id`,`article`,`diff`,`user`) VALUES (NULL,\''.
                         mysql_real_escape_string($title).'\',\''.
                         mysql_real_escape_string($diff).'\',\''.
                         mysql_real_escape_string($user).
-                    '\')', Globals::$legacy_mysql);
+                    '\')', globals::$legacy_mysql);
     }
     // Returns the hostname of the current core node
     public static function getCurrentCoreNode()
     {
         checkLegacyMySQL();
-        $res = mysql_query('SELECT `node` from `cluster_node` where type="core"', Globals::$legacy_mysql);
+        $res = mysql_query('SELECT `node` from `cluster_node` where type="core"', globals::$legacy_mysql);
         $d = mysql_fetch_assoc($res);
 
         return $d['node'];
@@ -70,7 +70,7 @@ class LegacyDb
     public static function getCurrentRelayNode()
     {
         checkLegacyMySQL();
-        $res = mysql_query('SELECT `node` from `cluster_node` where type="relay"', Globals::$legacy_mysql);
+        $res = mysql_query('SELECT `node` from `cluster_node` where type="relay"', globals::$legacy_mysql);
         $d = mysql_fetch_assoc($res);
 
         return $d['node'];

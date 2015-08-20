@@ -72,7 +72,7 @@
             $ret = API::$a->edit(
                 'User talk:'.$change[ 'user' ],
                 $content."\n\n"
-                .'{{subst:User:'.Config::$user.'/Warnings/Warning'
+                .'{{subst:User:'.config::$user.'/Warnings/Warning'
                 .'|1='.$warning
                 .'|2='.str_replace('File:', ':File:', $change[ 'title' ])
                 .'|3='.$report
@@ -89,7 +89,7 @@
         public static function doWarn($change, $report)
         {
             $warning = self::getWarningLevel($change[ 'user' ], $tpcontent) + 1;
-            if (!Config::$dry) {
+            if (!config::$dry) {
                 if ($warning == 5) { /* Report them if they have been warned 4 times. */
                     self::aiv($change, $report);
                 } elseif ($warning < 5) { /* Warn them if they haven't been warned 4 times. */
@@ -109,10 +109,10 @@
                     break;
                 }
             }
-            if (($revdata[ 'user' ] == Config::$user) or (in_array($revdata[ 'user' ], explode(',', Config::$friends)))) {
+            if (($revdata[ 'user' ] == config::$user) or (in_array($revdata[ 'user' ], explode(',', config::$friends)))) {
                 return false;
             }
-            if (Config::$dry) {
+            if (config::$dry) {
                 return true;
             }
             $rbret = API::$a->rollback(
@@ -121,7 +121,7 @@
                 'Reverting possible vandalism by [[Special:Contribs/'.$change[ 'user' ].'|'.$change[ 'user' ].']] '.
                 'to '.(($revid == 0) ? 'older version' : 'version by '.$revdata[ 'user' ]).'. '.
                 '[[WP:CBFP|Report False Positive?]]. '.
-                'Thanks, [[WP:CBNG|'.Config::$user.']]. ('.$change[ 'mysqlid' ].') (Bot)',
+                'Thanks, [[WP:CBNG|'.config::$user.']]. ('.$change[ 'mysqlid' ].') (Bot)',
                 $rbtok
             );
 
@@ -133,7 +133,7 @@
             if (stripos('{{nobots}}', $text) !== false) {
                 return false;
             }
-            $botname = preg_quote(Config::$user, '/');
+            $botname = preg_quote(config::$user, '/');
             $botname = str_replace(' ', '(_| )?', $botname);
             if (preg_match('/\{\{bots\s*\|\s*deny\s*\=[^}]*('.$botname.'|\*)[^}]*\}\}/i', $text)) {
                 return false;
@@ -149,25 +149,25 @@
         public static function shouldRevert($change)
         {
             $reason = 'Default revert';
-            if (preg_match('/(assisted|manual)/iS', Config::$status)) {
+            if (preg_match('/(assisted|manual)/iS', config::$status)) {
                 echo 'Revert [y/N]? ';
-                if (strtolower(substr(fgets(Globals::$stdin, 3), 0, 1)) != 'y') {
+                if (strtolower(substr(fgets(globals::$stdin, 3), 0, 1)) != 'y') {
                     return array(false, 'Manual mode says no');
                 }
             }
-            if (!preg_match('/(yes|enable|true)/iS', Globals::$run)) {
+            if (!preg_match('/(yes|enable|true)/iS', globals::$run)) {
                 return array(false, 'Run disabled');
             }
-            if ($change[ 'user' ] == Config::$user) {
+            if ($change[ 'user' ] == config::$user) {
                 return array(false, 'User is myself');
             }
-            if (Config::$angry) {
+            if (config::$angry) {
                 return array(true, 'Angry-reverting in angry mode');
             }
-            if ((time() - Globals::$tfas) >= 1800) {
+            if ((time() - globals::$tfas) >= 1800) {
                 if (preg_match('/\(\'\'\'\[\[([^|]*)\|more...\]\]\'\'\'\)/iU', API::$q->getpage('Wikipedia:Today\'s featured article/'.date('F j, Y')), $tfam)) {
-                    Globals::$tfas = time();
-                    Globals::$tfa = $tfam[ 1 ];
+                    globals::$tfas = time();
+                    globals::$tfa = $tfam[ 1 ];
                 }
             }
             if (!self::findAndParseBots($change)) {
@@ -183,10 +183,10 @@
                     $reason = 'User has edit count, but warns > 10%';
                 }
             }
-            if (Globals::$tfa == $change[ 'title' ]) {
+            if (globals::$tfa == $change[ 'title' ]) {
                 return array(true, 'Angry-reverting on TFA');
             }
-            if (preg_match('/\* \[\[('.preg_quote($change[ 'title' ], '/').')\]\] \- .*/i', Globals::$aoptin)) {
+            if (preg_match('/\* \[\[('.preg_quote($change[ 'title' ], '/').')\]\] \- .*/i', globals::$aoptin)) {
                 IRC::say('debugchannel', 'Angry-reverting [['.$change[ 'title' ].']].');
 
                 return array(true, 'Angry-reverting on angry-optin');
@@ -206,7 +206,7 @@
         }
         public static function isWhitelisted($user)
         {
-            if (preg_match('/^'.preg_quote($user, '/').'$/', Globals::$wl)) {
+            if (preg_match('/^'.preg_quote($user, '/').'$/', globals::$wl)) {
                 return true;
             }
 

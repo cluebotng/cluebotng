@@ -101,7 +101,7 @@
         }
         public static function init()
         {
-            $ircconfig = explode("\n", API::$q->getpage('User:'.Config::$owner.'/CBChannels.js'));
+            $ircconfig = explode("\n", API::$q->getpage('User:'.config::$owner.'/CBChannels.js'));
             $tmp = array();
             foreach ($ircconfig as $tmpline) {
                 if ($tmpline[ 0 ] != '#') {
