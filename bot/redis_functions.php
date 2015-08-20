@@ -1,4 +1,4 @@
-<?PHP
+<?php
     class RedisProxy
     {
         public static function sanitise($change)

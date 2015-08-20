@@ -1,4 +1,4 @@
-<?PHP
+<?php
     class IRC
     {
         private static $chans = array();

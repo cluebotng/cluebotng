@@ -1,4 +1,4 @@
-<?PHP
+<?php
 	class Config {
 		public static $user = 'ClueBot NG';
 		public static $pass = null;
