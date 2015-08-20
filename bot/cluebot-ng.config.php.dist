@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ClueBot NG.  If not, see <http://www.gnu.org/licenses/>.
  */
-    class config
+    class Config
     {
         public static $user = 'ClueBot NG';
         public static $pass = null;
@@ -28,7 +28,7 @@
         public static $mw_mysql_host = 'enwiki.labsdb';
         public static $mw_mysql_port = 3306;
         public static $mw_mysql_user = '';
-        public static $mw_mysqlpass = '';
+        public static $mw_mysql_pass = '';
         public static $mw_mysql_db = 'enwiki_p';
         public static $legacy_mysql_host = 'tools-db';
         public static $legacy_mysql_port = 3306;

@@ -35,7 +35,7 @@
     function checkRepMySQL()
     {
         if (!Globals::$mw_mysql or !mysql_ping(Globals::$mw_mysql)) {
-            Globals::$mw_mysql = mysql_pconnect(Config::$mw_mysql_host.':'.Config::$mw_mysql_port, Config::$mw_mysql_user, Config::$mw_mysqlpass);
+            Globals::$mw_mysql = mysql_pconnect(Config::$mw_mysql_host.':'.Config::$mw_mysql_port, Config::$mw_mysql_user, Config::$mw_mysql_pass);
             mysql_select_db(Config::$mw_mysql_db, Globals::$mw_mysql);
         }
     }

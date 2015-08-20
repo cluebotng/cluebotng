@@ -18,7 +18,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ClueBot NG.  If not, see <http://www.gnu.org/licenses/>.
  */
-    class globals
+    class Globals
     {
         public static $stdin;
         public static $tfas;
