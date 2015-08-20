@@ -61,7 +61,7 @@ class LegacyDb
     public static function getCurrentCoreNode()
     {
         checkLegacyMySQL();
-        $res = mysql_query('SELECT `node` from `cluster_node` where type="core"', Globals::legacy_mysql);
+        $res = mysql_query('SELECT `node` from `cluster_node` where type="core"', Globals::$legacy_mysql);
         $d = mysql_fetch_assoc($res);
 
         return $d['node'];
@@ -70,7 +70,7 @@ class LegacyDb
     public static function getCurrentRelayNode()
     {
         checkLegacyMySQL();
-        $res = mysql_query('SELECT `node` from `cluster_node` where type="core"', Globals::legacy_mysql);
+        $res = mysql_query('SELECT `node` from `cluster_node` where type="relay"', Globals::$legacy_mysql);
         $d = mysql_fetch_assoc($res);
 
         return $d['node'];
