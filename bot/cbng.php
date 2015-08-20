@@ -30,14 +30,12 @@
             'category' => 14,    'category talk' => 15,
             'portal' => 100,    'portal talk' => 101,
         );
-
     function namespace2id($ns)
     {
         global $convert;
 
         return $convert[ strtolower(str_replace('_', ' ', $ns)) ];
     }
-
     function namespace2name($nsid)
     {
         global $convert;
@@ -45,7 +43,6 @@
 
         return ucfirst($convertFlipped[ $nsid ]);
     }
-
     function parseFeed($feed)
     {
         if (
@@ -74,7 +71,6 @@
 
         return false;
     }
-
     function setupUrlFetch($url)
     {
         $ch = curl_init();
@@ -95,10 +91,10 @@
         curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
         curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
         curl_setopt($ch, CURLOPT_ENCODING, '');
-        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4); // Damian added this
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+
         return $ch;
     }
-
     function getUrlsInParallel($urls)
     {
         $mh = curl_multi_init();
@@ -108,25 +104,21 @@
             curl_multi_add_handle($mh, $ch);
             $chs[] = $ch;
         }
-
         $running = null;
         curl_multi_exec($mh, $running);
         while ($running > 0) {
             curl_multi_select($mh);
             curl_multi_exec($mh, $running);
         }
-
         $ret = array();
         foreach ($chs as $ch) {
             $ret[] = unserialize(curl_multi_getcontent($ch));
             curl_multi_remove_handle($mh, $ch);
         }
-
         curl_multi_close($mh);
 
         return $ret;
     }
-
     function xmlizePart($doc, $key, $data)
     {
         $element = $doc->createElement($key);
@@ -140,14 +132,11 @@
 
         return $element;
     }
-
     function xmlize($data)
     {
         $doc = new DOMDocument('1.0');
-
         $root = $doc->createElement('WPEditSet');
         $doc->appendChild($root);
-
         if (isset($data[ 0 ])) {
             foreach ($data as $entry) {
                 $root->appendChild(xmlizePart($doc, 'WPEdit', $entry));
@@ -158,14 +147,12 @@
 
         return $doc->saveXML();
     }
-
     function parseAllFeed($feed)
     {
         $feedData = parseFeed($feed);
 
         return parseFeedData($feedData);
     }
-
     function genOldFeedData($id)
     {
         /* namespace, namespaceid, title, flags, url, revid, old_revid, user, length, comment, timestamp */
@@ -191,20 +178,15 @@
 
         return $change;
     }
-
     function parseFeedData($feedData, $useOld = false)
     {
         $startTime = microtime(true);
-
         $urls = array(
             'https://en.wikipedia.org/w/api.php?action=query&rawcontinue=1&prop=revisions&titles='.urlencode(($feedData[ 'namespaceid' ] == 0 ? '' : $feedData[ 'namespace' ].':').$feedData[ 'title' ]).'&rvstartid='.$feedData[ 'revid' ].'&rvlimit=2&rvprop=timestamp|user|content&format=php',
         );
-
         list($api) = getUrlsInParallel($urls);
         $api = current($api[ 'query' ][ 'pages' ]);
-
         $cb = getCbData($feedData[ 'user' ], $feedData[ 'namespaceid' ], $feedData[ 'title' ], $feedData[ 'timestamp' ]);
-
         if (
             !(
                 isset($cb[ 'user_edit_count' ])
@@ -228,7 +210,6 @@
 
             return false;
         }
-
         $data = array(
             'EditType' => 'change',
             'EditID' => $feedData[ 'revid' ],
@@ -257,23 +238,20 @@
                 'text' => $api[ 'revisions' ][ 1 ][ '*' ],
             ),
         );
-
         $feedData[ 'startTime' ] = $startTime;
         $feedData[ 'all' ] = $data;
 
         return $feedData;
     }
-
     function toXML($data)
     {
         $xml = xmlize($data);
 
         return $xml;
     }
-
     function isVandalism($data, &$score)
     {
-        $fp = fsockopen(getCurrentCoreNode(), Config::$coreport, $errno, $errstr, 15);
+        $fp = fsockopen(Db::getCurrentCoreNode(), Config::$coreport, $errno, $errstr, 15);
         if (!$fp) {
             return false;
         }
@@ -289,7 +267,6 @@
                 $endeditset = true;
             }
         }
-
         fclose($fp);
         $data = simplexml_load_string($returnXML);
         $score = (string) $data->WPEdit->score;
@@ -297,7 +274,6 @@
 
         return $isVand;
     }
-
     function oldData($id)
     {
         $feedData = genOldFeedData($id);
@@ -312,7 +288,6 @@
 
         return $feedData;
     }
-
     function oldXML($ids)
     {
         if (!is_array($ids)) {

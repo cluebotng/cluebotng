@@ -3,7 +3,6 @@
 -- Host: localhost    Database: cluebot_enwiki
 -- ------------------------------------------------------
 -- Server version	5.0.32-Debian_7etch3-log
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -14,11 +13,9 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
 --
 -- Table structure for table `beaten`
 --
-
 DROP TABLE IF EXISTS `beaten`;
 CREATE TABLE `beaten` (
   `id` int(11) NOT NULL auto_increment,
@@ -28,11 +25,9 @@ CREATE TABLE `beaten` (
   `user` varchar(256) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 --
 -- Table structure for table `trr`
 --
-
 DROP TABLE IF EXISTS `trr`;
 CREATE TABLE `trr` (
   `id` int(11) NOT NULL auto_increment,
@@ -44,11 +39,9 @@ CREATE TABLE `trr` (
   `md5` char(32) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=488749 DEFAULT CHARSET=latin1;
-
 --
 -- Table structure for table `vandalism`
 --
-
 DROP TABLE IF EXISTS `vandalism`;
 CREATE TABLE `vandalism` (
   `id` int(11) NOT NULL auto_increment,
@@ -64,11 +57,9 @@ CREATE TABLE `vandalism` (
   `reverted` tinyint(1) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 --
 -- Table structure for table `cluster_node`
 --
-
 DROP TABLE IF EXISTS `cluster_node`;
 CREATE TABLE `cluster_node` (
   `node` varchar(256) NOT NULL,
@@ -76,7 +67,6 @@ CREATE TABLE `cluster_node` (
   PRIMARY KEY  (`type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
@@ -84,5 +74,4 @@ CREATE TABLE `cluster_node` (
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
 -- Dump completed on 2008-01-14  2:31:27

@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Copyright (C) 2015 Jacobi Carter and Chris Breneman
  *
@@ -26,22 +25,23 @@
         public static $angry = false;
         public static $owner = 'Cobi';
         public static $friends = 'ClueBot,DASHBotAV';
-
         public static $mw_mysql_host = 'enwiki.labsdb';
         public static $mw_mysql_port = 3306;
         public static $mw_mysql_user = '';
-        public static $rep_mysqlpass = '';
+        public static $mw_mysqlpass = '';
         public static $mw_mysql_db = 'enwiki_p';
-
+        public static $legacy_mysql_host = 'tools-db';
+        public static $legacy_mysql_port = 3306;
+        public static $legacy_mysql_user = '';
+        public static $legacy_mysql_pass = '';
+        public static $legacy_mysql_db = 'cb';
         public static $cb_mysql_host = 'tools-db';
         public static $cb_mysql_port = 3306;
         public static $cb_mysql_user = '';
         public static $cb_mysql_pass = '';
         public static $cb_mysql_db = 'cb';
-
         public static $udpport = 3334;
         public static $coreport = 3565;
-
         public static $fork = true;
         public static $dry = false;
     }

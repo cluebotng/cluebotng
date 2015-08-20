@@ -49,13 +49,11 @@
 
             return $warning;
         }
-
         private static function aiv($change, $report)
         {
             $aivdata = API::$q->getpage('Wikipedia:Administrator_intervention_against_vandalism/TB2');
             if (!preg_match('/'.preg_quote($change[ 'user' ], '/').'/i', $aivdata)) {
                 IRC::say('aivchannel', '!admin Reporting [[User:'.$change[ 'user' ].']] to [[WP:AIV]]. Contributions: [[Special:Contributions/'.$change[ 'user' ].']] Block: [[Special:Blockip/'.$change[ 'user' ].']]');
-
                 API::$a->edit(
                     'Wikipedia:Administrator_intervention_against_vandalism/TB2',
                     $aivdata."\n\n"
@@ -68,7 +66,6 @@
                 );
             }
         }
-
         private static function warn($change, $report, $content, $warning)
         {
             echo 'Warning '.$change[ 'user' ].' ...';
@@ -87,10 +84,8 @@
                 false,
                 false
             ); /* Warn the user */
-
             print_r($ret);
         }
-
         public static function doWarn($change, $report)
         {
             $warning = self::getWarningLevel($change[ 'user' ], $tpcontent) + 1;
@@ -103,7 +98,6 @@
             }
             IRC::say('vandalismchannel', 'rcbot bl add '.$change[ 'user' ].' x='.(24 * $warning).' r=Vandalism to [['.$change[ 'title' ].']] (#'.$warning.').');
         }
-
         public static function doRevert($change)
         {
             $rev = API::$a->revisions($change[ 'title' ], 5, 'older', false, null, true, true);
@@ -118,7 +112,6 @@
             if (($revdata[ 'user' ] == Config::$user) or (in_array($revdata[ 'user' ], explode(',', Config::$friends)))) {
                 return false;
             }
-            //IRC::say( 'debugchannel', 'Reverting ...' );
             if (Config::$dry) {
                 return true;
             }
@@ -127,7 +120,6 @@
                 $change[ 'user' ],
                 'Reverting possible vandalism by [[Special:Contribs/'.$change[ 'user' ].'|'.$change[ 'user' ].']] '.
                 'to '.(($revid == 0) ? 'older version' : 'version by '.$revdata[ 'user' ]).'. '.
-                //'False positive? [[User:' . Config::$user . '/FalsePositives|Report it]]. ' .
                 '[[WP:CBFP|Report False Positive?]]. '.
                 'Thanks, [[WP:CBNG|'.Config::$user.']]. ('.$change[ 'mysqlid' ].') (Bot)',
                 $rbtok
@@ -135,21 +127,17 @@
 
             return $rbret;
         }
-
         public static function findAndParseBots($change)
         {
             $text = $change[ 'all' ][ 'current' ][ 'text' ];
-
             if (stripos('{{nobots}}', $text) !== false) {
                 return false;
             }
-
             $botname = preg_quote(Config::$user, '/');
             $botname = str_replace(' ', '(_| )?', $botname);
             if (preg_match('/\{\{bots\s*\|\s*deny\s*\=[^}]*('.$botname.'|\*)[^}]*\}\}/i', $text)) {
                 return false;
             }
-
             if (preg_match('/\{\{bots\s*\|\s*allow\s*\=([^}]*)\}\}/i', $text, $matches)) {
                 if (!preg_match('/('.$botname.'|\*)/i', $matches[ 1 ])) {
                     return false;
@@ -158,7 +146,6 @@
 
             return true;
         }
-
         public static function shouldRevert($change)
         {
             $reason = 'Default revert';
@@ -168,15 +155,12 @@
                     return array(false, 'Manual mode says no');
                 }
             }
-
             if (!preg_match('/(yes|enable|true)/iS', Globals::$run)) {
                 return array(false, 'Run disabled');
             }
-
             if ($change[ 'user' ] == Config::$user) {
                 return array(false, 'User is myself');
             }
-
             if (Config::$angry) {
                 return array(true, 'Angry-reverting in angry mode');
             }
@@ -186,15 +170,12 @@
                     Globals::$tfa = $tfam[ 1 ];
                 }
             }
-
             if (!self::findAndParseBots($change)) {
                 return array(false, 'Exclusion compliance');
             }
-
             if ($change[ 'all' ][ 'user' ] == $change[ 'all' ][ 'common' ][ 'creator' ]) {
                 return array(false, 'User is creator');
             }
-
             if ($change[ 'all' ][ 'user_edit_count' ] > 50) {
                 if ($change[ 'all' ][ 'user_warns' ] / $change[ 'all' ][ 'user_edit_count' ] < 0.1) {
                     return array(false, 'User has edit count');
@@ -202,7 +183,6 @@
                     $reason = 'User has edit count, but warns > 10%';
                 }
             }
-
             if (Globals::$tfa == $change[ 'title' ]) {
                 return array(true, 'Angry-reverting on TFA');
             }
@@ -224,7 +204,6 @@
 
             return array(false, 'Reverted before');
         }
-
         public static function isWhitelisted($user)
         {
             if (preg_match('/^'.preg_quote($user, '/').'$/', Globals::$wl)) {

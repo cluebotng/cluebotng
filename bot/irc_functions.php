@@ -21,24 +21,20 @@
     class IRC
     {
         private static $chans = array();
-
         public static function split($message)
         {
             if (!$message) {
                 return;
             }
-
             $return = array();
             $i = 0;
             $quotes = false;
-
             if ($message[ $i ] == ':') {
                 $return[ 'type' ] = 'relayed';
                 ++$i;
             } else {
                 $return[ 'type' ] = 'direct';
             }
-
             $return[ 'rawpieces' ] = array();
             $temp = '';
             for (; $i < strlen($message); ++$i) {
@@ -70,7 +66,6 @@
             if ($temp != '') {
                 $return[ 'rawpieces' ][] = $temp;
             }
-
             if ($return[ 'type' ] == 'relayed') {
                 $return[ 'source' ] = $return[ 'rawpieces' ][ 0 ];
                 $return[ 'command' ] = strtolower($return[ 'rawpieces' ][ 1 ]);
@@ -86,10 +81,9 @@
 
             return $return;
         }
-
         public static function say($chans, $message)
         {
-            $relay_node = getCurrentRelayNode();
+            $relay_node = Db::getCurrentRelayNode();
             if (array_key_exists('irc'.$chans, self::$chans)) {
                 $chans = 'irc'.$chans;
                 echo 'Saying to '.$chans.' ('.self::$chans[ $chans ].'): '.$message."\n";
@@ -105,7 +99,6 @@
                 fclose($udp);
             }
         }
-
         public static function init()
         {
             $ircconfig = explode("\n", API::$q->getpage('User:'.Config::$owner.'/CBChannels.js'));
@@ -116,7 +109,6 @@
                     $tmp[ trim($tmpline[ 0 ]) ] = trim($tmpline[ 1 ]);
                 }
             }
-
             self::$chans = $tmp;
         }
     }

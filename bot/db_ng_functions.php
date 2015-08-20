@@ -18,17 +18,6 @@
  * You should have received a copy of the GNU General Public License
  * along with ClueBot NG.  If not, see <http://www.gnu.org/licenses/>.
  */
-    require_once 'cluebot-ng.config.php';
-    require_once 'action_functions.php';
-    require_once 'cbng.php';
-    require_once 'feed_functions.php';
-    require_once 'irc_functions.php';
-    require_once 'mysql_functions.php';
-    require_once 'wikibot.classes.php';
-    require_once 'globals.php';
-    require_once 'api.php';
-    require_once 'process_functions.php';
-    require_once 'misc_functions.php';
-    require_once 'db_legacy_functions.php';
-    require_once 'db_ng_functions.php';
-    require_once 'db_functions.php';
+class NgDb
+{
+}
