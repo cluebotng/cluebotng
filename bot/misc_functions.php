@@ -54,3 +54,21 @@
             }
         }
     }
+
+    function getCurrentCoreNode()
+    {
+        checkMySQL();
+        $res = mysql_query('SELECT `node` from `cluster_node` where type="core"', Globals::mysql);
+        $d = mysql_fetch_assoc($res);
+
+        return $d['node'];
+    }
+
+    function getCurrentRelayNode()
+    {
+        checkMySQL();
+        $res = mysql_query('SELECT `node` from `cluster_node` where type="core"', Globals::mysql);
+        $d = mysql_fetch_assoc($res);
+
+        return $d['node'];
+    }

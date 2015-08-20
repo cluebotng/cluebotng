@@ -178,7 +178,7 @@
         return $change;
     }
 
-    function parseFeedData($feedData, $useOld = false, $pleasedontdie = false)
+    function parseFeedData($feedData, $useOld = false)
     {
         $startTime = microtime(true);
 
@@ -208,13 +208,9 @@
                 and isset($api[ 'revisions' ][ 1 ][ '*' ])
             )
         ) {
-            print "\n".date('d/m/Y H:i:s')."\n"; // Damian added this
+            print "\n".date('d/m/Y H:i:s')."\n";
             var_dump($feedData);
-
             var_dump($cb);
-            if (!$pleasedontdie) {
-                die('API error.');
-            }
 
             return false;
         }
@@ -257,14 +253,13 @@
     function toXML($data)
     {
         $xml = xmlize($data);
-//		$totalTime = microtime( true ) - $startTime;
-//		$xml .= '<!-- Processing time = ' . $totalTime . 's -->';
+
         return $xml;
     }
 
     function isVandalism($data, &$score)
     {
-        $fp = fsockopen(trim(file_get_contents(getenv('HOME').'/.current_core_node')), Config::$coreport, $errno, $errstr, 15);
+        $fp = fsockopen(getCurrentCoreNode(), Config::$coreport, $errno, $errstr, 15);
         if (!$fp) {
             return false;
         }

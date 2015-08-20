@@ -64,6 +64,17 @@ CREATE TABLE `vandalism` (
   `reverted` tinyint(1) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `cluster_node`
+--
+
+DROP TABLE IF EXISTS `cluster_node`;
+CREATE TABLE `cluster_node` (
+  `node` varchar(256) NOT NULL,
+  `type` varchar(256) NOT NULL,
+  PRIMARY KEY  (`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

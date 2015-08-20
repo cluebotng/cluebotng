@@ -78,7 +78,7 @@
                 '\''.mysql_real_escape_string($change[ 'revid' ]).'\',0)';
 
             mysql_query($query, Globals::$mysql);
-            $change[ 'mysqlid' ] = mysql_insert_id();
+            $change[ 'mysqlid' ] = mysql_insert_id(Globals::$mysql);
 
             echo 'Should revert?'."\n";
 

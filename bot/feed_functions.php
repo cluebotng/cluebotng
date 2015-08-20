@@ -39,7 +39,7 @@
             $rchange[ 'edit_score' ] = $score;
             RedisProxy::send($rchange);
 
-            $udp = fsockopen('udp://'.trim(file_get_contents(getenv('HOME').'/.current_relay_node')), Config::$udpport);
+            $udp = fsockopen('udp://'.getCurrentRelayNode(), Config::$udpport);
             fwrite($udp, $change[ 'rawline' ]."\003 # ".$score.' # '.$why.' # '.($reverted ? 'Reverted' : 'Not reverted'));
             fclose($udp);
         }

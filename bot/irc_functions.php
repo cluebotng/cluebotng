@@ -73,17 +73,18 @@
 
         public static function say($chans, $message)
         {
+            $relay_node = getCurrentRelayNode();
             if (array_key_exists('irc'.$chans, self::$chans)) {
                 $chans = 'irc'.$chans;
                 echo 'Saying to '.$chans.' ('.self::$chans[ $chans ].'): '.$message."\n";
                 foreach (explode(',', self::$chans[ $chans ]) as $chan) {
-                    $udp = fsockopen('udp://'.trim(file_get_contents(getenv('HOME').'/.current_relay_node')), 1337);
+                    $udp = fsockopen('udp://'.$relay_node, 1337);
                     fwrite($udp, $chan.' :'.$message);
                     fclose($udp);
                 }
             } else {
                 echo 'Saying to '.$chans.': '.$message."\n";
-                $udp = fsockopen('udp://'.trim(file_get_contents(getenv('HOME').'/.current_relay_node')), 1337);
+                $udp = fsockopen('udp://'.$relay_node, 1337);
                 fwrite($udp, $chans.' :'.$message);
                 fclose($udp);
             }
