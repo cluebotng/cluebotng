@@ -27,17 +27,17 @@
         public static $owner = 'Cobi';
         public static $friends = 'ClueBot,DASHBotAV';
 
-        public static $rep_mysqlhost = 'enwiki.labsdb';
-        public static $rep_mysqlport = 3306;
-        public static $rep_mysqluser = '';
+        public static $mw_mysql_host = 'enwiki.labsdb';
+        public static $mw_mysql_port = 3306;
+        public static $mw_mysql_user = '';
         public static $rep_mysqlpass = '';
-        public static $rep_mysqldb = 'enwiki_p';
+        public static $mw_mysql_db = 'enwiki_p';
 
-        public static $mysqlhost = 'tools-db';
-        public static $mysqlport = 3306;
-        public static $mysqluser = '';
-        public static $mysqlpass = '';
-        public static $mysqldb = 'cb';
+        public static $cb_mysql_host = 'tools-db';
+        public static $cb_mysql_port = 3306;
+        public static $cb_mysql_user = '';
+        public static $cb_mysql_pass = '';
+        public static $cb_mysql_db = 'cb';
 
         public static $udpport = 3334;
         public static $coreport = 3565;

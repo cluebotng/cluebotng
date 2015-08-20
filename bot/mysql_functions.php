@@ -21,16 +21,16 @@
     function checkMySQL()
     {
         if (!Globals::$mysql or !mysql_ping(Globals::$mysql)) {
-            Globals::$mysql = mysql_pconnect(Config::$mysqlhost.':'.Config::$mysqlport, Config::$mysqluser, Config::$mysqlpass);
-            mysql_select_db(Config::$mysqldb, Globals::$mysql);
+            Globals::$mysql = mysql_pconnect(Config::$cb_mysql_host.':'.Config::$cb_mysql_port, Config::$cb_mysql_user, Config::$cb_mysql_pass);
+            mysql_select_db(Config::$cb_mysql_db, Globals::$mysql);
         }
     }
 
     function checkRepMySQL()
     {
         if (!Globals::$rep_mysql or !mysql_ping(Globals::$rep_mysql)) {
-            Globals::$rep_mysql = mysql_pconnect(Config::$rep_mysqlhost.':'.Config::$rep_mysqlport, Config::$rep_mysqluser, Config::$rep_mysqlpass);
-            mysql_select_db(Config::$rep_mysqldb, Globals::$rep_mysql);
+            Globals::$rep_mysql = mysql_pconnect(Config::$mw_mysql_host.':'.Config::$mw_mysql_port, Config::$mw_mysql_user, Config::$rep_mysqlpass);
+            mysql_select_db(Config::$mw_mysql_db, Globals::$rep_mysql);
         }
     }
 
