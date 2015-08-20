@@ -904,4 +904,4 @@
 			return $this->http->post($this->indexurl.'?title=Special:EmailUser&target='.urlencode($user).'&action=submit',$post);
 		}
 	}
-?>
+

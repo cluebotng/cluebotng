@@ -1,4 +1,7 @@
 <?php
+
+
+
     class IRC
     {
         private static $chans = array();
@@ -100,4 +103,3 @@
             self::$chans = $tmp;
         }
     }
-?>	
