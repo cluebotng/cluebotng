@@ -28,7 +28,7 @@
             } else {
                 $change[ 'edit_score' ] = $s;
             }
-            if (!isVandalism($change[ 'all' ], $s)) {
+            if (!in_array('all', $change) || !isVandalism($change[ 'all' ], $s)) {
                 Feed::bail($change, 'Below threshold', $s);
 
                 return;
@@ -115,7 +115,7 @@
             }
             $change = parseFeedData($change);
             $change[ 'justtitle' ] = $change[ 'title' ];
-            if ($change[ 'namespace' ] != 'Main:') {
+            if (in_array('namespace', $change) && $change[ 'namespace' ] != 'Main:') {
                 $change[ 'title' ] = $change[ 'namespace' ].$change[ 'title' ];
             }
             self::processEditThread($change);

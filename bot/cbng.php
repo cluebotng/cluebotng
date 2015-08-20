@@ -269,8 +269,13 @@
         }
         fclose($fp);
         $data = simplexml_load_string($returnXML);
-        $score = (string) $data->WPEdit->score;
-        $isVand = ((string) $data->WPEdit->think_vandalism) == 'true';
+        if ($data == null) {
+            $score = 0;
+            $isVand = false;
+        } else {
+            $score = (string)$data->WPEdit->score;
+            $isVand = ((string)$data->WPEdit->think_vandalism) == 'true';
+        }
 
         return $isVand;
     }
