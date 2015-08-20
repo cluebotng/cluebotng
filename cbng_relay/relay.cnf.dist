@@ -1,0 +1,14 @@
+[irc]
+nick = CBNGRelay_NG
+host = irc.cluenet.org
+port = 6667
+channels =
+
+[redis]
+host = tools-redis
+port = 6379
+db = 0
+prefix = cbng_
+
+[general]
+port = 8080
