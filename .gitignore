@@ -13,3 +13,6 @@ relay_redis.conf.js
 bot/oftenvandalized.txt
 bot/titles.txt
 data/
+
+.idea/
+*.iml
