@@ -63,6 +63,7 @@ CREATE TABLE `vandalism` (
 DROP TABLE IF EXISTS `cluster_node`;
 CREATE TABLE `cluster_node` (
   `node` varchar(256) NOT NULL,
+  `port` int(11) NOT NULL,
   `type` varchar(256) NOT NULL,
   PRIMARY KEY  (`type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
