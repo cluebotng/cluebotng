@@ -3,6 +3,7 @@ cluebotng
 create_ann
 create_bayes_db
 print_bayes_db
+core
 
 # Config stuff
 bot/cluebot-ng.config.php
@@ -18,7 +19,10 @@ data/
 .idea/
 *.iml
 
+# Temp stuff
+*.py[co]
+
 # Stuff on tools
 *.so*
+titles.txt
 oftenvandalized.txt
-core
