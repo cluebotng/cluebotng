@@ -19,3 +19,12 @@ Interface to Wikipedia
 ======================
 
 The interface to Wikipedia is written in PHP and requires a PHP interpreter.
+
+
+Deploying to tools
+==================
+
+```bash
+pip install fabric
+
+fab deploy```
