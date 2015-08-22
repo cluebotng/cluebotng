@@ -72,6 +72,9 @@ def start():
 
 
 def update_code():
+    print('Resetting local changes')
+    sudo('cd "%(dir)s" && git reset --hard && git clean -fd' % {'dir': DEST_DIR})
+
     print('Updating code')
     sudo('cd "%(dir)s" && git pull origin master' % {'dir': DEST_DIR})
 

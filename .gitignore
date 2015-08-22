@@ -14,5 +14,11 @@ bot/oftenvandalized.txt
 bot/titles.txt
 data/
 
+# Editor
 .idea/
 *.iml
+
+# Stuff on tools
+*.so*
+oftenvandalized.txt
+core
