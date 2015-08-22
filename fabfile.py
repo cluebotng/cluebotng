@@ -3,10 +3,12 @@ import sys
 import os.path
 from fabric.api import run, env, sudo
 from fabric.contrib import files
+import time
 
 LOGIN_HOST = 'tools-login.wmflabs.org'
 DEST_TOOL = 'cluebot'
 DEST_DIR = '/data/project/%s/cluebotng' % DEST_TOOL
+LOG_DIR = '/data/project/%s/logs' % DEST_TOOL
 REPO_URL = 'https://github.com/DamianZaremba/cluebotng.git'
 
 # Internal settings
@@ -57,21 +59,26 @@ def setup():
 
 
 def stop():
-    sudo('jstop cbng_bot')
-    sudo('jstop cbng_core')
-    sudo('jstop cbng_relay')
+    sudo('jstop cbng_bot | true')
+    sudo('jstop cbng_core | true')
+    sudo('jstop cbng_relay | true')
 
 
 def start():
-    sudo('jsub -once -continuous -e $HOME/logs/cbng_bot.err -o '
-         '$HOME/logs/cbng_bot.out -N cbng_bot -mem 6G '
-         '%(dir)s/bin/run_bot.sh' % {'dir': DEST_DIR})
-    sudo('jsub -once -continuous -e $HOME/logs/cbng_relay.err -o '
-         '$HOME/logs/cbng_relay.out -N cbng_relay -mem 6G '
-         '%(dir)s/bin/run_relay.sh' % {'dir': DEST_DIR})
-    sudo('jsub -once -continuous -e $HOME/logs/jsub -once -continuous '
-         '-e $HOME/logs/cbng_core.err -o $HOME/logs/cbng_core.out '
-         '-N cbng_core -mem 6G %(dir)s/bin/run_core.sh' % {'dir': DEST_DIR})
+    sudo('jsub -once -continuous -N cbng_bot -mem 6G' +
+         ' -e %s/cbng_bot.err ' % LOG_DIR +
+         ' -o %s/cbng_bot.out ' % LOG_DIR +
+         ' %s/bin/run_bot.sh | true' % DEST_DIR)
+
+    sudo('jsub -once -continuous -N cbng_relay -mem 6G' +
+         ' -e %s/cbng_relay.err ' % LOG_DIR +
+         ' -o %s/cbng_relay.out ' % LOG_DIR +
+         ' %s/bin/run_relay.sh | true' % DEST_DIR)
+
+    sudo('jsub -once -continuous -N cbng_core -mem 6G' +
+         ' -e %s/cbng_core.err ' % LOG_DIR +
+         ' -o %s/cbng_core.out ' % LOG_DIR +
+         ' %s/bin/run_core.sh | true' % DEST_DIR)
 
 
 def update_code():
@@ -88,6 +95,7 @@ def update_code():
 
 def restart():
     stop()
+    time.sleep(1)
     start()
 
 
