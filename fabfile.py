@@ -63,17 +63,21 @@ def stop():
 
 
 def start():
-    sudo(
-        'jsub -once -continuous -e $HOME/logs/cbng_bot.err -o $HOME/logs/cbng_bot.out -N cbng_bot -mem 6G $HOME/cluebotng/run_bot.sh')
-    sudo(
-        'jsub -once -continuous -e $HOME/logs/cbng_relay.err -o $HOME/logs/cbng_relay.out -N cbng_relay -mem 6G $HOME/cluebotng/run_relay.sh')
-    sudo(
-        'jsub -once -continuous -e $HOME/logs/jsub -once -continuous -e $HOME/logs/cbng_core.err -o $HOME/logs/cbng_core.out -N cbng_core -mem 6G $HOME/cluebotng/run_core.sh')
+    sudo('jsub -once -continuous -e $HOME/logs/cbng_bot.err -o '
+         '$HOME/logs/cbng_bot.out -N cbng_bot -mem 6G '
+         '$HOME/cluebotng/run_bot.sh')
+    sudo('jsub -once -continuous -e $HOME/logs/cbng_relay.err -o '
+         '$HOME/logs/cbng_relay.out -N cbng_relay -mem 6G '
+         '$HOME/cluebotng/run_relay.sh')
+    sudo('jsub -once -continuous -e $HOME/logs/jsub -once -continuous '
+         '-e $HOME/logs/cbng_core.err -o $HOME/logs/cbng_core.out '
+         '-N cbng_core -mem 6G $HOME/cluebotng/run_core.sh')
 
 
 def update_code():
     print('Resetting local changes')
-    sudo('cd "%(dir)s" && git reset --hard && git clean -fd' % {'dir': DEST_DIR})
+    sudo('cd "%(dir)s" && git reset --hard && git clean -fd' %
+         {'dir': DEST_DIR})
 
     print('Updating code')
     sudo('cd "%(dir)s" && git pull origin master' % {'dir': DEST_DIR})
