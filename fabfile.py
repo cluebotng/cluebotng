@@ -6,7 +6,7 @@ from fabric.contrib import files
 
 LOGIN_HOST = 'tools-login.wmflabs.org'
 DEST_TOOL = 'cluebot'
-DEST_DIR = '/data/project/%s/apps/cluebotng' % DEST_TOOL
+DEST_DIR = '/data/project/%s/cluebotng' % DEST_TOOL
 REPO_URL = 'https://github.com/DamianZaremba/cluebotng.git'
 
 # Internal settings
@@ -95,5 +95,6 @@ def deploy():
     check_workingdir_clean()
     check_remote_up2date()
 
+    setup()
     update_code()
     restart()
