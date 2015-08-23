@@ -65,11 +65,6 @@ def stop():
 
 
 def start():
-    sudo('jsub -once -continuous -N cbng_bot -mem 6G' +
-         ' -e %s/cbng_bot.err ' % LOG_DIR +
-         ' -o %s/cbng_bot.out ' % LOG_DIR +
-         ' %s/bin/run_bot.sh | true' % DEST_DIR)
-
     sudo('jsub -once -continuous -N cbng_relay -mem 6G' +
          ' -e %s/cbng_relay.err ' % LOG_DIR +
          ' -o %s/cbng_relay.out ' % LOG_DIR +
@@ -79,6 +74,12 @@ def start():
          ' -e %s/cbng_core.err ' % LOG_DIR +
          ' -o %s/cbng_core.out ' % LOG_DIR +
          ' %s/bin/run_core.sh | true' % DEST_DIR)
+
+    time.sleep(1)
+    sudo('jsub -once -continuous -N cbng_bot -mem 6G' +
+         ' -e %s/cbng_bot.err ' % LOG_DIR +
+         ' -o %s/cbng_bot.out ' % LOG_DIR +
+         ' %s/bin/run_bot.sh | true' % DEST_DIR)
 
 
 def update_code():
