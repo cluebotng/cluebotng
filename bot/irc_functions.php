@@ -104,9 +104,13 @@
             $ircconfig = explode("\n", API::$q->getpage('User:'.config::$owner.'/CBChannels.js'));
             $tmp = array();
             foreach ($ircconfig as $tmpline) {
-                if ($tmpline[ 0 ] != '#') {
-                    $tmpline = explode('=', $tmpline, 2);
-                    $tmp[ trim($tmpline[ 0 ]) ] = trim($tmpline[ 1 ]);
+                if (strlen($tmpline) > 1) {
+                    if ($tmpline[ 0 ] != '#') {
+                        $tmpline = explode('=', $tmpline, 2);
+                        if (count($tmpline) == 2) {
+                            $tmp[ trim($tmpline[ 0 ]) ] = trim($tmpline[ 1 ]);
+                        }
+                    }
                 }
             }
             self::$chans = $tmp;

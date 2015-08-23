@@ -45,6 +45,10 @@
         }
         public static function bail($change, $why = '', $score = 'N/A', $reverted = false)
         {
+            if (!in_array('raw_line', $change)) {
+                return;
+            }
+
             $udp = fsockopen('udp://'.Db::getCurrentRelayNode(), config::$udpport);
             fwrite($udp, $change[ 'rawline' ]."\003 # ".$score.' # '.$why.' # '.($reverted ? 'Reverted' : 'Not reverted'));
             fclose($udp);
