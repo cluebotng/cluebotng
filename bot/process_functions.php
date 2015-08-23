@@ -25,6 +25,7 @@
             $change[ 'edit_status' ] = 'not_reverted';
             if (!isset($s)) {
                 $change[ 'edit_score' ] = 'N/A';
+                $s = null;
             } else {
                 $change[ 'edit_score' ] = $s;
             }
