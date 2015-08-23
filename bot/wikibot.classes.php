@@ -166,7 +166,7 @@
             $this->checkurl();
             $ret = $this->api->revisions($page, 1, 'older', true, null, true, false, false, false);
 
-            if (in_array(0, $ret) && in_array('*', $ret[0])) {
+            if (is_array($ret) && count($ret) > 0 && array_key_exists('*', $ret[0])) {
                 return $ret[0]['*'];
             }
         }
