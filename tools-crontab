@@ -1,13 +1,12 @@
 # Cluebot NG
-* * * * *  /usr/bin/jsub -e $HOME/logs/cron.err -o $HOME/logs/cron.out -N cron-tools.cluebot-bot -once -quiet /usr/bin/qstat 2>&1 | /bin/grep -q cbng_bot || sleep 20 && /usr/bin/jsub -once -continuous -e $HOME/logs/cbng_bot.err -o $HOME/logs/cbng_bot.out -N cbng_bot -mem 6G $HOME/cluebotng/bin/run_bot.sh &> /dev/null
-* * * * *  /usr/bin/jsub -e $HOME/logs/cron.err -o $HOME/logs/cron.out -N cron-tools.cluebot-relay -once -quiet /usr/bin/qstat 2>&1 | /bin/grep -q cbng_relay || sleep 20 && /usr/bin/jsub -once -continuous -e $HOME/logs/cbng_relay.err -o $HOME/logs/cbng_relay.out -N cbng_relay -mem 6G $HOME/cluebotng/bin/run_relay.sh &> /dev/null
-* * * * *  /usr/bin/jsub -e $HOME/logs/cron.err -o $HOME/logs/cron.out -N cron-tools.cluebot-core -once -quiet /usr/bin/qstat 2>&1 | /bin/grep -q cbng_core || sleep 20 && /usr/bin/jsub -once -continuous -e $HOME/logs/cbng_core.err -o $HOME/logs/cbng_core.out -N cbng_core -mem 6G $HOME/cluebotng/bin/run_core.sh &> /dev/null
+* * * * *   /usr/bin/jsub -N cron-tools.cluebot-cbng_bot -e $HOME/logs/cron.err -o $HOME/logs/cron.out -once -quiet /usr/bin/qstat 2>&1 | /bin/grep -q cbng_bot || sleep 20 && /usr/bin/jsub -once -continuous -e $HOME/logs/cbng_bot.err -o $HOME/logs/cbng_bot.out -N cbng_bot -mem 6G $HOME/cluebotng/bin/run_bot.sh &> /dev/null 
+* * * * *  /usr/bin/jsub -N cron-tools.cluebot-cbng_relay -e $HOME/logs/cron.err -o $HOME/logs/cron.out -once -quiet /usr/bin/qstat 2>&1 | /bin/grep -q cbng_relay || sleep 20 && /usr/bin/jsub -once -continuous -e $HOME/logs/cbng_relay.err -o $HOME/logs/cbng_relay.out -N cbng_relay -mem 6G $HOME/cluebotng/bin/run_relay.sh &> /dev/null 
+* * * * *  /usr/bin/jsub -N cron-tools.cluebot-cbng_core -e $HOME/logs/cron.err -o $HOME/logs/cron.out -once -quiet /usr/bin/qstat 2>&1 | /bin/grep -q cbng_core || sleep 20 && /usr/bin/jsub -once -continuous -e $HOME/logs/cbng_core.err -o $HOME/logs/cbng_core.out -N cbng_core -mem 6G $HOME/cluebotng/bin/run_core.sh &> /dev/null 
 
 # Cluebot3
-* * * * *  /usr/bin/jsub -e $HOME/logs/cron.err -o $HOME/logs/cron.out -N cron-tools.cluebot-bot3 -once -quiet /usr/bin/qstat 2>&1 | /bin/grep -q cluebot3 || sleep 20 && /usr/bin/jsub -once -continuous -e $HOME/logs/cluebot3.err -o $HOME/logs/cluebot3.out -N cluebot3 -mem 6G php -f $HOME/cluebot3/cluebot3.php
-0 */2 * * *  /usr/bin/jsub -N cron-tools.cluebot-bot3-stop -once -quiet /usr/bin/jstop cluebot3
+* * * * *  /usr/bin/jsub -N cron-tools.cluebot-cluebot3 -e $HOME/logs/cron.err -o $HOME/logs/cron.out -once -quiet /usr/bin/qstat 2>&1 | /bin/grep -q cluebot3 || sleep 20 && /usr/bin/jsub -once -continuous -e $HOME/logs/cluebot3.err -o $HOME/logs/cluebot3.out -N cluebot3 -mem 6G php -f $HOME/cluebot3/cluebot3.php 
+0 */2 * * *  /usr/bin/jsub -N cron-tools.cluebot-stop_cluebot3 -e $HOME/logs/cron.err -o $HOME/logs/cron.out -once -quiet /usr/bin/jstop cluebot3 
 
 # Backups
-45 */2 * * * /usr/bin/jsub -e $HOME/logs/cron.err -o $HOME/logs/cron.out -N cron-tools.cluebot-backup-mysql -once -quiet /data/project/cluebot/backup_database.sh &> /dev/null
-0 2 * * * /usr/bin/jsub -e $HOME/logs/cron.err -o $HOME/logs/cron.out -N cron-tools.cluebot-clean_backups -once -quiet find /data/project/cluebot/mysql_backups -mtime +14 -delete &> /dev/null
-
+45 */2 * * *  /usr/bin/jsub -N cron-tools.cluebot-backup_database -e $HOME/logs/cron.err -o $HOME/logs/cron.out -once -quiet /data/project/cluebot/backup_database.sh &> /dev/null 
+0 2 * * *  /usr/bin/jsub -N cron-tools.cluebot-clean_database_backups -e $HOME/logs/cron.err -o $HOME/logs/cron.out -once -quiet find /data/project/cluebot/mysql_backups -mtime +14 -delete &> /dev/null 
