@@ -120,7 +120,7 @@
                 $change[ 'user' ],
                 'Reverting possible vandalism by [[Special:Contribs/'.$change[ 'user' ].'|'.$change[ 'user' ].']] '.
                 'to '.(($revid == 0) ? 'older version' : 'version by '.$revdata[ 'user' ]).'. '.
-                '[[WP:CBFP|Report False Positive?]]. '.
+                '[[WP:CBFP|Report False Positive?]] '.
                 'Thanks, [[WP:CBNG|'.config::$user.']]. ('.$change[ 'mysqlid' ].') (Bot)',
                 $rbtok
             );
