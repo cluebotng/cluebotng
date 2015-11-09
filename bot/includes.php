@@ -32,3 +32,4 @@
     require_once 'db_legacy_functions.php';
     require_once 'db_ng_functions.php';
     require_once 'db_functions.php';
+    require_once 'redis_functions.php';

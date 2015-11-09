@@ -79,6 +79,7 @@
                 $rbret = Action::doRevert($change);
                 if ($rbret !== false) {
                     $change[ 'edit_status' ] = 'reverted';
+                    RedisProxy::send( $change );
                     IRC::say('debugchannel', $ircreport."\x0304Reverted\x0315) (\x0313".$revertReason."\x0315) (\x0302".(microtime(true) - $change[ 'startTime' ])." \x0315s)");
                     Action::doWarn($change, $report);
                     Db::vandalismReverted($change['mysqlid']);
@@ -87,12 +88,14 @@
                     $change[ 'edit_status' ] = 'beaten';
                     $rv2 = API::$a->revisions($change[ 'title' ], 1);
                     if ($change[ 'user' ] != $rv2[ 0 ][ 'user' ]) {
+                        RedisProxy::send( $change );
                         IRC::say('debugchannel', $ircreport."\x0303Not Reverted\x0315) (\x0313Beaten by ".$rv2[ 0 ][ 'user' ]."\x0315) (\x0302".(microtime(true) - $change[ 'startTime' ])." \x0315s)");
                         Db::vandalismRevertBeaten($change['mysqlid'], $change['title'], $rv2[ 0 ][ 'user' ], $change[ 'url' ]);
                         Feed::bail($change, 'Beaten by '.$rv2[ 0 ][ 'user' ], $s);
                     }
                 }
             } else {
+                RedisProxy::send( $change );
                 IRC::say('debugchannel', $ircreport."\x0303Not Reverted\x0315) (\x0313".$revertReason."\x0315) (\x0302".(microtime(true) - $change[ 'startTime' ])." \x0315s)");
                 Feed::bail($change, $revertReason, $s);
             }

@@ -45,6 +45,11 @@
         }
         public static function bail($change, $why = '', $score = 'N/A', $reverted = false)
         {
+            $rchange = $change;
+            $rchange[ 'edit_reason' ] = $why;
+            $rchange[ 'edit_score' ] = $score;
+            RedisProxy::send( $rchange );
+
             if (!in_array('raw_line', $change)) {
                 return;
             }
