@@ -26,11 +26,11 @@ class Db
     }
     public static function vandalismReverted($edit_id)
     {
-        return LegacyDb::vandalismReverted($edit_id);
+        LegacyDb::vandalismReverted($edit_id);
     }
     public static function vandalismRevertBeaten($edit_id, $title, $user, $diff)
     {
-        return LegacyDb::vandalismRevertBeaten($edit_id, $title, $user, $diff);
+        LegacyDb::vandalismRevertBeaten($edit_id, $title, $user, $diff);
     }
     public static function getCurrentCoreNode()
     {
@@ -39,5 +39,9 @@ class Db
     public static function getCurrentRelayNode()
     {
         return LegacyDb::getCurrentRelayNode();
+    }
+    public static function getCurrentRedisNode()
+    {
+        return LegacyDb::getCurrentRedisNode();
     }
 }
