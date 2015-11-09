@@ -96,9 +96,9 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
         Globals::$mw_mysql,
         'SELECT COUNT(*) as count FROM `page` JOIN `revision` ON ' .
         '`rev_page` = `page_id` WHERE `page_namespace` = "' .
-        mysqli_real_escape_string($nsid) .
+        mysqli_real_escape_string(Globals::$mw_mysql, $nsid) .
         '" AND `page_title` = "' .
-        mysqli_real_escape_string($title) .
+        mysqli_real_escape_string(Globals::$mw_mysql, $title) .
         '" AND `rev_timestamp` > "' .
         mysqli_real_escape_string(Globals::$mw_mysql, $timestamp) . '"'
     );

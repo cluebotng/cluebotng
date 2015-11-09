@@ -29,7 +29,7 @@ class LegacyDb
         $query = 'INSERT INTO `vandalism` ' .
             '(`id`,`user`,`article`,`heuristic`,`reason`,`diff`,`old_id`,`new_id`,`reverted`) ' .
             'VALUES ' .
-            '(NULL,\'' . mysqli_real_escape_string($user) . '\',' .
+            '(NULL,\'' . mysqli_real_escape_string(Globals::$legacy_mysql, $user) . '\',' .
             '\'' . mysqli_real_escape_string(Globals::$legacy_mysql, $title) . '\',' .
             '\'' . mysqli_real_escape_string(Globals::$legacy_mysql, $heuristic) . '\',' .
             '\'' . mysqli_real_escape_string(Globals::$legacy_mysql, $reason) . '\',' .
@@ -47,7 +47,7 @@ class LegacyDb
         checkLegacyMySQL();
         mysqli_query(
             Globals::$legacy_mysql,
-            'UPDATE `vandalism` SET `reverted` = 1 WHERE `id` = \'' . mysqli_real_escape_string($edit_id) . '\''
+            'UPDATE `vandalism` SET `reverted` = 1 WHERE `id` = \'' . mysqli_real_escape_string(Globals::$legacy_mysql, $edit_id) . '\''
         );
     }
 
