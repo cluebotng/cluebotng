@@ -26,12 +26,12 @@ var client = new irc.Client( config.server, config.nick, {
 	secure: false,
 	channels: [
 		'#cluebotng',
-		'#cluebotng-spam',
-	],
+		'#cluebotng-spam'
+	]
 });
 
 relay1.on('message', function(data, info) {
-	data = data.toString().substring( 0, 450 )
+	data = data.toString().substring( 0, 450 );
 	try {
 		client.say( '#cluebotng', data );
 	} catch ( e ){
@@ -40,7 +40,7 @@ relay1.on('message', function(data, info) {
 });
 
 relay2.on('message', function(data, info) {
-	data = data.toString().substring( 0, 450 )
+	data = data.toString().substring( 0, 450 );
 	try {
 		client.say( '#cluebotng-spam', data );
 	} catch ( e ){
@@ -49,10 +49,10 @@ relay2.on('message', function(data, info) {
 });
 
 relay3.on('message', function(data, info) {
-	data = data.toString().split(' :', 2)
+	data = data.toString().split(' :', 2);
 	try {
-		chan = data[0].toString()
-		msg = data[1].toString().substring( 0, 450 )
+		chan = data[0].toString();
+		msg = data[1].toString().substring( 0, 450 );
 
 		if( !in_array( client.opt.channels, chan ) ) {
 			try {
@@ -76,6 +76,6 @@ client.addListener('motd', function(motd) {
 	}
 });
 
-relay1.bind( 3333 )
-relay2.bind( 3334 )
-relay3.bind( 1337 )
+relay1.bind( 3333 );
+relay2.bind( 3334 );
+relay3.bind( 1337 );

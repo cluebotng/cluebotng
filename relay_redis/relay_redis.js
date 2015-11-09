@@ -12,4 +12,4 @@ relay.on('message', function(data, info) {
 	}
 });
 
-relay.bind( 1345 )
+relay.bind( 1345 );
