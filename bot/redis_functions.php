@@ -25,8 +25,10 @@ class RedisProxy
     {
         $data = json_encode(self::sanitise($change));
         $udp = fsockopen('udp://' . Db::getCurrentRedisNode(), 1345);
-        fwrite($udp, $data);
-        fclose($udp);
+        if($udp !== false) {
+            fwrite($udp, $data);
+            fclose($udp);
+        }
     }
 
     public static function sanitise($change)

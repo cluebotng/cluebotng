@@ -95,14 +95,18 @@ class IRC
             echo 'Saying to ' . $chans . ' (' . self::$chans[$chans] . '): ' . $message . "\n";
             foreach (explode(',', self::$chans[$chans]) as $chan) {
                 $udp = fsockopen('udp://' . $relay_node, 1337);
-                fwrite($udp, $chan . ' :' . $message);
-                fclose($udp);
+                if($udp !== false) {
+                    fwrite($udp, $chan . ' :' . $message);
+                    fclose($udp);
+                }
             }
         } else {
             echo 'Saying to ' . $chans . ': ' . $message . "\n";
             $udp = fsockopen('udp://' . $relay_node, 1337);
-            fwrite($udp, $chans . ' :' . $message);
-            fclose($udp);
+            if($udp !== false) {
+                fwrite($udp, $chans . ' :' . $message);
+                fclose($udp);
+            }
         }
     }
 
