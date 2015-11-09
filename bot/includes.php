@@ -37,4 +37,3 @@ require_once 'misc_functions.php';
 require_once 'db_legacy_functions.php';
 require_once 'db_ng_functions.php';
 require_once 'db_functions.php';
-require_once 'threading_functions.php';

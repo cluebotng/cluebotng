@@ -22,7 +22,18 @@ namespace CluebotNG;
 declare (ticks = 1);
 require_once 'includes.php';
 
-pcntl_signal(SIGCHLD, 'sig_handler');
+pcntl_signal(SIGCHLD, function ($signo) {
+    switch ($signo) {
+        case SIGCHLD:
+            while (($x = pcntl_waitpid(0, $status, WNOHANG)) != -1) {
+                if ($x == 0) {
+                    break;
+                }
+                $status = pcntl_wexitstatus($status);
+            }
+            break;
+    }
+});
 date_default_timezone_set('UTC');
 doInit();
 IRC::init();

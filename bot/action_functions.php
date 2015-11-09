@@ -130,7 +130,7 @@ class Action
                 break;
             }
         }
-        if($revdata === false) {
+        if ($revdata === false) {
             return;
         }
         if (($revdata['user'] == Config::$user) or (in_array($revdata['user'], explode(',', Config::$friends)))) {
