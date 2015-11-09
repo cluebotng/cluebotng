@@ -23,9 +23,11 @@ function checkLegacyMySQL()
 {
     if (!Globals::$legacy_mysql or !mysqli_ping(Globals::$legacy_mysql)) {
         Globals::$legacy_mysql = mysqli_connect(
-            'p:' . Config::$legacy_mysql_host . ':' . Config::$legacy_mysql_port,
+            'p:' . Config::$legacy_mysql_host,
             Config::$legacy_mysql_user,
-            Config::$legacy_mysql_pass
+            Config::$legacy_mysql_pass,
+            Config::$legacy_mysql_db,
+            Config::$legacy_mysql_port
         );
         mysqli_select_db(Config::$legacy_mysql_db, Globals::$legacy_mysql);
     }
@@ -35,9 +37,11 @@ function checkMySQL()
 {
     if (!Globals::$cb_mysql or !mysqli_ping(Globals::$cb_mysql)) {
         Globals::$cb_mysql = mysqli_connect(
-            'p:' . Config::$cb_mysql_host . ':' . Config::$cbmysql_port,
+            'p:' . Config::$cb_mysql_host,
             Config::$cb_mysql_user,
-            Config::$cb_mysql_pass
+            Config::$cb_mysql_pass,
+            Config::$cb_mysql_db,
+            Config::$cbmysql_port
         );
         mysqli_select_db(Config::$cb_mysql_db, Globals::$cb_mysql);
     }
@@ -47,9 +51,12 @@ function checkRepMySQL()
 {
     if (!Globals::$mw_mysql or !mysqli_ping(Globals::$mw_mysql)) {
         Globals::$mw_mysql = mysqli_connect(
-            'p:' . Config::$mw_mysql_host . ':' . Config::$mw_mysql_port,
+            'p:' . Config::$mw_mysql_host,
             Config::$mw_mysql_user,
-            Config::$mw_mysql_pass
+            Config::$mw_mysql_pass,
+            Config::$mw_mysql_db,
+            Config::$mw_mysql_port
+
         );
         mysqli_select_db(Config::$mw_mysql_db, Globals::$mw_mysql);
     }
