@@ -74,9 +74,11 @@ class LegacyDb
     {
         checkLegacyMySQL();
         $res = mysqli_query(Globals::$legacy_mysql, 'SELECT `node` from `cluster_node` where type="core"');
-        $d = mysqli_fetch_assoc($res);
-
-        return $d['node'];
+        if($res !== false) {
+            $d = mysqli_fetch_assoc($res);
+            return $d['node'];
+        }
+        return null;
     }
 
     // Returns the hostname of the current relay node
@@ -84,9 +86,11 @@ class LegacyDb
     {
         checkLegacyMySQL();
         $res = mysqli_query(Globals::$legacy_mysql, 'SELECT `node` from `cluster_node` where type="relay"');
-        $d = mysqli_fetch_assoc($res);
-
-        return $d['node'];
+        if($res !== false) {
+            $d = mysqli_fetch_assoc($res);
+            return $d['node'];
+        }
+        return null;
     }
 
     // Returns the hostname of the current redis node
@@ -94,8 +98,10 @@ class LegacyDb
     {
         checkLegacyMySQL();
         $res = mysqli_query(Globals::$legacy_mysql, 'SELECT `node` from `cluster_node` where type="redis"');
-        $d = mysqli_fetch_assoc($res);
-
-        return $d['node'];
+        if($res !== false) {
+            $d = mysqli_fetch_assoc($res);
+            return $d['node'];
+        }
+        return null;
     }
 }

@@ -89,9 +89,11 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
         mysqli_real_escape_string(Globals::$mw_mysql, $title) .
         '" ORDER BY `rev_id` LIMIT 1'
     );
-    $d = mysqli_fetch_assoc($res);
-    $data['common']['page_made_time'] = $d['rev_timestamp'];
-    $data['common']['creator'] = $d['rev_user_text'];
+    if($res !== false) {
+        $d = mysqli_fetch_assoc($res);
+        $data['common']['page_made_time'] = $d['rev_timestamp'];
+        $data['common']['creator'] = $d['rev_user_text'];
+    }
     $res = mysqli_query(
         Globals::$mw_mysql,
         'SELECT COUNT(*) as count FROM `page` JOIN `revision` ON ' .
@@ -102,8 +104,10 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
         '" AND `rev_timestamp` > "' .
         mysqli_real_escape_string(Globals::$mw_mysql, $timestamp) . '"'
     );
-    $d = mysqli_fetch_assoc($res);
-    $data['common']['num_recent_edits'] = $d['count'];
+    if($res !== false) {
+        $d = mysqli_fetch_assoc($res);
+        $data['common']['num_recent_edits'] = $d['count'];
+    }
     $res = mysqli_query(
         Globals::$mw_mysql,
         'SELECT COUNT(*) as count FROM `page` JOIN `revision` ON `rev_page` ' .
@@ -115,22 +119,28 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
         mysqli_real_escape_string(Globals::$mw_mysql, $timestamp) .
         "' AND `rev_comment` LIKE 'Revert%'"
     );
-    $d = mysqli_fetch_assoc($res);
-    $data['common']['num_recent_reversions'] = $d['count'];
+    if($res !== false) {
+        $d = mysqli_fetch_assoc($res);
+        $data['common']['num_recent_reversions'] = $d['count'];
+    }
     if (filter_var($user, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) ||
         filter_var($user, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)
     ) {
         $res = mysqli_query(Globals::$mw_mysql, 'SELECT UNIX_TIMESTAMP() AS `user_regtime`');
-        $d = mysqli_fetch_assoc($res);
-        $data['user_reg_time'] = $d['user_regtime'];
+        if($res !== false) {
+            $d = mysqli_fetch_assoc($res);
+            $data['user_reg_time'] = $d['user_regtime'];
+        }
         $res = mysqli_query(
             Globals::$mw_mysql,
             'SELECT COUNT(*) AS `user_editcount` FROM `revision_userindex` ' .
             ' WHERE `rev_user_text` = "' .
             mysqli_real_escape_string(Globals::$mw_mysql, $user) . '"'
         );
-        $d = mysqli_fetch_assoc($res);
-        $data['user_edit_count'] = $d['user_editcount'];
+        if($res !== false) {
+            $d = mysqli_fetch_assoc($res);
+            $data['user_edit_count'] = $d['user_editcount'];
+        }
     } else {
         $res = mysqli_query(
             Globals::$mw_mysql,
@@ -138,23 +148,29 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
             mysqli_real_escape_string(Globals::$mw_mysql, $user) . '"'
         );
         $d = mysqli_fetch_assoc($res);
-        $data['user_reg_time'] = $d['user_registration'];
+        if($res !== false) {
+            $data['user_reg_time'] = $d['user_registration'];
+        }
         if (!$data['user_reg_time']) {
             $res = mysqli_query(
                 Globals::$mw_mysql,
                 'SELECT `rev_timestamp` FROM `revision_userindex` WHERE `rev_user` = "' .
                 mysqli_real_escape_string(Globals::$mw_mysql, $user) . '" ORDER BY `rev_timestamp` LIMIT 0,1'
             );
-            $d = mysqli_fetch_assoc($res);
-            $data['user_reg_time'] = $d['rev_timestamp'];
+            if($res !== false) {
+                $d = mysqli_fetch_assoc($res);
+                $data['user_reg_time'] = $d['rev_timestamp'];
+            }
         }
         $res = mysqli_query(
             Globals::$mw_mysql,
             'SELECT `user_editcount` FROM `user` WHERE `user_name` =  "' .
             mysqli_real_escape_string(Globals::$mw_mysql, $user) . '"'
         );
-        $d = mysqli_fetch_assoc($res);
-        $data['user_edit_count'] = $d['user_editcount'];
+        if($res !== false) {
+            $d = mysqli_fetch_assoc($res);
+            $data['user_edit_count'] = $d['user_editcount'];
+        }
     }
     $res = mysqli_query(
         Globals::$mw_mysql,
@@ -164,15 +180,19 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
         "' AND (`rev_comment` LIKE '%warning%' OR `rev_comment`" .
         " LIKE 'General note: Nonconstructive%')"
     );
-    $d = mysqli_fetch_assoc($res);
-    $data['user_warns'] = $d['count'];
+    if($res !== false) {
+        $d = mysqli_fetch_assoc($res);
+        $data['user_warns'] = $d['count'];
+    }
     $res = mysqli_query(
         Globals::$mw_mysql,
         "select count(distinct rev_page) as count from ' .
         'revision_userindex where `rev_user_text` = '" . mysqli_real_escape_string(Globals::$mw_mysql, $userPage) . "'"
     );
-    $d = mysqli_fetch_assoc($res);
-    $data['user_distinct_pages'] = $d['count'];
+    if($res !== false) {
+        $d = mysqli_fetch_assoc($res);
+        $data['user_distinct_pages'] = $d['count'];
+    }
     if ($data['common']['page_made_time']) {
         $data['common']['page_made_time'] = gmmktime(
             substr($data['common']['page_made_time'], 8, 2),
