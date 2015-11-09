@@ -1,4 +1,5 @@
 <?php
+namespace CluebotNG;
 
 /*
  * Copyright (C) 2015 Jacobi Carter and Chris Breneman
@@ -18,54 +19,55 @@
  * You should have received a copy of the GNU General Public License
  * along with ClueBot NG.  If not, see <http://www.gnu.org/licenses/>.
  */
-    function myfnmatch($pattern, $string)
-    {
-        if (strlen($string) < 4000) {
-            return fnmatch($pattern, $string);
-        } else {
-            $pattern = strtr(preg_quote($pattern, '#'), array('\*' => '.*', '\?' => '.', '\[' => '[', '\]' => ']'));
-            if (preg_match('#^'.$pattern.'$#', $string)) {
-                return true;
-            }
+function myfnmatch($pattern, $string)
+{
+    if (strlen($string) < 4000) {
+        return fnmatch($pattern, $string);
+    } else {
+        $pattern = strtr(preg_quote($pattern, '#'), array('\*' => '.*', '\?' => '.', '\[' => '[', '\]' => ']'));
+        if (preg_match('#^' . $pattern . '$#', $string)) {
+            return true;
+        }
 
-            return false;
-        }
+        return false;
     }
-    function doInit()
-    {
-        if (config::$pass == null) {
-            config::$pass = trim(file_get_contents(getenv('HOME').'/.cluebotng.password.only'));
-        }
-        API::init();
-        API::$a->login(config::$user, config::$pass);
-        globals::$tfas = 0;
-        globals::$stdin = fopen('php://stdin', 'r');
-        globals::$run = API::$q->getpage('User:'.config::$user.'/Run');
-        globals::$wl = API::$q->getpage('Wikipedia:Huggle/Whitelist');
-        globals::$optin = API::$q->getpage('User:'.config::$user.'/Optin');
-        globals::$aoptin = API::$q->getpage('User:'.config::$user.'/AngryOptin');
-        globals::$stalk = array();
-        globals::$edit = array();
-        $tmp = explode("\n", API::$q->getpage('User:'.config::$owner.'/CBAutostalk.js'));
-        foreach ($tmp as $tmp2) {
-            if (strlen($tmp2) > 0 && substr($tmp2, 0, 1) != '#') {
-                $tmp3 = explode('|', $tmp2, 2);
-                if (count($tmp3) == 2) {
-                    globals::$stalk[ $tmp3[ 0 ] ] = trim($tmp3[ 1 ]);
-                } else {
-                    print "Skipping auto stalk entry: $tmp2\n";
-                }
-            }
-        }
-        $tmp = explode("\n", API::$q->getpage('User:'.config::$owner.'/CBAutoedit.js'));
-        foreach ($tmp as $tmp2) {
-            if (strlen($tmp2) > 0 && substr($tmp2, 0, 1) != '#') {
-                $tmp3 = explode('|', $tmp2, 2);
-                if (count($tmp3) == 2) {
-                    globals::$edit[ $tmp3[ 0 ] ] = trim($tmp3[ 1 ]);
-                } else {
-                    print "Skipping auto edit entry: $tmp2\n";
-                }
+}
+
+function doInit()
+{
+    if (Config::$pass == null) {
+        Config::$pass = trim(file_get_contents(getenv('HOME') . '/.cluebotng.password.only'));
+    }
+    Api::init();
+    Api::$a->login(Config::$user, Config::$pass);
+    Globals::$tfas = 0;
+    Globals::$stdin = fopen('php://stdin', 'r');
+    Globals::$run = Api::$q->getpage('User:' . Config::$user . '/Run');
+    Globals::$wl = Api::$q->getpage('Wikipedia:Huggle/Whitelist');
+    Globals::$optin = Api::$q->getpage('User:' . Config::$user . '/Optin');
+    Globals::$aoptin = Api::$q->getpage('User:' . Config::$user . '/AngryOptin');
+    Globals::$stalk = array();
+    Globals::$edit = array();
+    $tmp = explode("\n", Api::$q->getpage('User:' . Config::$owner . '/CBAutostalk.js'));
+    foreach ($tmp as $tmp2) {
+        if (strlen($tmp2) > 0 && substr($tmp2, 0, 1) != '#') {
+            $tmp3 = explode('|', $tmp2, 2);
+            if (count($tmp3) == 2) {
+                Globals::$stalk[$tmp3[0]] = trim($tmp3[1]);
+            } else {
+                print "Skipping auto stalk entry: $tmp2\n";
             }
         }
     }
+    $tmp = explode("\n", Api::$q->getpage('User:' . Config::$owner . '/CBAutoedit.js'));
+    foreach ($tmp as $tmp2) {
+        if (strlen($tmp2) > 0 && substr($tmp2, 0, 1) != '#') {
+            $tmp3 = explode('|', $tmp2, 2);
+            if (count($tmp3) == 2) {
+                Globals::$edit[$tmp3[0]] = trim($tmp3[1]);
+            } else {
+                print "Skipping auto edit entry: $tmp2\n";
+            }
+        }
+    }
+}

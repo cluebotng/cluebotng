@@ -1,4 +1,5 @@
 <?php
+namespace CluebotNG;
 
 /*
  * Copyright (C) 2015 Jacobi Carter and Chris Breneman
@@ -18,15 +19,17 @@
  * You should have received a copy of the GNU General Public License
  * along with ClueBot NG.  If not, see <http://www.gnu.org/licenses/>.
  */
-    class api
+
+class Api
+{
+    public static $a;
+    public static $q;
+    public static $i;
+
+    public static function init()
     {
-        public static $a;
-        public static $q;
-        public static $i;
-        public static function init()
-        {
-            self::$a = new wikipediaapi();
-            self::$q = new wikipediaquery();
-            self::$i = new wikipediaindex();
-        }
+        self::$a = new WikipediaApi();
+        self::$q = new WikipediaQuery();
+        self::$i = new WikipediaIndex();
     }
+}

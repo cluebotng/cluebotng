@@ -1,4 +1,5 @@
 <?php
+namespace CluebotNG;
 
 /*
  * Copyright (C) 2015 Jacobi Carter and Chris Breneman
@@ -18,18 +19,41 @@
  * You should have received a copy of the GNU General Public License
  * along with ClueBot NG.  If not, see <http://www.gnu.org/licenses/>.
  */
-    class globals
-    {
-        public static $stdin;
-        public static $tfas;
-        public static $tfa;
-        public static $aoptin;
-        public static $legacy_mysql;
-        public static $mw_mysql;
-        public static $cb_mysql;
-        public static $run;
-        public static $wl;
-        public static $optin;
-        public static $edit;
-        public static $stalk;
-    }
+
+class Globals
+{
+    public static $stdin;
+    public static $tfas;
+    public static $tfa;
+    public static $aoptin;
+    public static $legacy_mysql;
+    public static $mw_mysql;
+    public static $cb_mysql;
+    public static $run;
+    public static $wl;
+    public static $optin;
+    public static $edit;
+    public static $stalk;
+    public static $namespaces = array(
+        'special' => -1,
+        'media' => -2,
+        'main' => 0,
+        'talk' => 1,
+        'user' => 2,
+        'user talk' => 3,
+        'wikipedia' => 4,
+        'wikipedia talk' => 5,
+        'file' => 6,
+        'file talk' => 7,
+        'mediawiki' => 8,
+        'mediawiki talk' => 9,
+        'template' => 10,
+        'template talk' => 11,
+        'help' => 12,
+        'help talk' => 13,
+        'category' => 14,
+        'category talk' => 15,
+        'portal' => 100,
+        'portal talk' => 101,
+    );
+}

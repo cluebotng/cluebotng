@@ -19,7 +19,16 @@ namespace CluebotNG;
  * You should have received a copy of the GNU General Public License
  * along with ClueBot NG.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-class NgDb
+function sig_handler($signo)
 {
+    switch ($signo) {
+        case SIGCHLD:
+            while (($x = pcntl_waitpid(0, $status, WNOHANG)) != -1) {
+                if ($x == 0) {
+                    break;
+                }
+                $status = pcntl_wexitstatus($status);
+            }
+            break;
+    }
 }

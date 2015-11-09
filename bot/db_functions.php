@@ -1,4 +1,5 @@
 <?php
+namespace CluebotNG;
 
 /*
  * Copyright (C) 2015 Jacobi Carter and Chris Breneman
@@ -18,28 +19,34 @@
  * You should have received a copy of the GNU General Public License
  * along with ClueBot NG.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 class Db
 {
     public static function detectedVandalism($user, $title, $heuristic, $reason, $url, $old_rev_id, $rev_id)
     {
         return LegacyDb::detectedVandalism($user, $title, $heuristic, $reason, $url, $old_rev_id, $rev_id);
     }
+
     public static function vandalismReverted($edit_id)
     {
         LegacyDb::vandalismReverted($edit_id);
     }
+
     public static function vandalismRevertBeaten($edit_id, $title, $user, $diff)
     {
         LegacyDb::vandalismRevertBeaten($edit_id, $title, $user, $diff);
     }
+
     public static function getCurrentCoreNode()
     {
         return LegacyDb::getCurrentCoreNode();
     }
+
     public static function getCurrentRelayNode()
     {
         return LegacyDb::getCurrentRelayNode();
     }
+
     public static function getCurrentRedisNode()
     {
         return LegacyDb::getCurrentRedisNode();

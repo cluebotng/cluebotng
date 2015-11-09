@@ -1,4 +1,5 @@
 <?php
+namespace CluebotNG;
 
 /*
  * Copyright (C) 2015 Jacobi Carter and Chris Breneman
@@ -18,101 +19,107 @@
  * You should have received a copy of the GNU General Public License
  * along with ClueBot NG.  If not, see <http://www.gnu.org/licenses/>.
  */
-    class IRC
-    {
-        private static $chans = array();
-        public static function split($message)
-        {
-            if (!$message) {
-                return;
-            }
-            $return = array();
-            $i = 0;
-            $quotes = false;
-            if ($message[ $i ] == ':') {
-                $return[ 'type' ] = 'relayed';
-                ++$i;
-            } else {
-                $return[ 'type' ] = 'direct';
-            }
-            $return[ 'rawpieces' ] = array();
-            $temp = '';
-            for (; $i < strlen($message); ++$i) {
-                if ($quotes and $message[ $i ] != '"') {
-                    $temp .= $message[ $i ];
-                } else {
-                    switch ($message[ $i ]) {
-                        case ' ':
-                            $return[ 'rawpieces' ][] = $temp;
-                            $temp = '';
-                            break;
-                        case '"':
-                            if ($quotes or $temp == '') {
-                                $quotes = !$quotes;
-                                break;
-                            }
-                        case ':':
-                            if ($temp == '') {
-                                ++$i;
-                                $return[ 'rawpieces' ][] = substr($message, $i);
-                                $i = strlen($message);
-                                break;
-                            }
-                        default:
-                            $temp .= $message[ $i ];
-                    }
-                }
-            }
-            if ($temp != '') {
-                $return[ 'rawpieces' ][] = $temp;
-            }
-            if ($return[ 'type' ] == 'relayed') {
-                $return[ 'source' ] = $return[ 'rawpieces' ][ 0 ];
-                $return[ 'command' ] = strtolower($return[ 'rawpieces' ][ 1 ]);
-                $return[ 'target' ] = $return[ 'rawpieces' ][ 2 ];
-                $return[ 'pieces' ] = array_slice($return[ 'rawpieces' ], 3);
-            } else {
-                $return[ 'source' ] = 'Server';
-                $return[ 'command' ] = strtolower($return[ 'rawpieces' ][ 0 ]);
-                $return[ 'target' ] = 'You';
-                $return[ 'pieces' ] = array_slice($return[ 'rawpieces' ], 1);
-            }
-            $return[ 'raw' ] = $message;
 
-            return $return;
+class IRC
+{
+    private static $chans = array();
+
+    public static function split($message)
+    {
+        if (!$message) {
+            return;
         }
-        public static function say($chans, $message)
-        {
-            $relay_node = Db::getCurrentRelayNode();
-            if (array_key_exists('irc'.$chans, self::$chans)) {
-                $chans = 'irc'.$chans;
-                echo 'Saying to '.$chans.' ('.self::$chans[ $chans ].'): '.$message."\n";
-                foreach (explode(',', self::$chans[ $chans ]) as $chan) {
-                    $udp = fsockopen('udp://'.$relay_node, 1337);
-                    fwrite($udp, $chan.' :'.$message);
-                    fclose($udp);
-                }
+        $return = array();
+        $i = 0;
+        $quotes = false;
+        if ($message[$i] == ':') {
+            $return['type'] = 'relayed';
+            ++$i;
+        } else {
+            $return['type'] = 'direct';
+        }
+        $return['rawpieces'] = array();
+        $temp = '';
+        for (; $i < strlen($message); ++$i) {
+            if ($quotes and $message[$i] != '"') {
+                $temp .= $message[$i];
             } else {
-                echo 'Saying to '.$chans.': '.$message."\n";
-                $udp = fsockopen('udp://'.$relay_node, 1337);
-                fwrite($udp, $chans.' :'.$message);
+                switch ($message[$i]) {
+                    case ' ':
+                        $return['rawpieces'][] = $temp;
+                        $temp = '';
+                        break;
+                    case '"':
+                        if ($quotes or $temp == '') {
+                            $quotes = !$quotes;
+                            break;
+                        }
+                        // Ignore
+                    case ':':
+                        if ($temp == '') {
+                            ++$i;
+                            $return['rawpieces'][] = substr($message, $i);
+                            $i = strlen($message);
+                            break;
+                        }
+                        // Ignore
+                    default:
+                        $temp .= $message[$i];
+                }
+            }
+        }
+        if ($temp != '') {
+            $return['rawpieces'][] = $temp;
+        }
+        if ($return['type'] == 'relayed') {
+            $return['source'] = $return['rawpieces'][0];
+            $return['command'] = strtolower($return['rawpieces'][1]);
+            $return['target'] = $return['rawpieces'][2];
+            $return['pieces'] = array_slice($return['rawpieces'], 3);
+        } else {
+            $return['source'] = 'Server';
+            $return['command'] = strtolower($return['rawpieces'][0]);
+            $return['target'] = 'You';
+            $return['pieces'] = array_slice($return['rawpieces'], 1);
+        }
+        $return['raw'] = $message;
+
+        return $return;
+    }
+
+    public static function say($chans, $message)
+    {
+        $relay_node = Db::getCurrentRelayNode();
+        if (array_key_exists('irc' . $chans, self::$chans)) {
+            $chans = 'irc' . $chans;
+            echo 'Saying to ' . $chans . ' (' . self::$chans[$chans] . '): ' . $message . "\n";
+            foreach (explode(',', self::$chans[$chans]) as $chan) {
+                $udp = fsockopen('udp://' . $relay_node, 1337);
+                fwrite($udp, $chan . ' :' . $message);
                 fclose($udp);
             }
+        } else {
+            echo 'Saying to ' . $chans . ': ' . $message . "\n";
+            $udp = fsockopen('udp://' . $relay_node, 1337);
+            fwrite($udp, $chans . ' :' . $message);
+            fclose($udp);
         }
-        public static function init()
-        {
-            $ircconfig = explode("\n", API::$q->getpage('User:'.config::$owner.'/CBChannels.js'));
-            $tmp = array();
-            foreach ($ircconfig as $tmpline) {
-                if (strlen($tmpline) > 1) {
-                    if ($tmpline[ 0 ] != '#') {
-                        $tmpline = explode('=', $tmpline, 2);
-                        if (count($tmpline) == 2) {
-                            $tmp[ trim($tmpline[ 0 ]) ] = trim($tmpline[ 1 ]);
-                        }
+    }
+
+    public static function init()
+    {
+        $ircconfig = explode("\n", Api::$q->getpage('User:' . Config::$owner . '/CBChannels.js'));
+        $tmp = array();
+        foreach ($ircconfig as $tmpline) {
+            if (strlen($tmpline) > 1) {
+                if ($tmpline[0] != '#') {
+                    $tmpline = explode('=', $tmpline, 2);
+                    if (count($tmpline) == 2) {
+                        $tmp[trim($tmpline[0])] = trim($tmpline[1]);
                     }
                 }
             }
-            self::$chans = $tmp;
         }
+        self::$chans = $tmp;
     }
+}
