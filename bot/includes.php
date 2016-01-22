@@ -41,9 +41,9 @@ require_once 'db_functions.php';
 
 if (Config::$sentry_url != null) {
     require_once 'raven/Raven/Autoloader.php';
-    Raven_Autoloader::register();
-    $client = new Raven_Client(Config::$sentry_url);
-    $error_handler = new Raven_ErrorHandler($client);
+    \Raven_Autoloader::register();
+    $client = new \Raven_Client(Config::$sentry_url);
+    $error_handler = new \Raven_ErrorHandler($client);
     $error_handler->registerExceptionHandler();
     $error_handler->registerErrorHandler();
     $error_handler->registerShutdownFunction();
