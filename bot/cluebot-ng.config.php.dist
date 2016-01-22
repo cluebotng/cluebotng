@@ -45,4 +45,5 @@ namespace CluebotNG;
         public static $coreport = 3565;
         public static $fork = true;
         public static $dry = false;
+        public static $sentry_url = null;
     }

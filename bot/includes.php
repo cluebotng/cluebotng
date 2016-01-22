@@ -19,6 +19,7 @@ namespace CluebotNG;
  * You should have received a copy of the GNU General Public License
  * along with ClueBot NG.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 require_once 'cluebot-ng.config.php';
 require_once 'redis_functions.php';
 require_once 'action_functions.php';
@@ -37,3 +38,13 @@ require_once 'misc_functions.php';
 require_once 'db_legacy_functions.php';
 require_once 'db_ng_functions.php';
 require_once 'db_functions.php';
+
+if (Config::$sentry_url != null) {
+    require_once 'raven/Raven/Autoloader.php';
+    Raven_Autoloader::register();
+    $client = new Raven_Client(Config::$sentry_url);
+    $error_handler = new Raven_ErrorHandler($client);
+    $error_handler->registerExceptionHandler();
+    $error_handler->registerErrorHandler();
+    $error_handler->registerShutdownFunction();
+}
