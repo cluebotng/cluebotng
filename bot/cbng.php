@@ -200,7 +200,7 @@ function parseFeedData($feedData, $useOld = false)
         and isset($api['revisions'][1]['timestamp'])
         and isset($api['revisions'][1]['*']))
     ) {
-        $logger->addError("Failed to get all edit info: " . var_export($feedData, true) . ", " . var_export($cb, false));
+        $logger->addError("Failed to get all edit info: " . var_export($feedData, true) . ", " . var_export($cb, true));
         return false;
     }
     $data = array(
