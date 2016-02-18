@@ -21,6 +21,7 @@ data/
 
 # Temp stuff
 *.py[co]
+bot/vendor
 
 # Stuff on tools
 *.so*
