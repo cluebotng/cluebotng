@@ -176,6 +176,7 @@ function genOldFeedData($id)
 
 function parseFeedData($feedData, $useOld = false)
 {
+    global $logger;
     $startTime = microtime(true);
     $urls = array(
         'https://en.wikipedia.org/w/api.php?action=query&rawcontinue=1&prop=revisions&titles=' .
@@ -199,10 +200,7 @@ function parseFeedData($feedData, $useOld = false)
         and isset($api['revisions'][1]['timestamp'])
         and isset($api['revisions'][1]['*']))
     ) {
-        print "\n" . date('d/m/Y H:i:s') . "\n";
-        var_dump($feedData);
-        var_dump($cb);
-
+        $logger->addError("Failed to get all edit info: " . var_export($feedData, true) . ", " . var_export($cb, false));
         return false;
     }
     $data = array(

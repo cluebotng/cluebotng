@@ -35,6 +35,7 @@ function myfnmatch($pattern, $string)
 
 function doInit()
 {
+    global $logger;
     if (Config::$pass == null) {
         Config::$pass = trim(file_get_contents(getenv('HOME') . '/.cluebotng.password.only'));
     }
@@ -55,7 +56,7 @@ function doInit()
             if (count($tmp3) == 2) {
                 Globals::$stalk[$tmp3[0]] = trim($tmp3[1]);
             } else {
-                print "Skipping auto stalk entry: $tmp2\n";
+                $logger->addInfo("Skipping auto stalk entry: $tmp2");
             }
         }
     }
@@ -66,7 +67,7 @@ function doInit()
             if (count($tmp3) == 2) {
                 Globals::$edit[$tmp3[0]] = trim($tmp3[1]);
             } else {
-                print "Skipping auto edit entry: $tmp2\n";
+                $logger->addInfo("Skipping auto edit entry: $tmp2");
             }
         }
     }

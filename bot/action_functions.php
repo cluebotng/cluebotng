@@ -99,7 +99,8 @@ class Action
 
     private static function warn($change, $report, $content, $warning)
     {
-        echo 'Warning ' . $change['user'] . ' ...';
+        global $logger;
+        $logger->addInfo('Warning ' . $change['user']);
         $ret = Api::$a->edit(
             'User talk:' . $change['user'],
             $content . "\n\n"
@@ -115,7 +116,7 @@ class Action
             false,
             false
         ); /* Warn the user */
-        print_r($ret);
+        $logger->addDebug($ret);
     }
 
     public static function doRevert($change)

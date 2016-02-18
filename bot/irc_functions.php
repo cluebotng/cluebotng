@@ -89,10 +89,15 @@ class IRC
 
     public static function say($chans, $message)
     {
+        global $logger;
         $relay_node = Db::getCurrentRelayNode();
+        if(!isset($relay_node)) {
+            $logger->addError("Could not get relay node. Failed to send: " . $message);
+            return;
+        }
         if (array_key_exists('irc' . $chans, self::$chans)) {
             $chans = 'irc' . $chans;
-            echo 'Saying to ' . $chans . ' (' . self::$chans[$chans] . '): ' . $message . "\n";
+            $logger->addInfo('Saying to ' . $chans . ' (' . self::$chans[$chans] . '): ' . $message);
             foreach (explode(',', self::$chans[$chans]) as $chan) {
                 $udp = fsockopen('udp://' . $relay_node, 1337);
                 if($udp !== false) {
@@ -101,7 +106,7 @@ class IRC
                 }
             }
         } else {
-            echo 'Saying to ' . $chans . ': ' . $message . "\n";
+            $logger->addInfo('Saying to ' . $chans . ': ' . $message);
             $udp = fsockopen('udp://' . $relay_node, 1337);
             if($udp !== false) {
                 fwrite($udp, $chans . ' :' . $message);

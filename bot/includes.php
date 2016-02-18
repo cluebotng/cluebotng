@@ -1,4 +1,5 @@
 <?php
+
 namespace CluebotNG;
 
 /*
@@ -19,6 +20,11 @@ namespace CluebotNG;
  * You should have received a copy of the GNU General Public License
  * along with ClueBot NG.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+date_default_timezone_set('Europe/London');
+include 'vendor/autoload.php';
+$logger = new Monolog\Logger('cluebotng');
+$logger->pushHandler(new Monolog\Handler\RotatingFileHandler(getenv('HOME').'/logs/cluebotng.log', 2, Monolog\Logger::INFO, true, 0600, false));
 
 require_once 'cluebot-ng.config.php';
 require_once 'redis_functions.php';

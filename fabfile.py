@@ -90,6 +90,11 @@ def update_code():
     print('Updating code')
     sudo('cd "%(dir)s" && git pull origin master' % {'dir': DEST_DIR})
 
+   print('Running composer')
+    sudo('cd "%(dir)s" && ./composer.phar install' % {
+        'dir': os.path.join(DEST_DIR, 'bot')
+    })
+
     print('Updating crontab')
     sudo('cd "%(dir)s" && cat tools-crontab | crontab -' % {'dir': DEST_DIR})
 

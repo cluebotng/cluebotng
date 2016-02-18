@@ -54,6 +54,7 @@ class Feed
 
     private static function loop($line)
     {
+        global $logger;
         $d = IRC::split($line);
         if ($d === null) {
             return;
@@ -143,7 +144,7 @@ class Feed
 
                             return;
                         }
-                        echo 'Processing: ' . $message . "\n";
+                        $logger->addInfo('Processing: ' . $message);
                         Process::processEdit($data);
                     }
                     break;

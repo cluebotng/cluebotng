@@ -204,6 +204,7 @@ class WikipediaIndex
      **/
     public function diff($title, $oldid, $id, $wait = true)
     {
+        global $logger;
         $deleted = '';
         $added = '';
 
@@ -218,17 +219,17 @@ class WikipediaIndex
             $m,
             PREG_SET_ORDER
         )) {
-            //print_r($m);
             if ((($oldid != $m[0][2]) and (is_numeric($oldid))) or (($id != $m[1][2]) and (is_numeric($id)))) {
                 if ($wait == true) {
                     sleep(1);
 
                     return $this->diff($title, $oldid, $id, false);
                 } else {
-                    echo 'OLDID as detected: ' . $m[0][2] . ' Wanted: ' . $oldid . "\n";
-                    echo 'NEWID as detected: ' . $m[1][2] . ' Wanted: ' . $id . "\n";
-                    echo $html;
-                    die('Revision error.' . "\n");
+                    $logger->addInfo('OLDID as detected: ' . $m[0][2] . ' Wanted: ' . $oldid);
+                    $logger->addInfo('NEWID as detected: ' . $m[1][2] . ' Wanted: ' . $id);
+                    $logger->addDebug($html);
+                    $logger->addError("Revision error");
+                    die();
                 }
             }
         }
@@ -239,7 +240,6 @@ class WikipediaIndex
             $m,
             PREG_SET_ORDER
         )) {
-            //print_r($m);
             foreach ($m as $x) {
                 $added .= htmlspecialchars_decode(strip_tags($x[2])) . "\n";
             }
@@ -251,18 +251,14 @@ class WikipediaIndex
             $m,
             PREG_SET_ORDER
         )) {
-            //print_r($m);
             foreach ($m as $x) {
                 $deleted .= htmlspecialchars_decode(strip_tags($x[2])) . "\n";
             }
         }
 
-        //echo $added."\n".$deleted."\n";
-
         if (preg_match('/action\=rollback\&amp\;from\=.*\&amp\;token\=(.*)\"/US', $html, $m)) {
             $rbtoken = $m[1];
             $rbtoken = urldecode($rbtoken);
-//				echo 'rbtoken: '.$rbtoken.' -- '; print_r($m); echo "\n\n";
             return array($added, $deleted, $rbtoken);
         }
 
@@ -290,7 +286,6 @@ class WikipediaIndex
             $wpapi->apiurl = str_replace('index.php', 'api.php', $this->indexurl);
             $token = $wpapi->revisions($title, 1, 'older', false, null, true, true);
             if ($token[0]['user'] == $user) {
-                //					echo 'Token: '; print_r($token); echo "\n\n";
                 $token = $token[0]['rollbacktoken'];
             } else {
                 return false;

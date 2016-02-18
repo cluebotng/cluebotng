@@ -1,0 +1,15 @@
+{
+    "name": "cluenet/cluebotng",
+    "description": "ClueBot NG - Anti-vandal bot For English Wikipedia",
+    "require": {
+        "monolog/monolog": "^1.17",
+        "raven/raven": "^0.11.0",
+    },
+    "license": "GNU General Public License",
+    "authors": [
+        {
+            "name": "Damian Zaremba",
+            "email": "damian@damianzaremba.co.uk"
+        }
+    ]
+}

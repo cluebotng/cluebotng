@@ -24,6 +24,7 @@ class Process
 {
     public static function processEdit($change)
     {
+        global $logger;
         if ((time() - Globals::$tfas) >= 1800 and
             preg_match(
                 '/\(\'\'\'\[\[([^|]*)\|more...\]\]\'\'\'\)/iU',
@@ -37,8 +38,7 @@ class Process
         if (Config::$fork) {
             $pid = pcntl_fork();
             if ($pid != 0) {
-                echo 'Forked - ' . $pid . "\n";
-
+                $logger->addDebug('Forked - ' . $pid);
                 return;
             }
         }
@@ -55,6 +55,7 @@ class Process
 
     public static function processEditThread($change)
     {
+        global $logger;
         $change['edit_status'] = 'not_reverted';
         if (!isset($s)) {
             $change['edit_score'] = 'N/A';
@@ -67,13 +68,12 @@ class Process
 
             return;
         }
-        echo 'Is ' . $change['user'] . ' whitelisted ?' . "\n";
-        if (Action::isWhitelisted($change['user'])) {
-            Feed::bail($change, 'Whitelisted', $s);
 
+        if (Action::isWhitelisted($change['user'])) {
+            $logger->addInfo("User " . $change['user'] . " is whitelisted");
+            Feed::bail($change, 'Whitelisted', $s);
             return;
         }
-        echo 'No.' . "\n";
         $reason = 'ANN scored at ' . $s;
         $heuristic = '';
         $log = null;
@@ -117,11 +117,10 @@ class Process
             $change['old_revid'],
             $change['revid']
         );
-        echo 'Should revert?' . "\n";
         list($shouldRevert, $revertReason) = Action::shouldRevert($change);
         $change['revert_reason'] = $revertReason;
         if ($shouldRevert) {
-            echo 'Yes.' . "\n";
+            $logger->addInfo("Reverting");
             $rbret = Action::doRevert($change);
             if ($rbret !== false) {
                 $change['edit_status'] = 'reverted';

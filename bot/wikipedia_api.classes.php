@@ -397,13 +397,13 @@ class WikipediaApi
         $wpEdittime = null,
         $checkrun = true
     ) {
+        global $logger;
         $wpq = new WikipediaQuery();
         $wpq->queryurl = str_replace('api.php', 'query.php', $this->apiurl);
 
         $params = array(
             'action' => 'edit',
             'format' => 'php',
-//				'assert' => 'bot',
             'title' => $page,
             'text' => $data,
             'token' => $this->getedittoken(),
@@ -420,8 +420,8 @@ class WikipediaApi
         }
 
         $x = $this->http->post($this->apiurl, $params);
+        $logger->addDebug($x);
         $x = unserialize($x);
-        var_export($x);
         if ($x['edit']['result'] == 'Success') {
             return true;
         }
@@ -523,20 +523,22 @@ class WikipediaApi
     {
         $this->user = $user;
         $this->pass = $pass;
-        $x = unserialize($this->http->post(
+        $x = $this->http->post(
             $this->apiurl . '?action=login&format=php',
             array('lgname' => $user, 'lgpassword' => $pass)
-        ));
-        print_r($x);
+        );
+        $logger->addDebug($x);
+        $x = unserialize($x);
         if ($x['login']['result'] == 'Success') {
             return true;
         }
         if ($x['login']['result'] == 'NeedToken') {
-            $x = unserialize($this->http->post(
+            $x = $this->http->post(
                 $this->apiurl . '?action=login&format=php',
                 array('lgname' => $user, 'lgpassword' => $pass, 'lgtoken' => $x['login']['token'])
-            ));
-            print_r($x);
+            );
+            $logger->addDebug($x);
+            $x = unserialize($x);
             if ($x['login']['result'] == 'Success') {
                 return true;
             }
@@ -554,6 +556,7 @@ class WikipediaApi
      **/
     public function move($old, $new, $reason)
     {
+        global $logger;
         $tokens = $this->gettokens($old);
         $params = array(
             'action' => 'move',
@@ -565,8 +568,8 @@ class WikipediaApi
         );
 
         $x = $this->http->post($this->apiurl, $params);
+        $logger->addDebug($x);
         $x = unserialize($x);
-        var_export($x);
     }
 
     /**
@@ -579,9 +582,9 @@ class WikipediaApi
      **/
     public function rollback($title, $user, $reason, $token = null)
     {
+        global $logger;
         if (($token == null) or ($token == '')) {
             $token = $this->revisions($title, 1, 'older', false, null, true, true);
-            print_r($token);
             if ($token[0]['user'] == $user) {
                 $token = $token[0]['rollbacktoken'];
             } else {
@@ -595,15 +598,12 @@ class WikipediaApi
             'user' => $user,
             'summary' => $reason,
             'token' => $token,
-//				'markbot' => 0
         );
 
-        echo 'Posting to API: ';
-        var_export($params);
-
+        $logger->addInfo('Posting to API: ' . var_export($params, true));
         $x = $this->http->post($this->apiurl, $params);
+        $logger->addDebug($x);
         $x = unserialize($x);
-        var_export($x);
 
         return (isset($x['rollback']['summary']) and isset($x['rollback']['revid']) and $x['rollback']['revid'])
             ? true
