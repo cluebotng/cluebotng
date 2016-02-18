@@ -521,6 +521,7 @@ class WikipediaApi
      **/
     public function login($user, $pass)
     {
+        global $logger;
         $this->user = $user;
         $this->pass = $pass;
         $x = $this->http->post(
