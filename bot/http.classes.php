@@ -63,6 +63,7 @@ class Http
      **/
     public function post($url, $data)
     {
+        global $logger;
         $time = microtime(true);
         curl_setopt($this->ch, CURLOPT_URL, $url);
         curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, $this->postfollowredirs);
@@ -78,12 +79,7 @@ class Http
         curl_setopt($this->ch, CURLOPT_HTTPHEADER, array('Expect:'));
         curl_setopt($this->ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4); // Damian added this
         $data = curl_exec($this->ch);
-        global $logfd;
-        if (!is_resource($logfd)) {
-            $logfd = fopen('php://stderr', 'w');
-        }
-        fwrite($logfd, 'POST: ' . $url . ' (' . (microtime(true) - $time) . ' s) (' . strlen($data) . " b)\n");
-
+        $logger->addDebug('POST: ' . $url . ' (' . (microtime(true) - $time) . ' s) (' . strlen($data) . " b)");
         return $data;
     }
 
@@ -96,6 +92,7 @@ class Http
      **/
     public function get($url)
     {
+        global $logger;
         $time = microtime(true);
         curl_setopt($this->ch, CURLOPT_URL, $url);
         curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, $this->getfollowredirs);
@@ -106,16 +103,8 @@ class Http
         curl_setopt($this->ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($this->ch, CURLOPT_HTTPGET, 1);
         $data = curl_exec($this->ch);
-        global $logfd;
-        if (!is_resource($logfd)) {
-            $logfd = fopen('php://stderr', 'w');
-        }
-        fwrite(
-            $logfd,
-            'GET: ' . $url . ' (' . (microtime(true) - $time) . ' s) (' . strlen($data) . ' b) (' .
-            curl_getinfo($this->ch, CURLINFO_HTTP_CODE) . " code)\n"
-        );
-
+        $logger->addDebug('GET: ' . $url . ' (' . (microtime(true) - $time) . ' s) (' . strlen($data) . ' b) (' .
+                          curl_getinfo($this->ch, CURLINFO_HTTP_CODE) . " code)");
         return $data;
     }
 
