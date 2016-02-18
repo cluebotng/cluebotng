@@ -46,7 +46,6 @@ require_once 'db_ng_functions.php';
 require_once 'db_functions.php';
 
 if (Config::$sentry_url != null) {
-    require_once 'raven/Raven/Autoloader.php';
     \Raven_Autoloader::register();
     $client = new \Raven_Client(Config::$sentry_url);
     $error_handler = new \Raven_ErrorHandler($client);
