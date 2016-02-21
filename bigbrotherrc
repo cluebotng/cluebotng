@@ -1,0 +1,8 @@
+# Cluebot NG
+jstart -N cbng_bot   -e /dev/null -o /dev/null -mem 6G /data/project/cluebot/cluebotng/bin/run_bot.sh &> /dev/null
+jstart -N cbng_relay -e /dev/null -o /dev/null -mem 6G /data/project/cluebot/cluebotng/bin/run_relay.sh &> /dev/null
+jstart -N cbng_redis -e /dev/null -o /dev/null -mem 6G /data/project/cluebot/cluebotng/bin/run_redis.sh &> /dev/null
+jstart -N cbng_core  -e /dev/null -o /dev/null -mem 6G /data/project/cluebot/cluebotng/bin/run_core.sh &> /dev/null
+
+# Cluebot3
+jstart -N cluebot3   -e /dev/null -o /dev/null -mem 12G php -f /data/project/cluebot/cluebot3/cluebot3.php

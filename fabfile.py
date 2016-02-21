@@ -98,6 +98,9 @@ def update_code():
     print('Updating crontab')
     sudo('cd "%(dir)s" && cat tools-crontab | crontab -' % {'dir': DEST_DIR})
 
+    print('Updating bigbrotherrc')
+    sudo('cd "%(dir)s" && cp -f bigbrotherrc ~/.bigbrotherrc' % {'dir': DEST_DIR})
+
 
 def restart():
     stop()
