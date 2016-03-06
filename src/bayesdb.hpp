@@ -111,7 +111,7 @@ public:
     }
 
     // Pruning is based on two factors.
-    // 1. All words with a total number of edits less that minimum_edits are discarded
+    // 1. All words with a total number of edits less than minimum_edits are discarded
     // 2. All words with a vandal-ness close to 0.5 are discarded (where vandal-ness differs from 0.5 by less than min_median_dev)
     void pruneDB(unsigned int minimum_edits = 3, float min_median_dev = 0.3) {
         unsigned int total_good;
