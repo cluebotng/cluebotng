@@ -163,11 +163,13 @@ class Feed
             return;
         }
 
-        $udp = fsockopen('udp://' . Db::getCurrentRelayNode(), Config::$udpport);
-        fwrite(
-            $udp,
-            $change['rawline'] . "\003 # " . $score . ' # ' . $why . ' # ' . ($reverted ? 'Reverted' : 'Not reverted')
-        );
-        fclose($udp);
+        $udp = @fsockopen('udp://' . Db::getCurrentRelayNode(), Config::$udpport);
+        if($udp !== false) {
+            fwrite(
+                $udp,
+                $change['rawline'] . "\003 # " . $score . ' # ' . $why . ' # ' . ($reverted ? 'Reverted' : 'Not reverted')
+            );
+            @fclose($udp);
+        }
     }
 }

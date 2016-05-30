@@ -19,10 +19,16 @@ namespace CluebotNG;
  * You should have received a copy of the GNU General Public License
  * along with ClueBot NG.  If not, see <http://www.gnu.org/licenses/>.
  */
+function is_mysql_alive($con)
+{
+    $res = @mysqli_query('SELECT LAST_INSERT_ID()', $con);
+    return ($con->errno == 2006);
+}
+
 function checkLegacyMySQL()
 {
-    if (!Globals::$legacy_mysql or !mysqli_ping(Globals::$legacy_mysql)) {
-        Globals::$legacy_mysql = mysqli_connect(
+    if (!Globals::$legacy_mysql || !is_mysql_alive(Globals::$legacy_mysql)) {
+        Globals::$legacy_mysql = @mysqli_connect(
             'p:' . Config::$legacy_mysql_host,
             Config::$legacy_mysql_user,
             Config::$legacy_mysql_pass,
@@ -35,8 +41,8 @@ function checkLegacyMySQL()
 
 function checkMySQL()
 {
-    if (!Globals::$cb_mysql or !mysqli_ping(Globals::$cb_mysql)) {
-        Globals::$cb_mysql = mysqli_connect(
+    if (!Globals::$cb_mysql || !is_mysql_alive(Globals::$cb_mysql)) {
+        Globals::$cb_mysql = @mysqli_connect(
             'p:' . Config::$cb_mysql_host,
             Config::$cb_mysql_user,
             Config::$cb_mysql_pass,
@@ -49,7 +55,7 @@ function checkMySQL()
 
 function checkRepMySQL()
 {
-    if (!Globals::$mw_mysql or !mysqli_ping(Globals::$mw_mysql)) {
+    if (!Globals::$mw_mysql || !is_mysql_alive(Globals::$mw_mysql)) {
         Globals::$mw_mysql = mysqli_connect(
             'p:' . Config::$mw_mysql_host,
             Config::$mw_mysql_user,
@@ -140,6 +146,9 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
         if($res !== false) {
             $d = mysqli_fetch_assoc($res);
             $data['user_edit_count'] = $d['user_editcount'];
+            //if($data['user_edit_count'] == NULL) {
+            //    $data['user_edit_count'] = 1;
+            //}
         }
     } else {
         $res = mysqli_query(
@@ -170,6 +179,9 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
         if($res !== false) {
             $d = mysqli_fetch_assoc($res);
             $data['user_edit_count'] = $d['user_editcount'];
+            //if($data['user_edit_count'] == NULL) {
+            //    $data['user_edit_count'] = 1;
+            //}
         }
     }
     $res = mysqli_query(

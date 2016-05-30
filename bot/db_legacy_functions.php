@@ -22,6 +22,13 @@ namespace CluebotNG;
 
 class LegacyDb
 {
+    public static $coreNodeCache = 0;
+    public static $relayNodeCache = 0;
+    public static $redisNodeCache = 0;
+    public static $coreNode = null;
+    public static $relayNode = null;
+    public static $redisNode = null;
+
     // Returns the edit it for the vandalism
     public static function detectedVandalism($user, $title, $heuristic, $reason, $url, $old_rev_id, $rev_id)
     {
@@ -72,36 +79,57 @@ class LegacyDb
     // Returns the hostname of the current core node
     public static function getCurrentCoreNode()
     {
+        if(LegacyDb::$coreNodeCache > time()-10 && LegacyDb::$coreNode != null) {
+            return LegacyDb::$coreNode;
+        }
+
         checkLegacyMySQL();
+        LegacyDb::$coreNodeCache = time();
         $res = mysqli_query(Globals::$legacy_mysql, 'SELECT `node` from `cluster_node` where type="core"');
         if($res !== false) {
             $d = mysqli_fetch_assoc($res);
+            LegacyDb::$coreNode = $d['node'];
             return $d['node'];
         }
+        LegacyDb::$coreNode = null;
         return null;
     }
 
     // Returns the hostname of the current relay node
     public static function getCurrentRelayNode()
     {
+        if(LegacyDb::$relayNodeCache > time()-10 && LegacyDb::$relayNode != null) {
+            return LegacyDb::$relayNode;
+        }
+
         checkLegacyMySQL();
+        LegacyDb::$relayNodeCache = time();
         $res = mysqli_query(Globals::$legacy_mysql, 'SELECT `node` from `cluster_node` where type="relay"');
         if($res !== false) {
             $d = mysqli_fetch_assoc($res);
+            LegacyDb::$relayNode = $d['node'];
             return $d['node'];
         }
+        LegacyDb::$relayNode = null;
         return null;
     }
 
     // Returns the hostname of the current redis node
     public static function getCurrentRedisNode()
     {
+        if(LegacyDb::$redisNodeCache > time()-10 && LegacyDb::$redisNode != null) {
+            return LegacyDb::$redisNode;
+        }
+
         checkLegacyMySQL();
+        LegacyDb::$redisNodeCache = time();
         $res = mysqli_query(Globals::$legacy_mysql, 'SELECT `node` from `cluster_node` where type="redis"');
         if($res !== false) {
             $d = mysqli_fetch_assoc($res);
+            LegacyDb::$redisNode = $d['node'];
             return $d['node'];
         }
+        LegacyDb::$redisNode = null;
         return null;
     }
 }

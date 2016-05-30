@@ -584,14 +584,19 @@ class WikipediaApi
     public function rollback($title, $user, $reason, $token = null)
     {
         global $logger;
-        if (($token == null) or ($token == '')) {
+        /*if (($token == null) or ($token == '')) {
             $token = $this->revisions($title, 1, 'older', false, null, true, true);
+            $logger->addError('Revisions: ' . $token);
             if ($token[0]['user'] == $user) {
                 $token = $token[0]['rollbacktoken'];
             } else {
-                return false;
+                reurn false;
             }
-        }
+        }*/
+        $x = $this->http->get($this->apiurl . '?action=query&meta=tokens&type=rollback&format=php');
+        $x = unserialize($x);
+        $token = $x['query']['tokens']['rollbacktoken'];
+
         $params = array(
             'action' => 'rollback',
             'format' => 'php',
@@ -603,7 +608,6 @@ class WikipediaApi
 
         $logger->addInfo('Posting to API: ' . var_export($params, true));
         $x = $this->http->post($this->apiurl, $params);
-        $logger->addDebug($x);
         $x = unserialize($x);
 
         return (isset($x['rollback']['summary']) and isset($x['rollback']['revid']) and $x['rollback']['revid'])
