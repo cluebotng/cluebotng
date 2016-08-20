@@ -5,7 +5,7 @@ RUN apt-get clean
 RUN apt-get update
 
 # Deps
-RUN apt-get install -y build-essential libboost-system-dev libboost-thread-dev libexpat1-dev libmatheval-dev libfann-dev libconfig++-dev libboost-dev wget
+RUN apt-get install -y build-essential libboost-system-dev libboost-thread-dev libexpat1-dev libmatheval-dev libfann-dev libconfig++-dev libboost-dev wget libdb5.3++-dev
 
 # Libiconv
 RUN cd /usr/src && wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz && tar -xvf libiconv-1.14.tar.gz
@@ -14,15 +14,9 @@ RUN cd /usr/src/libiconv-1.14 && patch srclib/stdio.in.h < /usr/src/libiconv-1.1
 RUN cd /usr/src/libiconv-1.14 && ./configure && make && make install
 RUN ldconfig -v
 
-# Berkleydb (needs upgrading)
-RUN cd /usr/src && wget http://download.oracle.com/berkeley-db/db-4.8.30.tar.gz && tar -xvf db-4.8.30.tar.gz
-RUN cd /usr/src/db-4.8.30/build_unix/ && ../dist/configure --enable-cxx && make && make install
-RUN echo "/usr/local/BerkeleyDB.4.8/lib" > /etc/ld.so.conf.d/berkeley-db.conf
-RUN ldconfig -v
-
 # Cluebot build
 RUN cd /usr/src/cbng-core && make clean
-RUN cd /usr/src/cbng-core && CFLAGS="-g -O2 -I /usr/local/BerkeleyDB.4.8/include -L /usr/local/BerkeleyDB.4.8/lib" make
+RUN cd /usr/src/cbng-core && make
 
 # Stash bins
 RUN mkdir -p /opt/cbng/core/bin /opt/cbng/core/etc /opt/cbng/core/var

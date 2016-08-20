@@ -1,0 +1,15 @@
+sudo: required
+language: ruby
+services:
+  - docker
+script:
+  - docker build -f Dockerfile -t cluebotng/core:$COMMIT .
+after_success:
+  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+  - docker push cluebotng/core:$COMMIT
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then docker tag cluebotng/core:$COMMIT cluebotng/core:latest && docker push cluebotng/core:latest fi
+env:
+  global:
+    - secure: EfQToYu/Cr9iRwdg2ajjLEnVFi8yOW5tymoJGm7gYLfJlF+4LPnDnZi6vkDMAUf7HyGATIMJBwJQQFjcIU3h5AWMvq6H1+W2TOCvm4oEFSh1LkskQWul1lzUrrA8535eO0XY/TqjkXWDAsm7Ll48LFdXlxVVF6bu3dkBVG1Ta7k=
+    - secure: FvK31HFH4EBwHo6Ow8Ri42kQxyko4RzlPDBhGVqGdoG8d4CzZNYkmRcd1rnjMzhos/mdtNcj7YRs7l7uFj9kplTKwYRJlo5cIlYSajFk/75WYOE0VQmlI7yQ2L2gDyRqkiCwcO46JUFIxc3zqZIaXYkNKl4b7IK9t1x4kKTpGSY=
+    - secure: ckZoEpMAFx4qio99omYeOdzEKI4gPjurhiKZiRzNSDPB8MqH7IZTjyqo/65qzz546rlnXxC+EdFHVQ1K0xgwNYP6hcTvbrF6vyAJr5qXHaF8slaTZk9vszXHhHb6yd0kf8uDkemgKCq27f/T30Em1xC+KQzPBu7YDGnLMSXyNa4=
