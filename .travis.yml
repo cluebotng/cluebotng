@@ -3,9 +3,9 @@ language: ruby
 services:
   - docker
 script:
-  - docker build -f Dockerfile -t cluebotng/core:$COMMIT .
+  - docker build -f Dockerfile -t cluebotng/core:$COMMIT
 after_success:
-  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push cluebotng/core:$COMMIT
   - if [ "$TRAVIS_BRANCH" == "master" ];
     then
