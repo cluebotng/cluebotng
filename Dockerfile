@@ -32,7 +32,7 @@ RUN /opt/cbng/core/bin/create_bayes_db /opt/cbng/core/var/two_bayes.db /usr/src/
 RUN cp /usr/src/cbng-data/main_ann.fann /opt/cbng/core/var/main_ann.fann
 
 # Cleanup
-RUN rm -rf /usr/src/*
+RUN rm -rf /usr/src/libiconv*
 RUN apt-get clean
 
 # Run time settings
