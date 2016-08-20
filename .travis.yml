@@ -14,13 +14,16 @@ after_success:
       docker tag "cluebotng/core:$(git rev-parse --short HEAD)" cluebotng/core:latest &&
       docker push cluebotng/core:latest;
     fi
-  # Test
-  - find .
   # Upload to bintray
-  - curl -T src/cluebotng -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/cluebotng?publish=1&override=0&explode=0"
-  - curl -T src/create_ann -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/create_ann?publish=1&override=0&explode=0"
-  - curl -T src/create_bayes_db -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/create_bayes_db?publish=1&override=0&explode=0"
-  - curl -T src/print_bayes_db -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/print_bayes_db?publish=1&override=0&explode=0"
+  - mkdir -p build
+  - docker cp "cluebotng/core:/usr/src/cbng-core/cluebotng" build/cluebotng
+  - curl -T build/cluebotng -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/cluebotng?publish=1&override=0&explode=0"
+  - docker cp "cluebotng/core:/usr/src/cbng-core/create_ann" build/create_ann
+  - curl -T build/create_ann -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/create_ann?publish=1&override=0&explode=0"
+  - docker cp "cluebotng/core:/usr/src/cbng-core/create_bayes_db" build/create_bayes_db
+  - curl -T build/create_bayes_db -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/create_bayes_db?publish=1&override=0&explode=0"
+  - docker cp "cluebotng/core:/usr/src/cbng-core/print_bayes_db" build/print_bayes_db
+  - curl -T build/print_bayes_db -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/print_bayes_db?publish=1&override=0&explode=0"
 env:
   global:
   - secure: Xy6ralNMDhl+ICRYbYdi/ivFx7akPzWMDsfgrzb5cxXtQVIZ2LQeOXGVH3EyIMYXhox2ye4RutBOLIiYzanLZnE1p+yNKCB7x1pu4rJqDWJb05H3VIC4OZ2TTLy4oDXNBYu9kXeV+35VeYKpKdqfHqD0C+pJVLmab13rOjJR0Ck=
