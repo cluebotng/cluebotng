@@ -17,16 +17,15 @@ after_success:
   # Upload to bintray
   - mkdir -p build
   - docker run -d --name cluebotng-core cluebotng/core /bin/bash
-  - docker cp "cluebotng-core:/usr/src/cbng-core/cluebotng" build/cluebotng
+  - docker cp "cluebotng-core:/opt/cbng/core/bin/cluebotng" build/cluebotng
   - curl -T build/cluebotng -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/cluebotng?publish=1&override=0&explode=0"
-  - docker cp "cluebotng-core:/usr/src/cbng-core/create_ann" build/create_ann
+  - docker cp "cluebotng-core:/opt/cbng/core/bin/create_ann" build/create_ann
   - curl -T build/create_ann -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/create_ann?publish=1&override=0&explode=0"
-  - docker cp "cluebotng-core:/usr/src/cbng-core/create_bayes_db" build/create_bayes_db
+  - docker cp "cluebotng-core:/opt/cbng/core/bin/create_bayes_db" build/create_bayes_db
   - curl -T build/create_bayes_db -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/create_bayes_db?publish=1&override=0&explode=0"
-  - docker cp "cluebotng-core:/usr/src/cbng-core/print_bayes_db" build/print_bayes_db
+  - docker cp "cluebotng-core:/opt/cbng/core/bin/print_bayes_db" build/print_bayes_db
   - curl -T build/print_bayes_db -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/print_bayes_db?publish=1&override=0&explode=0"
-  - docker kill cluebotng-core
-  - docker rm cluebotng-core
+  - docker rm -f cluebotng-core
 env:
   global:
   - secure: Xy6ralNMDhl+ICRYbYdi/ivFx7akPzWMDsfgrzb5cxXtQVIZ2LQeOXGVH3EyIMYXhox2ye4RutBOLIiYzanLZnE1p+yNKCB7x1pu4rJqDWJb05H3VIC4OZ2TTLy4oDXNBYu9kXeV+35VeYKpKdqfHqD0C+pJVLmab13rOjJR0Ck=
