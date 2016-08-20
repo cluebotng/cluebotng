@@ -25,6 +25,12 @@ after_success:
   - curl -T build/create_bayes_db -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/create_bayes_db?publish=1&override=0&explode=0"
   - docker cp "cluebotng-core:/opt/cbng/core/bin/print_bayes_db" build/print_bayes_db
   - curl -T build/print_bayes_db -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/print_bayes_db?publish=1&override=0&explode=0"
+  - docker cp "cluebotng-core:/opt/cbng/core/var/bayes.db" build/bayes.db
+  - curl -T build/bayes.db -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/bayes.db?publish=1&override=0&explode=0"
+  - docker cp "cluebotng-core:/opt/cbng/core/var/two_bayes.db" build/two_bayes.db
+  - curl -T build/two_bayes.db -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/two_bayes.db?publish=1&override=0&explode=0"
+  - docker cp "cluebotng-core:/opt/cbng/core/var/main_ann.fann" build/main_ann.fann
+  - curl -T build/main_ann.fann -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/main_ann.fann?publish=1&override=0&explode=0"
   - docker rm -f cluebotng-core
 env:
   global:
