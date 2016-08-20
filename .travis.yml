@@ -3,8 +3,10 @@ language: ruby
 services:
   - docker
 script:
+  # Build docker image (also dumps bins into src/)
   - docker build -t "cluebotng/core:$(git rev-parse --short HEAD)" .
 after_success:
+  # Upload to docker
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push "cluebotng/core:$(git rev-parse --short HEAD)"
   - if [ "$TRAVIS_BRANCH" == "master" ];
@@ -12,7 +14,13 @@ after_success:
       docker tag "cluebotng/core:$(git rev-parse --short HEAD)" cluebotng/core:latest &&
       docker push cluebotng/core:latest;
     fi
+  # Upload to bintray
+  - curl -T src/cluebotng -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/cluebotng?publish=1&override=0&explode=0"
+  - curl -T src/create_ann -u "damianzaremba:$BINTRAY_KEY" https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/create_ann?publish=1&override=0&explode=0"
+  - curl -T src/create_bayes_db -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/create_bayes_db?publish=1&override=0&explode=0"
+  - curl -T src/print_bayes_db -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/print_bayes_db?publish=1&override=0&explode=0"
 env:
   global:
   - secure: Xy6ralNMDhl+ICRYbYdi/ivFx7akPzWMDsfgrzb5cxXtQVIZ2LQeOXGVH3EyIMYXhox2ye4RutBOLIiYzanLZnE1p+yNKCB7x1pu4rJqDWJb05H3VIC4OZ2TTLy4oDXNBYu9kXeV+35VeYKpKdqfHqD0C+pJVLmab13rOjJR0Ck=
   - secure: lvlkAmf5QYiTkVvOO/3GBP7CFRwNOkYS+5yB7prThqm0RB77XYWLDi8UXtdW6GtUlm0cF6IaBbJ5ddS4vmtTaHiIFMrmeDvA4AgWwY2GzJ2D61TvaNVYLa5QRKQZdOdTWyj/zgtR/FNRovRZHPcyJaeP4LcMFp1X0qcumXhn70U=
+  - secure: IHYZRhrPpH9e60FmPzE1kp6LqeOBLR+OdRd3PYrOkiF29NXHNbqvaueoFbZNycQZ6pPsjloNxXNZv6aveOnxV2FPhkOzwf6ddLutspdn/J7KqYFkOsW4XhzGhS4jjjlHOKfokjf7vlaa3gv98EYajnXmwO8ntAigH0YLv9Tul4I=
