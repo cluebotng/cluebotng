@@ -40,7 +40,6 @@ WORKDIR /opt/cbng/core/
 VOLUME /opt/cbng/core/etc
 
 ENV RUN_MODE=live_run
-
 EXPOSE 3565
 
 # Run!
