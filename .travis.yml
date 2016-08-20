@@ -14,9 +14,11 @@ after_success:
       docker tag "cluebotng/core:$(git rev-parse --short HEAD)" cluebotng/core:latest &&
       docker push cluebotng/core:latest;
     fi
+  # Test
+  - find .
   # Upload to bintray
   - curl -T src/cluebotng -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/cluebotng?publish=1&override=0&explode=0"
-  - curl -T src/create_ann -u "damianzaremba:$BINTRAY_KEY" https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/create_ann?publish=1&override=0&explode=0"
+  - curl -T src/create_ann -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/create_ann?publish=1&override=0&explode=0"
   - curl -T src/create_bayes_db -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/create_bayes_db?publish=1&override=0&explode=0"
   - curl -T src/print_bayes_db -u "damianzaremba:$BINTRAY_KEY" "https://api.bintray.com/content/cluebot/cluebotng/core/$(git rev-parse --short HEAD)/print_bayes_db?publish=1&override=0&explode=0"
 env:
