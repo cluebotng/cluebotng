@@ -7,7 +7,11 @@ script:
 after_success:
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
   - docker push cluebotng/core:$COMMIT
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then docker tag cluebotng/core:$COMMIT cluebotng/core:latest && docker push cluebotng/core:latest fi
+  - if [ "$TRAVIS_BRANCH" == "master" ];
+    then
+      docker tag cluebotng/core:$COMMIT cluebotng/core:latest
+      docker push cluebotng/core:latest
+    fi
 env:
   global:
     - secure: EfQToYu/Cr9iRwdg2ajjLEnVFi8yOW5tymoJGm7gYLfJlF+4LPnDnZi6vkDMAUf7HyGATIMJBwJQQFjcIU3h5AWMvq6H1+W2TOCvm4oEFSh1LkskQWul1lzUrrA8535eO0XY/TqjkXWDAsm7Ll48LFdXlxVVF6bu3dkBVG1Ta7k=
