@@ -13,7 +13,7 @@ relay_redis.conf.js
 # Dynamic stuff
 bot/oftenvandalized.txt
 bot/titles.txt
-data/
+data/*.db
 
 # Editor
 .idea/

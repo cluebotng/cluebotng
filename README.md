@@ -27,4 +27,5 @@ Deploying to tools
 ```bash
 pip install fabric
 
-fab deploy```
+fab deploy
+```

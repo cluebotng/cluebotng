@@ -31,4 +31,3 @@ trainandtrial:
 
 anntrainandtrial:
 	@ ./util/anntrainandtrial.sh
-
