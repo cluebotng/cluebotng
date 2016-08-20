@@ -4,10 +4,11 @@ services:
   - docker
 script:
   # Build docker image (also dumps bins into src/)
-  - docker build -t "cluebotng/core:$(git rev-parse --short HEAD)" .
+  - docker build -t cluebotng/core .
 after_success:
   # Upload to docker
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker tag cluebotng/core "cluebotng/core:$(git rev-parse --short HEAD)"
   - docker push "cluebotng/core:$(git rev-parse --short HEAD)"
   - if [ "$TRAVIS_BRANCH" == "master" ];
     then
