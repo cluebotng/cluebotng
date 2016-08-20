@@ -3,13 +3,13 @@ language: ruby
 services:
   - docker
 script:
-  - docker build -f Dockerfile -t cluebotng/core:$COMMIT
+  - docker build -f Dockerfile -t cluebotng/core:$(git rev-parse --short HEAD)
 after_success:
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker push cluebotng/core:$COMMIT
+  - docker push cluebotng/core:$(git rev-parse --short HEAD)
   - if [ "$TRAVIS_BRANCH" == "master" ];
     then
-      docker tag cluebotng/core:$COMMIT cluebotng/core:latest
+      docker tag cluebotng/core:$(git rev-parse --short HEAD) cluebotng/core:latest
       docker push cluebotng/core:latest
     fi
 env:
