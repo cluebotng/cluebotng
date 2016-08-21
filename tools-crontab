@@ -1,5 +1,5 @@
 # Backups
-45 */2 * * *  /usr/bin/jsub -N cron-tools.cluebot-backup_database -e $HOME/logs/cron.err -o $HOME/logs/cron.out -once -quiet /data/project/cluebot/backup_database.sh &> /dev/null
-0 2 * * *  /usr/bin/jsub -N cron-tools.cluebot-clean_database_backups -e $HOME/logs/cron.err -o $HOME/logs/cron.out -once -quiet find /data/project/cluebot/mysql_backups -mtime +7 -delete &> /dev/null
+45 */2 * * *  /usr/bin/jsub -N cron-tools.cluebot-backup_database -e $HOME/logs/cron.err -o $HOME/logs/cron.out -once -quiet "$HOME/backup_database.sh" &> /dev/null
+0 2 * * *  /usr/bin/jsub -N cron-tools.cluebot-clean_database_backups -e $HOME/logs/cron.err -o $HOME/logs/cron.out -once -quiet find "$HOME/mysql_backups" -mtime +7 -delete &> /dev/null
 
 # This needs to end in a new line..

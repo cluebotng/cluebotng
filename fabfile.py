@@ -137,26 +137,28 @@ def _update_core():
             'dir': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE),
             'sha1': CORE_RELEASE
         })
+    sudo('chmod 750 %s' % os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'cluebotng'))
 
     if not files.exists(os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'create_ann')):
         sudo('cd "%(dir)s" && wget -O create_ann https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/create_ann' % {
             'dir': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE),
             'sha1': CORE_RELEASE
         })
+    sudo('chmod 750 %s' % os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'create_ann'))
 
     if not files.exists(os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'create_bayes_db')):
-        sudo(
-            'cd "%(dir)s" && wget -O create_bayes_db https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/create_bayes_db' % {
+        sudo('cd "%(dir)s" && wget -O create_bayes_db https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/create_bayes_db' % {
                 'dir': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE),
                 'sha1': CORE_RELEASE
             })
+    sudo('chmod 750 %s' % os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'create_bayes_db'))
 
     if not files.exists(os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'print_bayes_db')):
-        sudo(
-            'cd "%(dir)s" && wget -O print_bayes_db https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/print_bayes_db' % {
+        sudo('cd "%(dir)s" && wget -O print_bayes_db https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/print_bayes_db' % {
                 'dir': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE),
                 'sha1': CORE_RELEASE
             })
+    sudo('chmod 750 %s' % os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'print_bayes_db'))
 
     # Data files
     if not files.exists(os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data')):
@@ -165,23 +167,25 @@ def _update_core():
         })
 
     if not files.exists(os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data', 'main_ann.fann')):
-        sudo(
-            'cd "%(dir)s" && wget -O main_ann.fann https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/main_ann.fann' % {
+        sudo('cd "%(dir)s" && wget -O main_ann.fann https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/main_ann.fann' % {
                 'dir': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data'),
                 'sha1': CORE_RELEASE
             })
+    sudo('chmod 640 %s' % os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data', 'main_ann.fann'))
 
     if not files.exists(os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data', 'bayes.db')):
         sudo('cd "%(dir)s" && wget -O bayes.db https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/bayes.db' % {
             'dir': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data'),
             'sha1': CORE_RELEASE
         })
+    sudo('chmod 640 %s' % os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data', 'bayes.db'))
 
     if not files.exists(os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data', 'two_bayes.db')):
         sudo('cd "%(dir)s" && wget -O two_bayes.db https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/two_bayes.db' % {
             'dir': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data'),
             'sha1': CORE_RELEASE
         })
+    sudo('chmod 640 %s' % os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data', 'two_bayes.db'))
 
 
 def _update_core_configs():
@@ -201,7 +205,7 @@ def _update_core_configs():
     sudo('chmod 750 %s' % os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'run.sh'))
     sudo('ln -sf %(release)s %(current)s' % {
         'release': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE),
-        'current': os.path.join(TOOL_DIR, 'apps', 'core', 'current'),
+        'current': os.path.join(TOOL_DIR, 'apps', 'core', 'current').rtrim('/'),
     })
 
 
