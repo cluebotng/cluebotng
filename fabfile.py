@@ -14,7 +14,7 @@ env.use_ssh_config = True
 env.sudo_prefix = "/usr/bin/sudo -ni"
 
 
-def check_workingdir_clean():
+def _check_workingdir_clean():
     '''
     Internal function, checks for any uncommitted local changes
     '''
@@ -29,7 +29,7 @@ def check_workingdir_clean():
         sys.exit(1)
 
 
-def check_remote_up2date():
+def _check_remote_up2date():
     '''
     Internal function, ensures the local HEAD hash is the same as the remote HEAD hash for master
     '''
