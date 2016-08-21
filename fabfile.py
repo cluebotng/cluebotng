@@ -193,16 +193,16 @@ def _update_core_configs():
     Copy the core configs from the bot folder to the core folder
     '''
     sudo('rsync -avr --delete %(src)s %(dest)s' % {
-        'dest': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'conf'),
         'src': os.path.join(TOOL_DIR, 'apps', 'bot', 'conf'),
+        'dest': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'conf'),
     })
 
     sudo('rsync -av --delete %(src)s %(dest)s' % {
         'dest': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'run.sh'),
         'src': os.path.join(TOOL_DIR, 'apps', 'bot', 'bin', 'run_core.sh'),
     })
-
     sudo('chmod 750 %s' % os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'run.sh'))
+
     sudo('ln -sf %(release)s %(current)s' % {
         'release': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE),
         'current': os.path.join(TOOL_DIR, 'apps', 'core', 'current').rstrip('/'),
