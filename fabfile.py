@@ -205,7 +205,7 @@ def _update_core_configs():
     sudo('chmod 750 %s' % os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'run.sh'))
     sudo('ln -sf %(release)s %(current)s' % {
         'release': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE),
-        'current': os.path.join(TOOL_DIR, 'apps', 'core', 'current').rtrim('/'),
+        'current': os.path.join(TOOL_DIR, 'apps', 'core', 'current').rstrip('/'),
     })
 
 
