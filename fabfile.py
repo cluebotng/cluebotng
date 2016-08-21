@@ -108,6 +108,9 @@ def _update_code():
     sudo('cd "%(dir)s" && git pull origin master' % {'dir': os.path.join(TOOL_DIR, 'apps', 'bot')})
 
     print('Running composer')
+    sudo('cd "%(dir)s" && ./composer.phar self-update' % {
+        'dir': os.path.join(os.path.join(TOOL_DIR, 'apps', 'bot'), 'bot')
+    })
     sudo('cd "%(dir)s" && ./composer.phar install' % {
         'dir': os.path.join(os.path.join(TOOL_DIR, 'apps', 'bot'), 'bot')
     })
@@ -192,9 +195,9 @@ def _update_core_configs():
     '''
     Copy the core configs from the bot folder to the core folder
     '''
-    sudo('rsync -avr --delete %(src)s %(dest)s' % {
-        'src': os.path.join(TOOL_DIR, 'apps', 'bot', 'conf'),
-        'dest': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'conf'),
+    sudo('rsync -avr --delete %(src)s/ %(dest)s/' % {
+        'src': os.path.join(TOOL_DIR, 'apps', 'bot', 'conf').rstrip('/'),
+        'dest': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'conf').rstrip('/'),
     })
 
     sudo('rsync -av --delete %(src)s %(dest)s' % {
