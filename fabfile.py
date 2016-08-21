@@ -7,7 +7,8 @@ import time
 
 # Internal settings
 STAGING = True
-REPO_URL = 'https://github.com/DamianZaremba/cluebotng.git'
+BOT_REPO_URL = 'https://github.com/DamianZaremba/cluebotng.git'
+UTIL_REPO_URL = 'https://github.com/DamianZaremba/cbng-utils.git'
 CORE_RELEASE = 'c4f402a'
 env.hosts = ['tools-login.wmflabs.org']
 env.use_ssh_config = True
@@ -35,7 +36,7 @@ def _check_remote_up2date():
     '''
     p = subprocess.Popen(['git',
                           'ls-remote',
-                          REPO_URL,
+                          BOT_REPO_URL,
                           'master'],
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE)
@@ -69,7 +70,14 @@ def _setup():
         print('Cloning repo')
         sudo('git clone "%(url)s" "%(dir)s"' % {
             'dir': os.path.join(TOOL_DIR, 'apps', 'bot'),
-            'url': REPO_URL
+            'url': BOT_REPO_URL
+        })
+
+    if not files.exists(os.path.join(TOOL_DIR, 'apps', 'utils')):
+        print('Cloning repo')
+        sudo('git clone "%(url)s" "%(dir)s"' % {
+            'dir': os.path.join(TOOL_DIR, 'apps', 'utils'),
+            'url': UTIL_REPO_URL
         })
 
 
@@ -95,9 +103,22 @@ def _start():
     sudo('jstart -N cbng_core  -e /dev/null -o /dev/null -mem 6G %s/apps/core/current/run.sh &> /dev/null | true' % TOOL_DIR)
 
 
+def _update_utils():
+    '''
+    Clone or pull the utils git repo into the apps path
+    Also updates bigbrotherrc
+    '''
+    print('Resetting local changes')
+    sudo('cd "%(dir)s" && git reset --hard && git clean -fd' %
+         {'dir': os.path.join(TOOL_DIR, 'apps', 'utils')})
+
+    print('Updating code')
+    sudo('cd "%(dir)s" && git pull origin master' % {'dir': os.path.join(TOOL_DIR, 'apps', 'utils')})
+
+
 def _update_code():
     '''
-    Clone or pull the git repo into the defined os.path.join(TOOL_DIR, 'apps', 'bot')
+    Clone or pull the main git repo into the apps path
     Also updates bigbrotherrc
     '''
     print('Resetting local changes')
@@ -109,10 +130,10 @@ def _update_code():
 
     print('Running composer')
     sudo('cd "%(dir)s" && ./composer.phar self-update' % {
-        'dir': os.path.join(os.path.join(TOOL_DIR, 'apps', 'bot'), 'bot')
+        'dir': os.path.join(TOOL_DIR, 'apps', 'bot', 'bot')
     })
     sudo('cd "%(dir)s" && ./composer.phar install' % {
-        'dir': os.path.join(os.path.join(TOOL_DIR, 'apps', 'bot'), 'bot')
+        'dir': os.path.join(TOOL_DIR, 'apps', 'bot', 'bot')
     })
 
     print('Updating crontab')
@@ -229,6 +250,7 @@ def _deploy():
     _check_remote_up2date()
 
     _setup()
+    _update_utils()
     _update_code()
     _update_core()
     _update_core_configs()
