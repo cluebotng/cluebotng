@@ -133,27 +133,27 @@ def _update_core():
         })
 
     if not files.exists(os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'cluebotng')):
-        sudo('cd "%(dir)s" && wget -O cluebotng https://dl.bintray.com/cluebot/cluebotng/$(sha1)s/:cluebotng' % {
+        sudo('cd "%(dir)s" && wget -O cluebotng https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/:cluebotng' % {
             'dir': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE),
             'sha1': CORE_RELEASE
         })
 
     if not files.exists(os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'create_ann')):
-        sudo('cd "%(dir)s" && wget -O create_ann https://dl.bintray.com/cluebot/cluebotng/$(sha1)s/:create_ann' % {
+        sudo('cd "%(dir)s" && wget -O create_ann https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/:create_ann' % {
             'dir': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE),
             'sha1': CORE_RELEASE
         })
 
     if not files.exists(os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'create_bayes_db')):
         sudo(
-            'cd "%(dir)s" && wget -O create_bayes_db https://dl.bintray.com/cluebot/cluebotng/$(sha1)s/:create_bayes_db' % {
+            'cd "%(dir)s" && wget -O create_bayes_db https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/:create_bayes_db' % {
                 'dir': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE),
                 'sha1': CORE_RELEASE
             })
 
     if not files.exists(os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'print_bayes_db')):
         sudo(
-            'cd "%(dir)s" && wget -O print_bayes_db https://dl.bintray.com/cluebot/cluebotng/$(sha1)s/:print_bayes_db' % {
+            'cd "%(dir)s" && wget -O print_bayes_db https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/:print_bayes_db' % {
                 'dir': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE),
                 'sha1': CORE_RELEASE
             })
@@ -166,19 +166,19 @@ def _update_core():
 
     if not files.exists(os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data', 'main_ann.fann')):
         sudo(
-            'cd "%(dir)s" && wget -O main_ann.fann https://dl.bintray.com/cluebot/cluebotng/$(sha1)s/:main_ann.fann' % {
+            'cd "%(dir)s" && wget -O main_ann.fann https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/:main_ann.fann' % {
                 'dir': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data'),
                 'sha1': CORE_RELEASE
             })
 
     if not files.exists(os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data', 'bayes.db')):
-        sudo('cd "%(dir)s" && wget -O bayes.db https://dl.bintray.com/cluebot/cluebotng/$(sha1)s/:bayes.db' % {
+        sudo('cd "%(dir)s" && wget -O bayes.db https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/:bayes.db' % {
             'dir': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data'),
             'sha1': CORE_RELEASE
         })
 
     if not files.exists(os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data', 'two_bayes.db')):
-        sudo('cd "%(dir)s" && wget -O two_bayes.db https://dl.bintray.com/cluebot/cluebotng/$(sha1)s/:two_bayes.db' % {
+        sudo('cd "%(dir)s" && wget -O two_bayes.db https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/:two_bayes.db' % {
             'dir': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data'),
             'sha1': CORE_RELEASE
         })
