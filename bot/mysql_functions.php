@@ -39,17 +39,17 @@ function checkLegacyMySQL()
     }
 }
 
-function checkMySQL()
+function checkNgMySQL()
 {
-    if (!Globals::$cb_mysql || !is_mysql_alive(Globals::$cb_mysql)) {
-        Globals::$cb_mysql = @mysqli_connect(
-            'p:' . Config::$cb_mysql_host,
-            Config::$cb_mysql_user,
-            Config::$cb_mysql_pass,
-            Config::$cb_mysql_db,
+    if (!Globals::$ng_mysql || !is_mysql_alive(Globals::$ng_mysql)) {
+        Globals::$ng_mysql = @mysqli_connect(
+            'p:' . Config::$ng_mysql_host,
+            Config::$ng_mysql_user,
+            Config::$ng_mysql_pass,
+            Config::$ng_mysql_db,
             Config::$cbmysql_port
         );
-        mysqli_select_db(Globals::$cb_mysql, Config::$cb_mysql_db);
+        mysqli_select_db(Globals::$ng_mysql, Config::$ng_mysql_db);
     }
 }
 
