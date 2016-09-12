@@ -33,7 +33,7 @@ namespace WPCluebot {
 template <class NodeValueType, int numsubnodes, int nodevaloffset>
 class StrTree;
 
-/* This class implements a trie-like structure designed to store words.
+/* This class implements a tree-like structure designed to store words.
  * It associates values with words and allows O(log n) lookups, where n is
  * the length of the word, not the number of words.  This is good for storing
  * a lot of very short words - NOT for long words.
@@ -84,7 +84,7 @@ public:
     }
 public:
     struct Node {
-        struct Node * subnodes[numsubnodes];    // Each subnode represents a character, like a trie
+        struct Node * subnodes[numsubnodes];    // Each subnode represents a character, like a tree
         NodeValueType * value;
         void set(const NodeValueType & val) {
             value = new NodeValueType(val);
