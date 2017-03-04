@@ -258,13 +258,6 @@ def _deploy():
 
 
 def deploy():
-    global TOOL_DIR
-    TOOL_DIR = '/data/project/cluebotng-staging/'
-    env.sudo_user = 'tools.cluebotng-staging'
-    _deploy()
-
-
-def deploy_production():
     global TOOL_DIR, STAGING
     STAGING = False
     TOOL_DIR = '/data/project/cluebotng/'
