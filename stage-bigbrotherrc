@@ -1,1 +1,0 @@
-jstart -l release=precise -N cbng_core  -e /dev/null -o /dev/null -mem 6G /data/project/cluebotng/apps/bot/bin/run_core.sh &> /dev/null

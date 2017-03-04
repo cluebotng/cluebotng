@@ -6,10 +6,12 @@ from fabric.contrib import files
 import time
 
 # Internal settings
-STAGING = True
 BOT_REPO_URL = 'https://github.com/DamianZaremba/cluebotng.git'
 UTIL_REPO_URL = 'https://github.com/DamianZaremba/cbng-utils.git'
+UI_REPO_URL = 'https://github.com/DamianZaremba/cluebotng-report'
 CORE_RELEASE = 'c4f402a'
+TOOL_DIR = '/data/project/cluebotng/'
+env.sudo_user = 'tools.cluebotng'
 env.hosts = ['tools-login.wmflabs.org']
 env.use_ssh_config = True
 env.sudo_prefix = "/usr/bin/sudo -ni"
@@ -80,6 +82,18 @@ def _setup():
             'url': UTIL_REPO_URL
         })
 
+    if not files.exists(os.path.join(TOOL_DIR, 'apps', 'report_interface')):
+        print('Cloning repo')
+        sudo('git clone "%(url)s" "%(dir)s"' % {
+            'dir': os.path.join(TOOL_DIR, 'apps', 'report_interface'),
+            'url': UI_REPO_URL
+        })
+
+    sudo('ln -sf %(release)s %(current)s' % {
+        'release': os.path.join(TOOL_DIR, 'apps', 'report_interface'),
+        'current': os.path.join(TOOL_DIR, 'public_html'),
+    })
+
 
 def _stop():
     '''
@@ -89,18 +103,22 @@ def _stop():
     sudo('jstop cbng_core | true')
     sudo('jstop cbng_relay | true')
     sudo('jstop cbng_redis | true')
+    sudo('webservice stop')
 
 
 def _start():
     '''
     Internal function, calls jstart on the grid job jobs
     '''
-    if not STAGING:
-        sudo('jstart -N cbng_bot   -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_bot.sh &> /dev/null | true' % TOOL_DIR)
-        sudo('jstart -N cbng_relay -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_relay.sh &> /dev/null | true' % TOOL_DIR)
-        sudo('jstart -N cbng_redis -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_redis.sh &> /dev/null | true' % TOOL_DIR)
-
-    sudo('jstart -N cbng_core  -e /dev/null -o /dev/null -mem 6G %s/apps/core/current/run.sh &> /dev/null | true' % TOOL_DIR)
+    sudo(
+        'jstart -N cbng_bot   -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_bot.sh &> /dev/null | true' % TOOL_DIR)
+    sudo(
+        'jstart -N cbng_relay -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_relay.sh &> /dev/null | true' % TOOL_DIR)
+    sudo(
+        'jstart -N cbng_redis -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_redis.sh &> /dev/null | true' % TOOL_DIR)
+    sudo(
+        'jstart -N cbng_core  -e /dev/null -o /dev/null -mem 6G %s/apps/core/current/run.sh &> /dev/null | true' % TOOL_DIR)
+    sudo('webservice start')
 
 
 def _update_utils():
@@ -141,7 +159,7 @@ def _update_code():
 
     print('Updating bigbrotherrc')
     sudo('cd "%(dir)s" && cp -f %(src)s ~/.bigbrotherrc' % {
-        'src': ('stage-bigbrotherrc' if STAGING else 'bigbrotherrc'),
+        'src': 'bigbrotherrc',
         'dir': os.path.join(TOOL_DIR, 'apps', 'bot')
     })
 
@@ -171,14 +189,16 @@ def _update_core():
     sudo('chmod 750 %s' % os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'create_ann'))
 
     if not files.exists(os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'create_bayes_db')):
-        sudo('cd "%(dir)s" && wget -O create_bayes_db https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/create_bayes_db' % {
+        sudo(
+            'cd "%(dir)s" && wget -O create_bayes_db https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/create_bayes_db' % {
                 'dir': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE),
                 'sha1': CORE_RELEASE
             })
     sudo('chmod 750 %s' % os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'create_bayes_db'))
 
     if not files.exists(os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'print_bayes_db')):
-        sudo('cd "%(dir)s" && wget -O print_bayes_db https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/print_bayes_db' % {
+        sudo(
+            'cd "%(dir)s" && wget -O print_bayes_db https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/print_bayes_db' % {
                 'dir': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE),
                 'sha1': CORE_RELEASE
             })
@@ -192,9 +212,9 @@ def _update_core():
 
     if not files.exists(os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data', 'main_ann.fann')):
         sudo('cd "%(dir)s" && wget -O main_ann.fann https://dl.bintray.com/cluebot/cluebotng/%(sha1)s/main_ann.fann' % {
-                'dir': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data'),
-                'sha1': CORE_RELEASE
-            })
+            'dir': os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data'),
+            'sha1': CORE_RELEASE
+        })
     sudo('chmod 640 %s' % os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data', 'main_ann.fann'))
 
     if not files.exists(os.path.join(TOOL_DIR, 'apps', 'core', 'releases', CORE_RELEASE, 'data', 'bayes.db')):
@@ -258,8 +278,4 @@ def _deploy():
 
 
 def deploy():
-    global TOOL_DIR, STAGING
-    STAGING = False
-    TOOL_DIR = '/data/project/cluebotng/'
-    env.sudo_user = 'tools.cluebotng'
     _deploy()
