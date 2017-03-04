@@ -28,4 +28,8 @@ Deploying to tools
 pip install fabric
 
 fab deploy
+
+# Test
+
+fab deploy_production
 ```
