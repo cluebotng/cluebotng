@@ -102,6 +102,13 @@ def _setup():
         sudo('rm -f node-v6.10.0-linux-x64.tar.xz')
         sudo('mv node-v6.10.0-linux-x64 node')
 
+    if not files.exists(os.path.join(TOOL_DIR, 'node_modules', 'redis')):
+        sudo('/data/project/cluebotng/node/bin/npm install irc')
+
+
+    if not files.exists(os.path.join(TOOL_DIR, 'node_modules', 'redis')):
+        sudo('/data/project/cluebotng/node/bin/npm install redis')
+
 def _stop():
     '''
     Internal function, calls jstop on the grid jobs
@@ -117,14 +124,10 @@ def _start():
     '''
     Internal function, calls jstart on the grid job jobs
     '''
-    sudo(
-        'jstart -N cbng_bot   -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_bot.sh &> /dev/null | true' % TOOL_DIR)
-    sudo(
-        'jstart -N cbng_relay -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_relay.sh &> /dev/null | true' % TOOL_DIR)
-    sudo(
-        'jstart -N cbng_redis -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_redis.sh &> /dev/null | true' % TOOL_DIR)
-    sudo(
-        'jstart -N cbng_core  -e /dev/null -o /dev/null -mem 6G %s/apps/core/current/run.sh &> /dev/null | true' % TOOL_DIR)
+    sudo('jstart -N cbng_bot   -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_bot.sh &> /dev/null | true' % TOOL_DIR)
+    sudo('jstart -N cbng_relay -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_relay.sh &> /dev/null | true' % TOOL_DIR)
+    sudo('jstart -N cbng_redis -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_redis.sh &> /dev/null | true' % TOOL_DIR)
+    sudo('jstart -N cbng_core  -e /dev/null -o /dev/null -mem 6G %s/apps/core/current/run.sh &> /dev/null | true' % TOOL_DIR)
     sudo('webservice restart')
 
 
