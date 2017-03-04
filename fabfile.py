@@ -91,7 +91,7 @@ def _setup():
 
     sudo('ln -sf %(release)s %(current)s' % {
         'release': os.path.join(TOOL_DIR, 'apps', 'report_interface'),
-        'current': os.path.join(TOOL_DIR, 'public_html'),
+        'current': os.path.join(TOOL_DIR, 'public_html').rstrip('/'),
     })
 
 
