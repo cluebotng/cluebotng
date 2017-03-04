@@ -95,6 +95,13 @@ def _setup():
     })
 
 
+    if not files.exists(os.path.join(TOOL_DIR, 'node')):
+        print('Installing node')
+        sudo('wget https://nodejs.org/dist/v6.10.0/node-v6.10.0-linux-x64.tar.xz')
+        sudo('tar -xvf node-v6.10.0-linux-x64.tar.xz')
+        sudo('rm -f node-v6.10.0-linux-x64.tar.xz')
+        sudo('mv node-v6.10.0-linux-x64 node')
+
 def _stop():
     '''
     Internal function, calls jstop on the grid jobs
