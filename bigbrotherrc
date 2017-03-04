@@ -1,4 +1,3 @@
 jstart -l release=precise -N cbng_bot   -e /dev/null -o /dev/null -mem 6G /data/project/cluebotng/apps/bot/bin/run_bot.sh &> /dev/null
 jstart -l release=precise -N cbng_relay -e /dev/null -o /dev/null -mem 6G /data/project/cluebotng/apps/bot/bin/run_relay.sh &> /dev/null
-jstart -l release=precise -N cbng_redis -e /dev/null -o /dev/null -mem 6G /data/project/cluebotng/apps/bot/bin/run_redis.sh &> /dev/null
 jstart -l release=precise -N cbng_core  -e /dev/null -o /dev/null -mem 6G /data/project/cluebotng/apps/bot/bin/run_core.sh &> /dev/null

@@ -102,12 +102,9 @@ def _setup():
         sudo('rm -f node-v6.10.0-linux-x64.tar.xz')
         sudo('mv node-v6.10.0-linux-x64 node')
 
-    if not files.exists(os.path.join(TOOL_DIR, 'node_modules', 'redis')):
+    if not files.exists(os.path.join(TOOL_DIR, 'node_modules', 'irc')):
         sudo('/data/project/cluebotng/node/bin/npm install irc')
 
-
-    if not files.exists(os.path.join(TOOL_DIR, 'node_modules', 'redis')):
-        sudo('/data/project/cluebotng/node/bin/npm install redis')
 
 def _stop():
     '''
@@ -116,7 +113,6 @@ def _stop():
     sudo('jstop cbng_bot | true')
     sudo('jstop cbng_core | true')
     sudo('jstop cbng_relay | true')
-    sudo('jstop cbng_redis | true')
 
 
 def _start():
@@ -125,7 +121,6 @@ def _start():
     '''
     sudo('jstart -N cbng_bot   -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_bot.sh &> /dev/null | true' % TOOL_DIR)
     sudo('jstart -N cbng_relay -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_relay.sh &> /dev/null | true' % TOOL_DIR)
-    sudo('jstart -N cbng_redis -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_redis.sh &> /dev/null | true' % TOOL_DIR)
     sudo('jstart -N cbng_core  -e /dev/null -o /dev/null -mem 6G %s/apps/core/current/run.sh &> /dev/null | true' % TOOL_DIR)
     sudo('webservice start | true')
 
