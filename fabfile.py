@@ -117,7 +117,6 @@ def _stop():
     sudo('jstop cbng_core | true')
     sudo('jstop cbng_relay | true')
     sudo('jstop cbng_redis | true')
-    sudo('webservice stop | true')
 
 
 def _start():
@@ -128,7 +127,7 @@ def _start():
     sudo('jstart -N cbng_relay -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_relay.sh &> /dev/null | true' % TOOL_DIR)
     sudo('jstart -N cbng_redis -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_redis.sh &> /dev/null | true' % TOOL_DIR)
     sudo('jstart -N cbng_core  -e /dev/null -o /dev/null -mem 6G %s/apps/core/current/run.sh &> /dev/null | true' % TOOL_DIR)
-    sudo('webservice restart')
+    sudo('webservice start | true')
 
 
 def _update_utils():
