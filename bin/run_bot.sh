@@ -7,6 +7,7 @@ then
 fi
 if [ "$(whoami)" == "tools.cluebotng" ];
 then
+    cd /data/project/cluebotng/apps/bot
     mysql --defaults-file="${HOME}"/replica.my.cnf -h tools-db -A s52585__cb -e 'replace into `cluster_node` values ("'$(hostname -f | sed 's/[^A-Za-z0-9\._\-]+//g')'", "bot")'
 fi
 exec /usr/bin/php -f $DIR/bot/cluebot-ng.php
