@@ -7,10 +7,6 @@ then
 fi
 if [ "$(whoami)" == "tools.cluebotng" ];
 then
-    mysql --defaults-file="${HOME}"/replica.my.cnf -h tools-db -A s52585__interface -e 'replace into `cbng_backend_clusternode` values ("'$(hostname -f | sed 's/[^A-Za-z0-9\._\-]+//g')'", "relay")'
-fi
-if [ "$(whoami)" == "tools.cluebotng-staging" ];
-then
-    mysql --defaults-file="${HOME}"/replica.my.cnf -h tools.labsdb -A s53115__interface -e 'replace into `cbng_backend_clusternode` values ("'$(hostname -f | sed 's/[^A-Za-z0-9\._\-]+//g')'", "relay")'
+    mysql --defaults-file="${HOME}"/replica.my.cnf -h tools-db -A s52585__db -e 'replace into `cbng_backend_clusternode` values ("'$(hostname -f | sed 's/[^A-Za-z0-9\._\-]+//g')'", "relay")'
 fi
 exec /data/project/cluebot/node/bin/node relay_irc.js
