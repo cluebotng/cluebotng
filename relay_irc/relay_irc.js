@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 var irc = require('irc');
 var dgram = require("dgram");
+var sent_extra = false;
 
 var relay1 = dgram.createSocket("udp4");
 var relay2 = dgram.createSocket("udp4");
@@ -67,12 +68,21 @@ relay3.on('message', function(data, info) {
 });
 
 client.addListener('error', function(message) {
+	if (!sent_extra) {
+		for (var i = 0; i < config.extra.length; i++) {
+			client.conn.write(config.extra[i] + "\r\n")
+		}
+		sent_extra = true;
+	}
 	console.error('ERROR: %s: %s', message.command, message.args.join(' '));
 });
 
 client.addListener('motd', function(motd) {
-	for ( var i = 0; i < config.extra.length; i++ ) {
-		client.conn.write( config.extra[i] + "\r\n" )
+	if (!sent_extra) {
+		for (var i = 0; i < config.extra.length; i++) {
+			client.conn.write(config.extra[i] + "\r\n")
+		}
+		sent_extra = true;
 	}
 });
 
