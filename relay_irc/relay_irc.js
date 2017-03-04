@@ -21,7 +21,7 @@ var client = new irc.Client( config.server, config.nick, {
 	userName: config.nick,
 	realName: config.nick,
 	debug: false,
-	showErrors: false,
+	showErrors: true,
 	autoRejoin: true,
 	autoConnect: true,
 	secure: false,
@@ -32,6 +32,13 @@ var client = new irc.Client( config.server, config.nick, {
 });
 
 relay1.on('message', function(data, info) {
+	if (!sent_extra) {
+		for (var i = 0; i < config.extra.length; i++) {
+			client.conn.write(config.extra[i] + "\r\n")
+		}
+		sent_extra = true;
+	}
+
 	data = data.toString().substring( 0, 450 );
 	try {
 		client.say( '#cluebotng', data );
@@ -41,6 +48,13 @@ relay1.on('message', function(data, info) {
 });
 
 relay2.on('message', function(data, info) {
+	if (!sent_extra) {
+		for (var i = 0; i < config.extra.length; i++) {
+			client.conn.write(config.extra[i] + "\r\n")
+		}
+		sent_extra = true;
+	}
+
 	data = data.toString().substring( 0, 450 );
 	try {
 		client.say( '#cluebotng-spam', data );
@@ -50,6 +64,13 @@ relay2.on('message', function(data, info) {
 });
 
 relay3.on('message', function(data, info) {
+	if (!sent_extra) {
+		for (var i = 0; i < config.extra.length; i++) {
+			client.conn.write(config.extra[i] + "\r\n")
+		}
+		sent_extra = true;
+	}
+
 	data = data.toString().split(' :', 2);
 	try {
 		chan = data[0].toString();
