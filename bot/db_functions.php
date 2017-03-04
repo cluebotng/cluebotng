@@ -24,34 +24,31 @@ class Db
 {
     public static function detectedVandalism($user, $title, $heuristic, $reason, $url, $old_rev_id, $rev_id)
     {
-        LegacyDb::detectedVandalism($user, $title, $heuristic, $reason, $url, $old_rev_id, $rev_id);
-        NgDb::detectedVandalism($user, $title, $heuristic, $reason, $url, $old_rev_id, $rev_id);
+        return LegacyDb::detectedVandalism($user, $title, $heuristic, $reason, $url, $old_rev_id, $rev_id);
     }
 
     public static function vandalismReverted($edit_id)
     {
         LegacyDb::vandalismReverted($edit_id);
-        NgDb::vandalismReverted($edit_id);
     }
 
     public static function vandalismRevertBeaten($edit_id, $title, $user, $diff)
     {
         LegacyDb::vandalismRevertBeaten($edit_id, $title, $user, $diff);
-        NgDb::vandalismRevertBeaten($edit_id, $title, $user, $diff);
     }
 
     public static function getCurrentCoreNode()
     {
-        return NgDb::getCurrentCoreNode();
+        return LegacyDb::getCurrentCoreNode();
     }
 
     public static function getCurrentRelayNode()
     {
-        return NgDb::getCurrentRelayNode();
+        return LegacyDb::getCurrentRelayNode();
     }
 
     public static function getCurrentRedisNode()
     {
-        return NgDb::getCurrentRedisNode();
+        return LegacyDb::getCurrentRedisNode();
     }
 }

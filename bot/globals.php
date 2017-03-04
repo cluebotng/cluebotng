@@ -28,7 +28,7 @@ class Globals
     public static $aoptin;
     public static $legacy_mysql;
     public static $mw_mysql;
-    public static $ng_mysql;
+    public static $cb_mysql;
     public static $run;
     public static $wl;
     public static $optin;
