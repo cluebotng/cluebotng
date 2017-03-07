@@ -1,5 +1,7 @@
 # Backups
-45 */2 * * *  /usr/bin/jsub -l release=precise -N cron-tools.database_backup -e $HOME/logs/cron.err -o $HOME/logs/cron.out -once -quiet "$HOME/apps/utils/database_backup.sh" &> /dev/null
-45 */2 * * *  /usr/bin/jsub -l release=precise -N cron-tools.prune_database_backups -e $HOME/logs/cron.err -o $HOME/logs/cron.out -once -quiet "$HOME/apps/utils/prune_database_backups.sh" &> /dev/null
+45 */2 * * *  /usr/bin/jsub -l release=trusty -N cron-tools.database_backup -e $HOME/logs/cron.err -o $HOME/logs/cron.out -once -quiet "$HOME/apps/utils/database_backup.sh" &> /dev/null
+45 */2 * * *  /usr/bin/jsub -l release=trusty -N cron-tools.prune_database_backups -e $HOME/logs/cron.err -o $HOME/logs/cron.out -once -quiet "$HOME/apps/utils/prune_database_backups.sh" &> /dev/null
+
+*/5 * * * * jstart -l release=trusty -N cbng_bot -e /dev/null -o /dev/null -mem 6G /data/project/cluebotng/apps/bot/bin/run_bot.sh &> /dev/null
 
 # This needs to end in a new line..
