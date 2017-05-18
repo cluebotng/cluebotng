@@ -1,3 +1,3 @@
 jstart -N cbng_bot   -l release=trusty -e /dev/null -o /dev/null -mem 6G /data/project/cluebotng/apps/bot/bin/run_bot.sh &> /dev/null
 jstart -N cbng_relay -l release=trusty -e /dev/null -o /dev/null -mem 6G /data/project/cluebotng/apps/bot/bin/run_relay.sh &> /dev/null
-jstart -N cbng_core  -l release=trusty -e /dev/null -o /dev/null -mem 6G /data/project/cluebotng/apps/bot/bin/run_core.sh &> /dev/null
+jstart -N cbng_core  -l release=trusty -e /dev/null -o /dev/null -mem 6G /data/project/cluebotng/apps/core/current/run.sh &> /dev/null
