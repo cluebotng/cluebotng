@@ -1,7 +1,6 @@
-FROM debian:latest
+FROM debian:8
 ADD src/ /usr/src/cbng-core
 ADD data/ /usr/src/cbng-data
-RUN apt-get clean
 RUN apt-get update
 
 # Deps
