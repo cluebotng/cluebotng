@@ -98,13 +98,6 @@ class Process
             }
         }
         $oftVand[$change['title']][] = time();
-        if (count($oftVand[$change['title']]) >= 30) {
-            IRC::say(
-                'reportchannel',
-                '!admin [[' . $change['title'] . ']] has been vandalized ' .
-                (count($oftVand[$change['title']])) . ' times in the last 2 days.'
-            );
-        }
         file_put_contents('oftenvandalized.txt', serialize($oftVand));
         $ircreport = "\x0315[[\x0307" . $change['title'] . "\x0315]] by \"\x0303" . $change['user'] .
             "\x0315\" (\x0312 " . $change['url'] . " \x0315) \x0306" . $s . "\x0315 (";
@@ -124,12 +117,6 @@ class Process
             $rbret = Action::doRevert($change);
             if ($rbret !== false) {
                 $change['edit_status'] = 'reverted';
-                RedisProxy::send($change);
-                IRC::say(
-                    'debugchannel',
-                    $ircreport . "\x0304Reverted\x0315) (\x0313" . $revertReason .
-                    "\x0315) (\x0302" . (microtime(true) - $change['startTime']) . " \x0315s)"
-                );
                 Action::doWarn($change, $report);
                 Db::vandalismReverted($change['mysqlid']);
                 Feed::bail($change, $revertReason, $s, true);
@@ -137,23 +124,11 @@ class Process
                 $change['edit_status'] = 'beaten';
                 $rv2 = Api::$a->revisions($change['title'], 1);
                 if ($change['user'] != $rv2[0]['user']) {
-                    RedisProxy::send($change);
-                    IRC::say(
-                        'debugchannel',
-                        $ircreport . "\x0303Not Reverted\x0315) (\x0313Beaten by " .
-                        $rv2[0]['user'] . "\x0315) (\x0302" . (microtime(true) - $change['startTime']) . " \x0315s)"
-                    );
                     Db::vandalismRevertBeaten($change['mysqlid'], $change['title'], $rv2[0]['user'], $change['url']);
                     Feed::bail($change, 'Beaten by ' . $rv2[0]['user'], $s);
                 }
             }
         } else {
-            RedisProxy::send($change);
-            IRC::say(
-                'debugchannel',
-                $ircreport . "\x0303Not Reverted\x0315) (\x0313" . $revertReason .
-                "\x0315) (\x0302" . (microtime(true) - $change['startTime']) . " \x0315s)"
-            );
             Feed::bail($change, $revertReason, $s);
         }
     }

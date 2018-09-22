@@ -107,17 +107,6 @@ class Feed
                                 $stalkchannel = array_merge($stalkchannel, explode(',', $value));
                             }
                         }
-                        $stalkchannel = array_unique($stalkchannel);
-                        foreach ($stalkchannel as $chan) {
-                            IRC::say(
-                                $chan,
-                                'New edit: [[' . ($data['namespace'] == 'Main:' ? '' : $data['namespace']) .
-                                $data['title'] . ']] https://en.wikipedia.org/w/index.php?title=' .
-                                urlencode($data['namespace'] . $data['title']) . '&diff=prev&oldid=' .
-                                urlencode($data['revid']) . ' * ' . $data['user'] .
-                                ' * ' . $data['comment']
-                            );
-                        }
                         switch ($data['namespace'] . $data['title']) {
                             case 'User:' . Config::$user . '/Run':
                                 Globals::$run = Api::$q->getpage('User:' . Config::$user . '/Run');
@@ -157,7 +146,6 @@ class Feed
         $rchange = $change;
         $rchange['edit_reason'] = $why;
         $rchange['edit_score'] = $score;
-        RedisProxy::send($rchange);
 
         if (!in_array('raw_line', $change)) {
             return;

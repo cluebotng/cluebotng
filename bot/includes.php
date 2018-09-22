@@ -27,11 +27,9 @@ $logger = new \Monolog\Logger('cluebotng');
 $logger->pushHandler(new \Monolog\Handler\RotatingFileHandler(getenv('HOME').'/logs/cluebotng.log', 2, \Monolog\Logger::INFO, true, 0600, false));
 
 require_once 'cluebot-ng.config.php';
-require_once 'redis_functions.php';
 require_once 'action_functions.php';
 require_once 'cbng.php';
 require_once 'feed_functions.php';
-require_once 'irc_functions.php';
 require_once 'mysql_functions.php';
 require_once 'wikipedia_query.classes.php';
 require_once 'wikipedia_api.classes.php';
