@@ -138,7 +138,7 @@ class Feed
             }
         }
 
-        if ($wlTimer >= time()-3600) {
+        if ($wlTimer-3600 >= time()) {
             $logger->addInfo('Reloading huggle whitelist on timer');
             $wlTimer = time();
             loadHuggleWhitelist();
