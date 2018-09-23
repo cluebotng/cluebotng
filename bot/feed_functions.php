@@ -26,7 +26,6 @@ class Feed
     public static $port = 6667;
     public static $channel = '#en.wikipedia';
     private static $fd;
-    private $wlTimer = time();
 
     public static function connectLoop()
     {
@@ -56,6 +55,7 @@ class Feed
     private static function loop($line)
     {
         global $logger;
+        $wlTimer = time();
         $d = IRC::split($line);
         if ($d === null) {
             return;
@@ -138,9 +138,9 @@ class Feed
             }
         }
 
-        if ($this->wlTimer >= time()-3600) {
+        if ($wlTimer >= time()-3600) {
             $logger->addInfo('Reloading huggle whitelist on timer');
-            $this->wlTimer = time();
+            $wlTimer = time();
             loadHuggleWhitelist();
         }
     }
