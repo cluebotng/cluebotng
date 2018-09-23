@@ -34,8 +34,12 @@ function myfnmatch($pattern, $string)
 }
 
 function loadHuggleWhitelist() {
+    global $logger;
     if(($hgWLRaw = file_get_contents('https://huggle-wl.wmflabs.org/?action=read&wp=en.wikipedia.org')) != null) {
+        $logger->addInfo('Loading huggle whitelist');
         Globals::$wl = array_slice(explode('|', $hgWLRaw), 0, -1);
+    } else {
+      $logger->addWarning('Failed to load huggle whitelist');
     }
 }
 
