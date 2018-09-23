@@ -44,7 +44,12 @@ function doInit()
     Globals::$tfas = 0;
     Globals::$stdin = fopen('php://stdin', 'r');
     Globals::$run = Api::$q->getpage('User:' . Config::$user . '/Run');
-    Globals::$wl = Api::$q->getpage('Wikipedia:Huggle/Whitelist');
+	$hgWLRaw = file_get_contents('http://huggle-wl.wmflabs.org/?action=read&wp=en.wikipedia.org');
+	if ($hgWLRaw != null) {
+		$hgWL = explode('|', $hgWLRaw);
+	}
+	Globals::$wl = $hgWL;
+    //Globals::$wl = Api::$q->getpage('Wikipedia:Huggle/Whitelist');
     Globals::$optin = Api::$q->getpage('User:' . Config::$user . '/Optin');
     Globals::$aoptin = Api::$q->getpage('User:' . Config::$user . '/AngryOptin');
     Globals::$stalk = array();
