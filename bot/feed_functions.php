@@ -26,6 +26,7 @@ class Feed
     public static $port = 6667;
     public static $channel = '#en.wikipedia';
     private static $fd;
+    private $wlTimer = time();
 
     public static function connectLoop()
     {
@@ -111,9 +112,6 @@ class Feed
                             case 'User:' . Config::$user . '/Run':
                                 Globals::$run = Api::$q->getpage('User:' . Config::$user . '/Run');
                                 break;
-                            case 'Wikipedia:Huggle/Whitelist':
-                                Globals::$wl = Api::$q->getpage('Wikipedia:Huggle/Whitelist');
-                                break;
                             case 'User:' . Config::$user . '/Optin':
                                 Globals::$optin = Api::$q->getpage('User:' . Config::$user . '/Optin');
                                 break;
@@ -138,6 +136,12 @@ class Feed
                     }
                     break;
             }
+        }
+
+        if ($this->wlTimer >= time()-3600) {
+            $logger->addInfo('Reloading huggle whitelist on timer');
+            $this->wlTimer = time();
+            loadHuggleWhitelist();
         }
     }
 

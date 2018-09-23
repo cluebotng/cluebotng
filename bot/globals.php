@@ -30,7 +30,7 @@ class Globals
     public static $mw_mysql;
     public static $cb_mysql;
     public static $run;
-    public static $wl;
+    public static $wl = array();
     public static $optin;
     public static $edit;
     public static $stalk;
