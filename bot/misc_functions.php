@@ -33,6 +33,16 @@ function myfnmatch($pattern, $string)
     }
 }
 
+function loadHuggleWhitelist() {
+    global $logger;
+    if(($hgWLRaw = file_get_contents('https://huggle-wl.wmflabs.org/?action=read&wp=en.wikipedia.org')) != null) {
+        Globals::$wl = array_slice(explode('|', $hgWLRaw), 0, -1);
+        $logger->addInfo('Loaded huggle whitelist (' . count(Globals::$wl) . ')');
+    } else {
+      $logger->addWarning('Failed to load huggle whitelist');
+    }
+}
+
 function doInit()
 {
     global $logger;
@@ -44,14 +54,9 @@ function doInit()
     Globals::$tfas = 0;
     Globals::$stdin = fopen('php://stdin', 'r');
     Globals::$run = Api::$q->getpage('User:' . Config::$user . '/Run');
-	$hgWLRaw = file_get_contents('http://huggle-wl.wmflabs.org/?action=read&wp=en.wikipedia.org');
-	if ($hgWLRaw != null) {
-		$hgWL = explode('|', $hgWLRaw);
-	}
-	Globals::$wl = $hgWL;
-    //Globals::$wl = Api::$q->getpage('Wikipedia:Huggle/Whitelist');
     Globals::$optin = Api::$q->getpage('User:' . Config::$user . '/Optin');
     Globals::$aoptin = Api::$q->getpage('User:' . Config::$user . '/AngryOptin');
+    loadHuggleWhitelist();
     Globals::$stalk = array();
     Globals::$edit = array();
     $tmp = explode("\n", Api::$q->getpage('User:' . Config::$owner . '/CBAutostalk.js'));

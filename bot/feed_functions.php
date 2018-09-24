@@ -55,6 +55,7 @@ class Feed
     private static function loop($line)
     {
         global $logger;
+        $wlTimer = time();
         $d = IRC::split($line);
         if ($d === null) {
             return;
@@ -111,9 +112,6 @@ class Feed
                             case 'User:' . Config::$user . '/Run':
                                 Globals::$run = Api::$q->getpage('User:' . Config::$user . '/Run');
                                 break;
-                            case 'Wikipedia:Huggle/Whitelist':
-                                Globals::$wl = Api::$q->getpage('Wikipedia:Huggle/Whitelist');
-                                break;
                             case 'User:' . Config::$user . '/Optin':
                                 Globals::$optin = Api::$q->getpage('User:' . Config::$user . '/Optin');
                                 break;
@@ -138,6 +136,12 @@ class Feed
                     }
                     break;
             }
+        }
+
+        if ($wlTimer-3600 >= time()) {
+            $logger->addInfo('Reloading huggle whitelist on timer');
+            $wlTimer = time();
+            loadHuggleWhitelist();
         }
     }
 
