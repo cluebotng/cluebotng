@@ -143,11 +143,11 @@ class Action
         $rbret = Api::$a->rollback(
             $change['title'],
             $change['user'],
-			'Edit by [[Special:Contribs/' . $change['user'] . '|' . $change['user'] . ']] has been reverted by [[WP:CBNG|' . Config::$user . ']] due to possible noncompliance with Wikipedia guidelines. [[WP:CBFP|Report False Positive?]] (' . $change['mysqlid'] .') (Bot)'
-            /*'Reverting possible vandalism by [[Special:Contribs/' . $change['user'] . '|' . $change['user'] . ']] ' .
+			/*'Edit by [[Special:Contribs/' . $change['user'] . '|' . $change['user'] . ']] has been reverted by [[WP:CBNG|' . Config::$user . ']] due to possible noncompliance with Wikipedia guidelines. [[WP:CBFP|Report False Positive?]] (' . $change['mysqlid'] .') (Bot)'*/
+            'Reverting possible vandalism by [[Special:Contribs/' . $change['user'] . '|' . $change['user'] . ']] ' .
             'to ' . (($revid == 0) ? 'older version' : 'version by ' . $revdata['user']) . '. ' .
             '[[WP:CBFP|Report False Positive?]] ' .
-            'Thanks, [[WP:CBNG|' . Config::$user . ']]. (' . $change['mysqlid'] . ') (Bot)'*/,
+            'Thanks, [[WP:CBNG|' . Config::$user . ']]. (' . $change['mysqlid'] . ') (Bot)',
             $rbtok
         );
 
