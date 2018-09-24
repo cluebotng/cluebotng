@@ -63,9 +63,13 @@ class Process
         } else {
             $change['edit_score'] = $s;
         }
-        if (!in_array('all', $change) || !isVandalism($change['all'], $s)) {
-            Feed::bail($change, 'Below threshold', $s);
+        if (!in_array('all', $change)) {
+            Feed::bail($change, 'Missing edit data', $s);
+            return;
+        }
 
+        if (!isVandalism($change['all'], $s)) {
+            Feed::bail($change, 'Below threshold', $s);
             return;
         }
 
