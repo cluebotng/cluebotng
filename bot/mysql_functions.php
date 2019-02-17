@@ -29,7 +29,7 @@ function is_mysql_alive($con)
 function checkLegacyMySQL()
 {
     if (!Globals::$legacy_mysql || !is_mysql_alive(Globals::$legacy_mysql)) {
-        Globals::$legacy_mysql = @mysqli_connect(
+        Globals::$legacy_mysql = mysqli_connect(
             'p:' . Config::$legacy_mysql_host,
             Config::$legacy_mysql_user,
             Config::$legacy_mysql_pass,
@@ -47,7 +47,7 @@ function checkLegacyMySQL()
 function checkMySQL()
 {
     if (!Globals::$cb_mysql || !is_mysql_alive(Globals::$cb_mysql)) {
-        Globals::$cb_mysql = @mysqli_connect(
+        Globals::$cb_mysql = mysqli_connect(
             'p:' . Config::$cb_mysql_host,
             Config::$cb_mysql_user,
             Config::$cb_mysql_pass,
@@ -72,7 +72,7 @@ function checkRepMySQL()
             Config::$mw_mysql_port
 
         );
-        if (!Globals::$cb_mysql) {
+        if (!Globals::$mw_mysql) {
             die('replica mysql error: ' . mysqli_connect_error());
         }
         mysqli_select_db(Globals::$mw_mysql, Config::$mw_mysql_db);
