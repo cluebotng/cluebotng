@@ -27,6 +27,7 @@ class Feed
     public static $port = 6667;
     public static $channel = '#en.wikipedia';
     private static $fd;
+    public $wlTimer;
 
     public static function connectLoop()
     {
@@ -56,7 +57,6 @@ class Feed
     private static function loop($line)
     {
         global $logger;
-        $wlTimer = time();
         $d = IRC::split($line);
         if ($d === null) {
             return;
@@ -86,7 +86,6 @@ class Feed
                         $data['rawline'] = $rawmessage;
                         if (stripos('N', $data['flags']) !== false) {
                             self::bail($data, 'New article');
-
                             return;
                         }
                         $stalkchannel = array();
@@ -129,7 +128,6 @@ class Feed
                             )
                         ) {
                             self::bail($data, 'Outside of valid namespaces');
-
                             return;
                         }
                         $logger->addInfo('Processing: ' . $message);
@@ -139,9 +137,9 @@ class Feed
             }
         }
 
-        if ($wlTimer + 3600 <= time()) {
+        if (!Feed::$wlTimer || Feed::$wlTimer + 3600 <= time()) {
             $logger->addInfo('Reloading huggle whitelist on timer');
-            $wlTimer = time();
+            Feed::$wlTimer = time();
             loadHuggleWhitelist();
         }
     }
