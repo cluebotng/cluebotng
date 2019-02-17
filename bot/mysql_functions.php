@@ -34,7 +34,7 @@ function checkMySQL()
             Config::$cb_mysql_user,
             Config::$cb_mysql_pass,
             Config::$cb_mysql_db,
-            Config::$cbmysql_port
+            Config::$cb_mysql_port
         );
         if (!Globals::$cb_mysql) {
             die('cb mysql error: ' . mysqli_connect_error());
