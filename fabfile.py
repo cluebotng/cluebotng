@@ -12,7 +12,7 @@ UI_REPO_URL = 'https://github.com/DamianZaremba/cluebotng-report'
 CORE_RELEASE = 'c4f402a'
 TOOL_DIR = '/data/project/cluebotng/'
 env.sudo_user = 'tools.cluebotng'
-env.hosts = ['tools-login.wmflabs.org']
+env.hosts = ['login-stretch.tools.wmflabs.org']
 env.use_ssh_config = True
 env.sudo_prefix = "/usr/bin/sudo -ni"
 
