@@ -205,22 +205,22 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
     }
     if ($data['common']['page_made_time']) {
         $data['common']['page_made_time'] = gmmktime(
-            substr($data['common']['page_made_time'], 8, 2),
-            substr($data['common']['page_made_time'], 10, 2),
-            substr($data['common']['page_made_time'], 12, 2),
-            substr($data['common']['page_made_time'], 4, 2),
-            substr($data['common']['page_made_time'], 6, 2),
-            substr($data['common']['page_made_time'], 0, 4)
+            (int)substr($data['common']['page_made_time'], 8, 2),
+            (int)substr($data['common']['page_made_time'], 10, 2),
+            (int)substr($data['common']['page_made_time'], 12, 2),
+            (int)substr($data['common']['page_made_time'], 4, 2),
+            (int)substr($data['common']['page_made_time'], 6, 2),
+            (int)substr($data['common']['page_made_time'], 0, 4)
         );
     }
     if ($data['user_reg_time']) {
         $data['user_reg_time'] = gmmktime(
-            substr($data['user_reg_time'], 8, 2),
-            substr($data['user_reg_time'], 10, 2),
-            substr($data['user_reg_time'], 12, 2),
-            substr($data['user_reg_time'], 4, 2),
-            substr($data['user_reg_time'], 6, 2),
-            substr($data['user_reg_time'], 0, 4)
+            (int)substr($data['user_reg_time'], 8, 2),
+            (int)substr($data['user_reg_time'], 10, 2),
+            (int)substr($data['user_reg_time'], 12, 2),
+            (int)substr($data['user_reg_time'], 4, 2),
+            (int)substr($data['user_reg_time'], 6, 2),
+            (int)substr($data['user_reg_time'], 0, 4)
         );
     }
 
