@@ -31,47 +31,47 @@ class Db
     // Returns the edit it for the vandalism
     public static function detectedVandalism($user, $title, $heuristic, $reason, $url, $old_rev_id, $rev_id)
     {
-        checkLegacyMySQL();
+        checkMySQL();
         $query = 'INSERT INTO `vandalism` ' .
             '(`id`,`user`,`article`,`heuristic`,`reason`,`diff`,`old_id`,`new_id`,`reverted`) ' .
             'VALUES ' .
-            '(NULL,\'' . mysqli_real_escape_string(Globals::$legacy_mysql, $user) . '\',' .
-            '\'' . mysqli_real_escape_string(Globals::$legacy_mysql, $title) . '\',' .
-            '\'' . mysqli_real_escape_string(Globals::$legacy_mysql, $heuristic) . '\',' .
-            '\'' . mysqli_real_escape_string(Globals::$legacy_mysql, $reason) . '\',' .
-            '\'' . mysqli_real_escape_string(Globals::$legacy_mysql, $url) . '\',' .
-            '\'' . mysqli_real_escape_string(Globals::$legacy_mysql, $old_rev_id) . '\',' .
-            '\'' . mysqli_real_escape_string(Globals::$legacy_mysql, $rev_id) . '\',0)';
-        mysqli_query(Globals::$legacy_mysql, $query);
+            '(NULL,\'' . mysqli_real_escape_string(Globals::$cb_mysql, $user) . '\',' .
+            '\'' . mysqli_real_escape_string(Globals::$cb_mysql, $title) . '\',' .
+            '\'' . mysqli_real_escape_string(Globals::$cb_mysql, $heuristic) . '\',' .
+            '\'' . mysqli_real_escape_string(Globals::$cb_mysql, $reason) . '\',' .
+            '\'' . mysqli_real_escape_string(Globals::$cb_mysql, $url) . '\',' .
+            '\'' . mysqli_real_escape_string(Globals::$cb_mysql, $old_rev_id) . '\',' .
+            '\'' . mysqli_real_escape_string(Globals::$cb_mysql, $rev_id) . '\',0)';
+        mysqli_query(Globals::$cb_mysql, $query);
 
-        return mysqli_insert_id(Globals::$legacy_mysql);
+        return mysqli_insert_id(Globals::$cb_mysql);
     }
 
     // Returns nothing
     public static function vandalismReverted($edit_id)
     {
-        checkLegacyMySQL();
+        checkMySQL();
         mysqli_query(
-            Globals::$legacy_mysql,
-            'UPDATE `vandalism` SET `reverted` = 1 WHERE `id` = \'' . mysqli_real_escape_string(Globals::$legacy_mysql, $edit_id) . '\''
+            Globals::$cb_mysql,
+            'UPDATE `vandalism` SET `reverted` = 1 WHERE `id` = \'' . mysqli_real_escape_string(Globals::$cb_mysql, $edit_id) . '\''
         );
     }
 
     // Returns nothing
     public static function vandalismRevertBeaten($edit_id, $title, $user, $diff)
     {
-        checkLegacyMySQL();
+        checkMySQL();
         mysqli_query(
-            Globals::$legacy_mysql,
+            Globals::$cb_mysql,
             'UPDATE `vandalism` SET `reverted` = 0 WHERE `id` = \'' .
-            mysqli_real_escape_string(Globals::$legacy_mysql, $edit_id) . '\''
+            mysqli_real_escape_string(Globals::$cb_mysql, $edit_id) . '\''
         );
         mysqli_query(
-            Globals::$legacy_mysql,
+            Globals::$cb_mysql,
             'INSERT INTO `beaten` (`id`,`article`,`diff`,`user`) VALUES (NULL,\'' .
-            mysqli_real_escape_string(Globals::$legacy_mysql, $title) . '\',\'' .
-            mysqli_real_escape_string(Globals::$legacy_mysql, $diff) . '\',\'' .
-            mysqli_real_escape_string(Globals::$legacy_mysql, $user) . '\')'
+            mysqli_real_escape_string(Globals::$cb_mysql, $title) . '\',\'' .
+            mysqli_real_escape_string(Globals::$cb_mysql, $diff) . '\',\'' .
+            mysqli_real_escape_string(Globals::$cb_mysql, $user) . '\')'
         );
     }
 
@@ -82,9 +82,9 @@ class Db
             return self::$coreNode;
         }
 
-        checkLegacyMySQL();
+        checkMySQL();
         self::$coreNodeCache = time();
-        $res = mysqli_query(Globals::$legacy_mysql, 'SELECT `node` from `cluster_node` where type="core"');
+        $res = mysqli_query(Globals::$cb_mysql, 'SELECT `node` from `cluster_node` where type="core"');
         if ($res !== false) {
             $d = mysqli_fetch_assoc($res);
             self::$coreNode = $d['node'];
@@ -101,9 +101,9 @@ class Db
             return self::$relayNode;
         }
 
-        checkLegacyMySQL();
+        checkMySQL();
         self::$relayNodeCache = time();
-        $res = mysqli_query(Globals::$legacy_mysql, 'SELECT `node` from `cluster_node` where type="relay"');
+        $res = mysqli_query(Globals::$cb_mysql, 'SELECT `node` from `cluster_node` where type="relay"');
         if ($res !== false) {
             $d = mysqli_fetch_assoc($res);
             self::$relayNode = $d['node'];

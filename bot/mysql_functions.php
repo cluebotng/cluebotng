@@ -26,24 +26,6 @@ function is_mysql_alive($con)
     return ($con->errno == 2006);
 }
 
-function checkLegacyMySQL()
-{
-    if (!Globals::$legacy_mysql || !is_mysql_alive(Globals::$legacy_mysql)) {
-        Globals::$legacy_mysql = mysqli_connect(
-            'p:' . Config::$legacy_mysql_host,
-            Config::$legacy_mysql_user,
-            Config::$legacy_mysql_pass,
-            Config::$legacy_mysql_db,
-            Config::$legacy_mysql_port
-        );
-        if (!Globals::$legacy_mysql) {
-            die('legacy mysql error: ' . mysqli_connect_error());
-        }
-
-        mysqli_select_db(Globals::$legacy_mysql, Config::$legacy_mysql_db);
-    }
-}
-
 function checkMySQL()
 {
     if (!Globals::$cb_mysql || !is_mysql_alive(Globals::$cb_mysql)) {
