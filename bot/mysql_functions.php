@@ -22,8 +22,7 @@ namespace CluebotNG;
  */
 function is_mysql_alive($con)
 {
-    @mysqli_query($con, 'SELECT LAST_INSERT_ID()');
-    return ($con->errno == 2006);
+    return mysqli_query($con, 'SELECT LAST_INSERT_ID()');
 }
 
 function checkMySQL()
