@@ -36,6 +36,10 @@ function checkLegacyMySQL()
             Config::$legacy_mysql_db,
             Config::$legacy_mysql_port
         );
+        if (!Globals::$legacy_mysql) {
+            die('legacy mysql error: ' . mysqli_connect_error());
+        }
+
         mysqli_select_db(Globals::$legacy_mysql, Config::$legacy_mysql_db);
     }
 }
@@ -50,6 +54,9 @@ function checkMySQL()
             Config::$cb_mysql_db,
             Config::$cbmysql_port
         );
+        if (!Globals::$cb_mysql) {
+            die('cb mysql error: ' . mysqli_connect_error());
+        }
         mysqli_select_db(Globals::$cb_mysql, Config::$cb_mysql_db);
     }
 }
@@ -65,6 +72,9 @@ function checkRepMySQL()
             Config::$mw_mysql_port
 
         );
+        if (!Globals::$cb_mysql) {
+            die('replica mysql error: ' . mysqli_connect_error());
+        }
         mysqli_select_db(Globals::$mw_mysql, Config::$mw_mysql_db);
     }
 }
