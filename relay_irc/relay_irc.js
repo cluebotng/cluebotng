@@ -23,11 +23,13 @@ var client = new irc.Client( config.server, config.nick, {
 });
 
 relay.on('message', function(data, info) {
-    data = data.toString().split(':', 2);
     try {
+        data = data.toString().split(':');
         if (is_connected) {
-            var channelName = data.pop();
-            client.say( channelName.toString(), data.join(':').toString() );
+            var channelName = data.shift();
+            if (channelName.toString().startsWith('#')) {
+                client.say(channelName.toString(), data.join(':').toString());
+            }
         }
     } catch ( e ){
         console.error( e )
