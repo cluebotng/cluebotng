@@ -33,6 +33,8 @@ class Action
             } elseif ($warning < 5) {
                 /* Warn them if they haven't been warned 4 times. */
                 self::warn($change, $report, $tpcontent, $warning);
+            } else {
+                IRC::say("Skipping warning of '" . $change['user'] . "', current level: '" . $warning . "'");
             }
         }
     }
