@@ -27,7 +27,7 @@ class Feed
     public static $port = 6667;
     public static $channel = '#en.wikipedia';
     private static $fd;
-    public $wlTimer;
+    public static $wlTimer;
 
     public static function connectLoop()
     {
