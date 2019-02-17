@@ -78,38 +78,38 @@ class Db
     // Returns the hostname of the current core node
     public static function getCurrentCoreNode()
     {
-        if (LegacyDb::$coreNodeCache > time() - 10 && LegacyDb::$coreNode != null) {
-            return LegacyDb::$coreNode;
+        if (self::$coreNodeCache > time() - 10 && self::$coreNode != null) {
+            return self::$coreNode;
         }
 
         checkLegacyMySQL();
-        LegacyDb::$coreNodeCache = time();
+        self::$coreNodeCache = time();
         $res = mysqli_query(Globals::$legacy_mysql, 'SELECT `node` from `cluster_node` where type="core"');
         if ($res !== false) {
             $d = mysqli_fetch_assoc($res);
-            LegacyDb::$coreNode = $d['node'];
+            self::$coreNode = $d['node'];
             return $d['node'];
         }
-        LegacyDb::$coreNode = null;
+        self::$coreNode = null;
         return null;
     }
 
     // Returns the hostname of the current relay node
     public static function getCurrentRelayNode()
     {
-        if (LegacyDb::$relayNodeCache > time() - 10 && LegacyDb::$relayNode != null) {
-            return LegacyDb::$relayNode;
+        if (self::$relayNodeCache > time() - 10 && self::$relayNode != null) {
+            return self::$relayNode;
         }
 
         checkLegacyMySQL();
-        LegacyDb::$relayNodeCache = time();
+        self::$relayNodeCache = time();
         $res = mysqli_query(Globals::$legacy_mysql, 'SELECT `node` from `cluster_node` where type="relay"');
         if ($res !== false) {
             $d = mysqli_fetch_assoc($res);
-            LegacyDb::$relayNode = $d['node'];
+            self::$relayNode = $d['node'];
             return $d['node'];
         }
-        LegacyDb::$relayNode = null;
+        self::$relayNode = null;
         return null;
     }
 }
