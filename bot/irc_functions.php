@@ -105,7 +105,7 @@ class IRC
         self::$chans = $tmp;
     }
 
-    public static function say($message)
+    public static function debug($message)
     {
         global $logger;
         $relay_node = Db::getCurrentRelayNode();

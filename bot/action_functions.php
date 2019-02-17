@@ -34,7 +34,7 @@ class Action
                 /* Warn them if they haven't been warned 4 times. */
                 self::warn($change, $report, $tpcontent, $warning);
             } else {
-                IRC::say("Skipping warning of '" . $change['user'] . "', current level: '" . $warning . "'");
+                IRC::debug("Skipping warning of '" . $change['user'] . "', current level: '" . $warning . "'");
             }
         }
     }
@@ -197,7 +197,7 @@ class Action
             return array(true, 'Angry-reverting on TFA');
         }
         if (preg_match('/\* \[\[(' . preg_quote($change['title'], '/') . ')\]\] \- .*/i', Globals::$aoptin)) {
-            IRC::say('Angry-reverting [[' . $change['title'] . ']].');
+            IRC::debug('Angry-reverting [[' . $change['title'] . ']].');
 
             return array(true, 'Angry-reverting on angry-optin');
         }
