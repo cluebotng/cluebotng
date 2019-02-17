@@ -15,17 +15,18 @@ var client = new irc.Client( config.server, config.nick, {
     autoConnect: true,
     secure: false,
     channels: [
-        '#wikipedia-en-cbngfeed'
+        '#wikipedia-en-cbngfeed',
+        '#wikipedia-en-cbngdebug'
     ],
     floodProtection: true,
     floodProtectionDelay: 500
 });
 
 relay.on('message', function(data, info) {
-    data = data.toString().substring( 0, 450 );
+    data = data.toString().split(':', 2);
     try {
         if (is_connected) {
-            client.say( '#wikipedia-en-cbngfeed', data );
+            client.say( data[0].toString(), data[1].toString() );
         }
     } catch ( e ){
         console.error( e )

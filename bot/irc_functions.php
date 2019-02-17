@@ -104,4 +104,20 @@ class IRC
         }
         self::$chans = $tmp;
     }
+
+    public static function say($message)
+    {
+        global $logger;
+        $relay_node = Db::getCurrentRelayNode();
+        if(!isset($relay_node)) {
+            $logger->addError("Could not get relay node. Failed to send: " . $message);
+            return;
+        }
+        $logger->addInfo('Saying to  debug: ' . $message);
+        $udp = fsockopen('udp://' . $relay_node, 1338);
+        if($udp !== false) {
+            fwrite($udp, '#wikipedia-en-cbngdebug' . ':' . $message);
+            fclose($udp);
+        }
+    }
 }

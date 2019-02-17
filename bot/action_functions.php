@@ -35,11 +35,6 @@ class Action
                 self::warn($change, $report, $tpcontent, $warning);
             }
         }
-        IRC::say(
-            'vandalismchannel',
-            'rcbot bl add ' . $change['user'] . ' x=' . (24 * $warning) . ' r=Vandalism to [[' .
-            $change['title'] . ']] (#' . $warning . ').'
-        );
     }
 
     public static function getWarningLevel($user, &$content = null)
@@ -79,7 +74,6 @@ class Action
         $aivdata = Api::$q->getpage('Wikipedia:Administrator_intervention_against_vandalism/TB2');
         if (!preg_match('/' . preg_quote($change['user'], '/') . '/i', $aivdata)) {
             IRC::say(
-                'aivchannel',
                 '!admin Reporting [[User:' . $change['user'] .
                 ']] to [[WP:AIV]]. Contributions: [[Special:Contributions/' . $change['user'] .
                 ']] Block: [[Special:Blockip/' . $change['user'] . ']]'
@@ -201,7 +195,7 @@ class Action
             return array(true, 'Angry-reverting on TFA');
         }
         if (preg_match('/\* \[\[(' . preg_quote($change['title'], '/') . ')\]\] \- .*/i', Globals::$aoptin)) {
-            IRC::say('debugchannel', 'Angry-reverting [[' . $change['title'] . ']].');
+            IRC::say('Angry-reverting [[' . $change['title'] . ']].');
 
             return array(true, 'Angry-reverting on angry-optin');
         }
