@@ -26,7 +26,8 @@ relay.on('message', function(data, info) {
     data = data.toString().split(':', 2);
     try {
         if (is_connected) {
-            client.say( data[0].toString(), data[1].toString() );
+            var channelName = data.pop();
+            client.say( channelName.toString(), data.join(':').toString() );
         }
     } catch ( e ){
         console.error( e )
