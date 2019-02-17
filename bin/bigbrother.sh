@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $# -le 2 ]; then
+if [ $# -le 1 ]; then
   echo "Usage: $0 <jobname> <command>"
   exit 1
 fi
