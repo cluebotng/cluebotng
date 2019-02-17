@@ -24,7 +24,7 @@ namespace CluebotNG;
 date_default_timezone_set('Europe/London');
 include 'vendor/autoload.php';
 $logger = new \Monolog\Logger('cluebotng');
-$logger->pushHandler(new \Monolog\Handler\RotatingFileHandler(getenv('HOME').'/logs/cluebotng.log', 2, \Monolog\Logger::INFO, true, 0600, false));
+$logger->pushHandler(new \Monolog\Handler\RotatingFileHandler(getenv('HOME') . '/logs/cluebotng.log', 2, \Monolog\Logger::INFO, true, 0600, false));
 
 require_once 'cluebot-ng.config.php';
 require_once 'action_functions.php';

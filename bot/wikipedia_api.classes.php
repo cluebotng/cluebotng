@@ -1,4 +1,5 @@
 <?php
+
 namespace CluebotNG;
 
 /*
@@ -132,7 +133,8 @@ class WikipediaApi
         $start = null,
         $end = null,
         $dir = 'older'
-    ) {
+    )
+    {
         $append = '';
         if ($user != null) {
             $append .= '&leuser=' . urlencode($user);
@@ -396,7 +398,8 @@ class WikipediaApi
         $wpStarttime = null,
         $wpEdittime = null,
         $checkrun = true
-    ) {
+    )
+    {
         global $logger;
         $wpq = new WikipediaQuery();
         $wpq->queryurl = str_replace('api.php', 'query.php', $this->apiurl);
@@ -640,7 +643,8 @@ class WikipediaApi
         $getrbtok = false,
         $dieonerror = true,
         $redirects = false
-    ) {
+    )
+    {
         $x = $this->http->get(
             $this->apiurl . '?action=query&rawcontinue=1&prop=revisions&titles=' .
             urlencode($page) . '&rvlimit=' . urlencode($count) . '&rvprop=timestamp|ids|user|comment' .

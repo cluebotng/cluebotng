@@ -1,4 +1,5 @@
 <?php
+
 namespace CluebotNG;
 
 /*
@@ -103,7 +104,7 @@ class Http
         curl_setopt($this->ch, CURLOPT_HTTPGET, 1);
         $data = curl_exec($this->ch);
         $logger->addDebug('GET: ' . $url . ' (' . (microtime(true) - $time) . ' s) (' . strlen($data) . ' b) (' .
-                          curl_getinfo($this->ch, CURLINFO_HTTP_CODE) . " code)");
+            curl_getinfo($this->ch, CURLINFO_HTTP_CODE) . " code)");
         return $data;
     }
 

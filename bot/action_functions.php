@@ -1,4 +1,5 @@
 <?php
+
 namespace CluebotNG;
 
 /*
@@ -46,7 +47,7 @@ class Action
         $warning = 0;
         $content = Api::$q->getpage('User talk:' . $user);
         if (preg_match_all(
-            '/<!-- Template:(uw-[a-z]*(\d)(im)?|Blatantvandal \(serious warning\)) -->.*'.
+            '/<!-- Template:(uw-[a-z]*(\d)(im)?|Blatantvandal \(serious warning\)) -->.*' .
             '(\d{2}):(\d{2}), (\d+) ([a-zA-Z]+) (\d{4}) \(UTC\)/iU',
             $content,
             $match,
@@ -143,7 +144,7 @@ class Action
         $rbret = Api::$a->rollback(
             $change['title'],
             $change['user'],
-			/*'Edit by [[Special:Contribs/' . $change['user'] . '|' . $change['user'] . ']] has been reverted by [[WP:CBNG|' . Config::$user . ']] due to possible noncompliance with Wikipedia guidelines. [[WP:CBFP|Report False Positive?]] (' . $change['mysqlid'] .') (Bot)'*/
+            /*'Edit by [[Special:Contribs/' . $change['user'] . '|' . $change['user'] . ']] has been reverted by [[WP:CBNG|' . Config::$user . ']] due to possible noncompliance with Wikipedia guidelines. [[WP:CBFP|Report False Positive?]] (' . $change['mysqlid'] .') (Bot)'*/
             'Reverting possible vandalism by [[Special:Contribs/' . $change['user'] . '|' . $change['user'] . ']] ' .
             'to ' . (($revid == 0) ? 'older version' : 'version by ' . $revdata['user']) . '. ' .
             '[[WP:CBFP|Report False Positive?]] ' .

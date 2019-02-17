@@ -1,4 +1,5 @@
 <?php
+
 namespace CluebotNG;
 
 /*
@@ -138,7 +139,7 @@ class Feed
             }
         }
 
-        if ($wlTimer+3600 <= time()) {
+        if ($wlTimer + 3600 <= time()) {
             $logger->addInfo('Reloading huggle whitelist on timer');
             $wlTimer = time();
             loadHuggleWhitelist();
@@ -156,7 +157,7 @@ class Feed
         }
 
         $udp = @fsockopen('udp://' . Db::getCurrentRelayNode(), Config::$udpport);
-        if($udp !== false) {
+        if ($udp !== false) {
             fwrite(
                 $udp,
                 $change['rawline'] . "\003 # " . $score . ' # ' . $why . ' # ' . ($reverted ? 'Reverted' : 'Not reverted')

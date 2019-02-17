@@ -1,4 +1,5 @@
 <?php
+
 namespace CluebotNG;
 
 /*
@@ -77,14 +78,14 @@ class Db
     // Returns the hostname of the current core node
     public static function getCurrentCoreNode()
     {
-        if(LegacyDb::$coreNodeCache > time()-10 && LegacyDb::$coreNode != null) {
+        if (LegacyDb::$coreNodeCache > time() - 10 && LegacyDb::$coreNode != null) {
             return LegacyDb::$coreNode;
         }
 
         checkLegacyMySQL();
         LegacyDb::$coreNodeCache = time();
         $res = mysqli_query(Globals::$legacy_mysql, 'SELECT `node` from `cluster_node` where type="core"');
-        if($res !== false) {
+        if ($res !== false) {
             $d = mysqli_fetch_assoc($res);
             LegacyDb::$coreNode = $d['node'];
             return $d['node'];
@@ -96,14 +97,14 @@ class Db
     // Returns the hostname of the current relay node
     public static function getCurrentRelayNode()
     {
-        if(LegacyDb::$relayNodeCache > time()-10 && LegacyDb::$relayNode != null) {
+        if (LegacyDb::$relayNodeCache > time() - 10 && LegacyDb::$relayNode != null) {
             return LegacyDb::$relayNode;
         }
 
         checkLegacyMySQL();
         LegacyDb::$relayNodeCache = time();
         $res = mysqli_query(Globals::$legacy_mysql, 'SELECT `node` from `cluster_node` where type="relay"');
-        if($res !== false) {
+        if ($res !== false) {
             $d = mysqli_fetch_assoc($res);
             LegacyDb::$relayNode = $d['node'];
             return $d['node'];

@@ -1,4 +1,5 @@
 <?php
+
 namespace CluebotNG;
 
 /*
@@ -19,6 +20,7 @@ namespace CluebotNG;
  * You should have received a copy of the GNU General Public License
  * along with ClueBot NG.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 class WikipediaIndex
 {
     public $indexurl = 'https://en.wikipedia.org/w/index.php';
@@ -142,7 +144,8 @@ class WikipediaIndex
         $maxlag = null,
         $mlkg = null,
         $bot = true
-    ) {
+    )
+    {
         $post['wpSection'] = '';
         $post['wpScrolltop'] = '';
         if ($minor == true) {

@@ -1,4 +1,5 @@
 <?php
+
 namespace CluebotNG;
 
 /*
@@ -33,8 +34,8 @@ function namespace2name($nsid)
 function parseFeed($feed)
 {
     if (preg_match(
-        '/^\[\[((Talk|User|Wikipedia|File|MediaWiki|Template|Help|Category|Portal|Special)(( |_)talk)?:)?'.
-        '([^\x5d]*)\]\] (\S*) (https?:\/\/en\.wikipedia\.org\/w\/index\.php\?diff=(\d*)&oldid=(\d*).*|'.
+        '/^\[\[((Talk|User|Wikipedia|File|MediaWiki|Template|Help|Category|Portal|Special)(( |_)talk)?:)?' .
+        '([^\x5d]*)\]\] (\S*) (https?:\/\/en\.wikipedia\.org\/w\/index\.php\?diff=(\d*)&oldid=(\d*).*|' .
         'https?:\/\/en\.wikipedia\.org\/wiki\/\S+)? \* ([^*]*) \* (\(([^)]*)\))? (.*)$/S',
         $feed,
         $m

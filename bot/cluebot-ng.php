@@ -1,4 +1,5 @@
 <?php
+
 namespace CluebotNG;
 
 /*
@@ -19,7 +20,7 @@ namespace CluebotNG;
  * You should have received a copy of the GNU General Public License
  * along with ClueBot NG.  If not, see <http://www.gnu.org/licenses/>.
  */
-declare (ticks = 1);
+declare (ticks=1);
 require_once 'includes.php';
 
 pcntl_signal(SIGCHLD, function ($signo) {
@@ -38,6 +39,6 @@ date_default_timezone_set('UTC');
 doInit();
 IRC::init();
 
-for (;;) {
+for (; ;) {
     Feed::connectLoop();
 }

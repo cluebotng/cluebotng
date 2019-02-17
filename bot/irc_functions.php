@@ -1,4 +1,5 @@
 <?php
+
 namespace CluebotNG;
 
 /*
@@ -54,7 +55,7 @@ class IRC
                             $quotes = !$quotes;
                             break;
                         }
-                        // Ignore
+                    // Ignore
                     case ':':
                         if ($temp == '') {
                             ++$i;
@@ -62,7 +63,7 @@ class IRC
                             $i = strlen($message);
                             break;
                         }
-                        // Ignore
+                    // Ignore
                     default:
                         $temp .= $message[$i];
                 }
