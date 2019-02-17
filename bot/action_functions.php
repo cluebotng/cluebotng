@@ -66,7 +66,7 @@ class Action
             }
         }
 
-        return $warning;
+        return (int)$warning;
     }
 
     private static function aiv($change, $report)
