@@ -128,7 +128,6 @@ def _start():
 def _update_utils():
     '''
     Clone or pull the utils git repo into the apps path
-    Also updates bigbrotherrc
     '''
     print('Resetting local changes')
     sudo('cd "%(dir)s" && git reset --hard && git clean -fd' %
@@ -141,7 +140,7 @@ def _update_utils():
 def _update_code():
     '''
     Clone or pull the main git repo into the apps path
-    Also updates bigbrotherrc
+    Also updates cron
     '''
     print('Resetting local changes')
     sudo('cd "%(dir)s" && git reset --hard && git clean -fd' %
@@ -160,12 +159,6 @@ def _update_code():
 
     print('Updating crontab')
     sudo('cd "%(dir)s" && cat tools-crontab | crontab -' % {'dir': os.path.join(TOOL_DIR, 'apps', 'bot')})
-
-    print('Updating bigbrotherrc')
-    sudo('cd "%(dir)s" && cp -f %(src)s ~/.bigbrotherrc' % {
-        'src': 'bigbrotherrc',
-        'dir': os.path.join(TOOL_DIR, 'apps', 'bot')
-    })
 
 
 def _update_core():
