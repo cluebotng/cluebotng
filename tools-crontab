@@ -4,7 +4,7 @@
 
 # Ensure continuous jobs are running
 */5 * * * * jlocal /data/project/cluebotng/apps/bot/bin/bigbrother.sh cbng_bot -e /dev/null -o /dev/null -mem 6G /data/project/cluebotng/apps/bot/bin/run_bot.sh
-*/5 * * * * jlocal /data/project/cluebotng/apps/bot/bin/bigbrother.sh cbng_relay /data/project/cluebotng/apps/bot/bin/run_relay.sh
+*/5 * * * * jlocal /data/project/cluebotng/apps/bot/bin/bigbrother.sh cbng_relay -mem 2G /data/project/cluebotng/apps/bot/bin/run_relay.sh
 */5 * * * * jlocal /data/project/cluebotng/apps/bot/bin/bigbrother.sh cbng_core /data/project/cluebotng/apps/core/current/run.sh
 
 # This needs to end in a new line..
