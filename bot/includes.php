@@ -40,8 +40,6 @@ require_once 'globals.php';
 require_once 'api.php';
 require_once 'process_functions.php';
 require_once 'misc_functions.php';
-require_once 'db_legacy_functions.php';
-require_once 'db_ng_functions.php';
 require_once 'db_functions.php';
 
 if (Config::$sentry_url != null) {

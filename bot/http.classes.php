@@ -37,7 +37,6 @@ class Http
         curl_setopt($this->ch, CURLOPT_COOKIEJAR, '/tmp/cluewikibot.cookies.' . $this->uid . '.dat');
         curl_setopt($this->ch, CURLOPT_COOKIEFILE, '/tmp/cluewikibot.cookies.' . $this->uid . '.dat');
         curl_setopt($this->ch, CURLOPT_MAXCONNECTS, 100);
-        curl_setopt($this->ch, CURLOPT_CLOSEPOLICY, CURLCLOSEPOLICY_LEAST_RECENTLY_USED);
         curl_setopt($this->ch, CURLOPT_USERAGENT, 'ClueBot/2.0');
         curl_setopt($this->ch, CURLOPT_ENCODING, '');
         curl_setopt($this->ch, CURLOPT_FORBID_REUSE, 1);

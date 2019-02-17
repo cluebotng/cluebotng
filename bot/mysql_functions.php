@@ -21,7 +21,7 @@ namespace CluebotNG;
  */
 function is_mysql_alive($con)
 {
-    $res = @mysqli_query('SELECT LAST_INSERT_ID()', $con);
+    @mysqli_query($con,'SELECT LAST_INSERT_ID()');
     return ($con->errno == 2006);
 }
 
@@ -179,9 +179,6 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
         if($res !== false) {
             $d = mysqli_fetch_assoc($res);
             $data['user_edit_count'] = $d['user_editcount'];
-            //if($data['user_edit_count'] == NULL) {
-            //    $data['user_edit_count'] = 1;
-            //}
         }
     }
     $res = mysqli_query(
