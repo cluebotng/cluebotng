@@ -114,7 +114,7 @@ class IRC
             return;
         }
         $logger->addInfo('Saying to  debug: ' . $message);
-        $udp = fsockopen('udp://' . $relay_node, 1338);
+        $udp = fsockopen('udp://' . $relay_node, 3334);
         if($udp !== false) {
             fwrite($udp, '#wikipedia-en-cbngdebug' . ':' . $message);
             fclose($udp);
