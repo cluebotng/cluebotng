@@ -22,7 +22,7 @@ namespace CluebotNG;
  */
 function is_mysql_alive($con)
 {
-    return mysqli_query($con, 'SELECT LAST_INSERT_ID()');
+    return @mysqli_query($con, 'SELECT LAST_INSERT_ID()');
 }
 
 function checkMySQL()
