@@ -19,7 +19,8 @@ var client = new irc.Client( config.server, config.nick, {
         '#wikipedia-en-cbngdebug'
     ],
     floodProtection: true,
-    floodProtectionDelay: 500
+    floodProtectionDelay: 500,
+    retryDelay: 10000
 });
 
 relay.on('message', function(data, info) {
