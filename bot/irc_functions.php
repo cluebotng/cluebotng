@@ -107,17 +107,17 @@ class IRC
 
     public static function debug($message)
     {
-        return message('#wikipedia-en-cbngdebug', $message);
+        return self::message('#wikipedia-en-cbngdebug', $message);
     }
 
     public static function spam($message)
     {
-        return message('#wikipedia-en-cbngfeed', $message);
+        return self::message('#wikipedia-en-cbngfeed', $message);
     }
 
     public static function revert($message)
     {
-        return message('#wikipedia-en-cbngrevertfeed', $message);
+        return self::message('#wikipedia-en-cbngrevertfeed', $message);
     }
 
     private static function message($channel, $message)
