@@ -27,16 +27,14 @@ class Action
     {
         $warning = self::getWarningLevel($change['user'], $tpcontent) + 1;
         if (!Config::$dry) {
-            if ($warning == 5) {
+            if ($warning >= 4) {
                 /* Report them if they have been warned 4 times. */
                 IRC::debug("Reporting to AIV " . $change['user'] . " (" . $warning . ")");
                 self::aiv($change, $report);
-            } elseif ($warning < 5) {
+            } else {
                 /* Warn them if they haven't been warned 4 times. */
                 IRC::debug("Warning " . $change['user'] . " (" . $warning . ")");
                 self::warn($change, $report, $tpcontent, $warning);
-            } else {
-                IRC::debug("Skipping warning of '" . $change['user'] . "', current level: '" . $warning . "'");
             }
         }
     }
