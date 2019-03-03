@@ -105,23 +105,22 @@ class IRC
         self::$chans = $tmp;
     }
 
-		public static function debug($message)
+    public static function debug($message)
     {
-        global $logger;
-        $relay_node = Db::getCurrentRelayNode();
-        if(!isset($relay_node)) {
-            $logger->addError("Could not get relay node. Failed to send: " . $message);
-            return;
-        }
-        $logger->addInfo('Saying to  debug: ' . $message);
-        $udp = fsockopen('udp://' . $relay_node, 3334);
-        if($udp !== false) {
-            fwrite($udp, '#wikipedia-en-cbngdebug' . ':' . $message);
-            fclose($udp);
-        }
+        return message('#wikipedia-en-cbngdebug', $message);
     }
 
-		public static function revert($message)
+    public static function spam($message)
+    {
+        return message('#wikipedia-en-cbngfeed', $message);
+    }
+
+    public static function revert($message)
+    {
+        return message('#wikipedia-en-cbngrevertfeed', $message);
+    }
+
+    private static function message($channel, $message)
     {
         global $logger;
         $relay_node = Db::getCurrentRelayNode();
@@ -129,10 +128,10 @@ class IRC
             $logger->addError("Could not get relay node. Failed to send: " . $message);
             return;
         }
-        $logger->addInfo('Saying to  debug: ' . $message);
-        $udp = fsockopen('udp://' . $relay_node, 3334);
+        $logger->addInfo('Saying to ' . $channel . ': ' . $message);
+        $udp = fsockopen('udp://' . $relay_node, Config::$udpport);
         if($udp !== false) {
-            fwrite($udp, '#wikipedia-en-cbngrevertfeed' . ':' . $message);
+            fwrite($udp, $channel . ':' . $message);
             fclose($udp);
         }
     }

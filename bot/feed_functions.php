@@ -154,13 +154,6 @@ class Feed
             return;
         }
 
-        $udp = @fsockopen('udp://' . Db::getCurrentRelayNode(), Config::$udpport);
-        if ($udp !== false) {
-            fwrite(
-                $udp,
-                '#wikipedia-en-cbngfeed:' . $change['rawline'] . "\003 # " . $score . ' # ' . $why . ' # ' . ($reverted ? 'Reverted' : 'Not reverted')
-            );
-            @fclose($udp);
-        }
+        IRC::spam($change['rawline'] . "\003 # " . $score . ' # ' . $why . ' # ' . ($reverted ? 'Reverted' : 'Not reverted'));
     }
 }
