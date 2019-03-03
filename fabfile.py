@@ -112,7 +112,6 @@ def _stop():
     '''
     sudo('jstop cbng_bot | true')
     sudo('jstop cbng_core | true')
-    sudo('jstop cbng_relay | true')
 
 
 def _start():
@@ -120,7 +119,6 @@ def _start():
     Internal function, calls jstart on the grid job jobs
     '''
     sudo('jstart -N cbng_bot   -l release=trusty -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_bot.sh &> /dev/null | true' % TOOL_DIR)
-    sudo('jstart -N cbng_relay -l release=trusty -e /dev/null -o /dev/null -mem 6G %s/apps/bot/bin/run_relay.sh &> /dev/null | true' % TOOL_DIR)
     sudo('jstart -N cbng_core  -l release=trusty -e /dev/null -o /dev/null -mem 6G %s/apps/core/current/run.sh &> /dev/null | true' % TOOL_DIR)
     sudo('webservice start | true')
 
