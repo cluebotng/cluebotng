@@ -202,6 +202,8 @@ function parseFeedData($feedData, $useOld = false)
         and isset($api['revisions'][1]['*']))
     ) {
         $logger->addError("Failed to get all edit info: " . var_export($feedData, true) . ", " . var_export($cb, true));
+        IRC::debug("Failed to get edit info for \x0315[[\x0307" . $change['title'] . "\x0315]] " .
+                   "by \"\x0303" . $change['user'] . "\x0315\" (\x0312 " . $change['url'] . " \x0315)");
         return false;
     }
     $data = array(
