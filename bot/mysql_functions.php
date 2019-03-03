@@ -200,9 +200,7 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
         "select count(distinct rev_page) as count from ' .
         'revision_userindex where `rev_user_text` = '" . mysqli_real_escape_string(Globals::$mw_mysql, $userPage) . "'"
     );
-    if ($res === false) {
-        $logger->warning("user distinct pages query returned no data for " . $userPage);
-    } else {
+    if ($res !== false) {
         $d = mysqli_fetch_assoc($res);
         $data['user_distinct_pages'] = $d['count'];
     }
