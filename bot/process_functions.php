@@ -122,6 +122,10 @@ class Process
             $rbret = Action::doRevert($change);
             if ($rbret !== false) {
                 $change['edit_status'] = 'reverted';
+                IRC::revert(
+                    $ircreport . "\x0304Reverted\x0315) (\x0313" . $revertReason .
+                    "\x0315) (\x0302" . (microtime(true) - $change['startTime']) . " \x0315s)"
+                );
                 Action::doWarn($change, $report);
                 Db::vandalismReverted($change['mysqlid']);
                 Feed::bail($change, $revertReason, $s, true);
@@ -129,6 +133,10 @@ class Process
                 $change['edit_status'] = 'beaten';
                 $rv2 = Api::$a->revisions($change['title'], 1);
                 if ($change['user'] != $rv2[0]['user']) {
+                    IRC::revert(
+                        $ircreport . "\x0303Not Reverted\x0315) (\x0313Beaten by " .
+                        $rv2[0]['user'] . "\x0315) (\x0302" . (microtime(true) - $change['startTime']) . " \x0315s)"
+                    );
                     Db::vandalismRevertBeaten($change['mysqlid'], $change['title'], $rv2[0]['user'], $change['url']);
                     Feed::bail($change, 'Beaten by ' . $rv2[0]['user'], $s);
                 }

@@ -16,7 +16,8 @@ var client = new irc.Client( config.server, config.nick, {
     secure: false,
     channels: [
         '#wikipedia-en-cbngfeed',
-        '#wikipedia-en-cbngdebug'
+        '#wikipedia-en-cbngdebug',
+        '#wikipedia-en-cbngrevertfeed'
     ],
     floodProtection: true,
     floodProtectionDelay: 500,
