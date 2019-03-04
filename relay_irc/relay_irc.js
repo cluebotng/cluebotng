@@ -20,7 +20,7 @@ var client = new irc.Client( config.server, config.nick, {
         '#wikipedia-en-cbngrevertfeed'
     ],
     floodProtection: true,
-    floodProtectionDelay: 500,
+    floodProtectionDelay: 600,
     retryDelay: 10000
 });
 
