@@ -29,7 +29,6 @@ class Action
         if (!Config::$dry) {
             if ($warning >= 4) {
                 /* Report them if they have been warned 4 times. */
-                IRC::debug("Reporting to AIV " . $change['user'] . " (" . $warning . ")");
                 self::aiv($change, $report);
             } else {
                 /* Warn them if they haven't been warned 4 times. */
@@ -75,12 +74,12 @@ class Action
     {
         $aivdata = Api::$q->getpage('Wikipedia:Administrator_intervention_against_vandalism/TB2');
         if (!preg_match('/' . preg_quote($change['user'], '/') . '/i', $aivdata)) {
-            IRC::say(
+            IRC::debug(
                 '!admin Reporting [[User:' . $change['user'] .
                 ']] to [[WP:AIV]]. Contributions: [[Special:Contributions/' . $change['user'] .
                 ']] Block: [[Special:Blockip/' . $change['user'] . ']]'
             );
-            Api::$a->edit(
+            print_r(Api::$a->edit(
                 'Wikipedia:Administrator_intervention_against_vandalism/TB2',
                 $aivdata . "\n\n" . '* {{' .
                 ((long2ip(ip2long($change['user'])) == $change['user']) ? 'IPvandal' : 'Vandal') .
@@ -90,7 +89,7 @@ class Action
                 ' (bot)',
                 false,
                 false
-            );
+            ));
         }
     }
 
