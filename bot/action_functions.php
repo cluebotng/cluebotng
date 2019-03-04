@@ -79,7 +79,7 @@ class Action
                 ']] to [[WP:AIV]]. Contributions: [[Special:Contributions/' . $change['user'] .
                 ']] Block: [[Special:Blockip/' . $change['user'] . ']]'
             );
-            print_r(Api::$a->edit(
+            Api::$a->edit(
                 'Wikipedia:Administrator_intervention_against_vandalism/TB2',
                 $aivdata . "\n\n" . '* {{' .
                 ((long2ip(ip2long($change['user'])) == $change['user']) ? 'IPvandal' : 'Vandal') .
@@ -89,7 +89,7 @@ class Action
                 ' (bot)',
                 false,
                 false
-            ));
+            );
         }
     }
 
