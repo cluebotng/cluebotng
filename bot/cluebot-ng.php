@@ -20,17 +20,19 @@ namespace CluebotNG;
  * You should have received a copy of the GNU General Public License
  * along with ClueBot NG.  If not, see <http://www.gnu.org/licenses/>.
  */
-declare (ticks=1);
 require_once 'includes.php';
 
-pcntl_signal(SIGCHLD, function ($signo) {
+pcntl_async_signals(true);
+pcntl_signal(SIGCHLD, function ($signo, $siginfo) {
     switch ($signo) {
         case SIGCHLD:
+            echo "Got SIGCHLD ...\n";
             while (($x = pcntl_waitpid(0, $status, WNOHANG)) != -1) {
                 if ($x == 0) {
                     break;
                 }
                 $status = pcntl_wexitstatus($status);
+                echo "PID $x exited with status $status\n";
             }
             break;
     }
