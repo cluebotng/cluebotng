@@ -34,7 +34,7 @@ function namespace2name($nsid)
 function parseFeed($feed)
 {
     if (preg_match(
-        '/^\[\[((Talk|User|Wikipedia|File|MediaWiki|Template|Help|Category|Portal|Special)(( |_)talk)?:)?' .
+        '/^\[\[((Talk|User|Wikipedia|File|MediaWiki|Template|Help|Category|Portal|Special|Book|Draft|TimedText|Module|Gadget|Gadget(?: |_)definition|Media)(( |_)talk)?:)?' .
         '([^\x5d]*)\]\] (\S*) (https?:\/\/en\.wikipedia\.org\/w\/index\.php\?diff=(\d*)&oldid=(\d*).*|' .
         'https?:\/\/en\.wikipedia\.org\/wiki\/\S+)? \* ([^*]*) \* (\(([^)]*)\))? (.*)$/S',
         $feed,

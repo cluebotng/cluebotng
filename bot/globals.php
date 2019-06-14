@@ -55,5 +55,17 @@ class Globals
         'category talk' => 15,
         'portal' => 100,
         'portal talk' => 101,
+        'book' => 108,
+        'book talk' => 109,
+        'draft' => 118,
+        'draft talk' => 119,
+        'timedtext' => 710,
+        'timedtext talk' => 711,
+        'module' => 828,
+        'module talk' => 829,
+        'gadget' => 2300,
+        'gadget talk' => 2301,
+        'gadget definition' => 2302,
+        'gadget definition talk' => 2303,
     );
 }
