@@ -192,8 +192,8 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
     $res = mysqli_query(
         Globals::$mw_mysql,
         'SELECT COUNT(*) as count FROM `page`' .
-        ' JOIN `revision` ON `rev_page` = `page_id`'
-        ' JOIN `comment` ON `rev_comment_id` = `comment_id`'
+        ' JOIN `revision` ON `rev_page` = `page_id`' .
+        ' JOIN `comment` ON `rev_comment_id` = `comment_id`' .
         " WHERE `page_namespace` = 3 AND `page_title` = '" .
         mysqli_real_escape_string(Globals::$mw_mysql, $userPage) .
         "' AND (`comment_text` LIKE '%warning%' OR `comment_text`" .
