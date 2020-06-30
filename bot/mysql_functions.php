@@ -80,8 +80,9 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
     );
     $res = mysqli_query(
         Globals::$mw_mysql,
-        'SELECT `rev_timestamp`, `rev_user_text` ' .
-        'FROM `page` JOIN `revision` ON `rev_page` = `page_id`' .
+        'SELECT `rev_timestamp`, `actor_name` FROM `page`' .
+        ' JOIN `revision` ON `rev_page` = `page_id`' .
+        ' JOIN `actor` ON `actor_id` = `rev_actor`' .
         ' WHERE `page_namespace` = "' .
         mysqli_real_escape_string(Globals::$mw_mysql, $nsid) .
         '" AND `page_title` = "' .
@@ -93,12 +94,14 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
     } else {
         $d = mysqli_fetch_assoc($res);
         $data['common']['page_made_time'] = $d['rev_timestamp'];
-        $data['common']['creator'] = $d['rev_user_text'];
+        $data['common']['creator'] = $d['actor_name'];
     }
     $res = mysqli_query(
         Globals::$mw_mysql,
-        'SELECT COUNT(*) as count FROM `page` JOIN `revision` ON ' .
-        '`rev_page` = `page_id` WHERE `page_namespace` = "' .
+        'SELECT COUNT(*) as count FROM `page`' .
+        ' JOIN `revision` ON `rev_page` = `page_id`' .
+        ' JOIN `actor` ON `actor_id` = `rev_actor`' .
+        ' WHERE `page_namespace` = "' .
         mysqli_real_escape_string(Globals::$mw_mysql, $nsid) .
         '" AND `page_title` = "' .
         mysqli_real_escape_string(Globals::$mw_mysql, $title) .
@@ -113,14 +116,16 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
     }
     $res = mysqli_query(
         Globals::$mw_mysql,
-        'SELECT COUNT(*) as count FROM `page` JOIN `revision` ON `rev_page` ' .
-        "= `page_id` WHERE `page_namespace` = '" .
+        'SELECT COUNT(*) as count FROM `page`' .
+        ' JOIN `revision` ON `rev_page` = `page_id`' .
+        ' JOIN `comment` ON `rev_comment_id` = `comment_id`' .
+        " WHERE `page_namespace` = '" .
         mysqli_real_escape_string(Globals::$mw_mysql, $nsid) .
         "' AND `page_title` = '" .
         mysqli_real_escape_string(Globals::$mw_mysql, $title) .
         "' AND `rev_timestamp` > '" .
         mysqli_real_escape_string(Globals::$mw_mysql, $timestamp) .
-        "' AND `rev_comment` LIKE 'Revert%'"
+        "' AND `comment_text` LIKE 'Revert%'"
     );
     if ($res === false) {
         $logger->addWarning("page recent reverts query returned no data for " . $title . " (" . $nsid . ") > " . $timestamp . ": ". mysqli_error(Globals::$mw_mysql));
@@ -135,7 +140,8 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
         $res = mysqli_query(
             Globals::$mw_mysql,
             'SELECT COUNT(*) AS `user_editcount` FROM `revision_userindex` ' .
-            ' WHERE `rev_user_text` = "' .
+            ' JOIN `actor` ON `actor_id` = `rev_actor`' .
+            ' WHERE `actor_name` = "' .
             mysqli_real_escape_string(Globals::$mw_mysql, $user) . '"'
         );
         if ($res === false) {
@@ -159,7 +165,9 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
         if (!$data['user_reg_time']) {
             $res = mysqli_query(
                 Globals::$mw_mysql,
-                'SELECT `rev_timestamp` FROM `revision_userindex` WHERE `rev_user` = "' .
+                'SELECT `rev_timestamp` FROM `revision_userindex` ' .
+                ' JOIN `actor` ON `actor_id` = `rev_actor`' .
+                ' WHERE `actor_name` = "' .
                 mysqli_real_escape_string(Globals::$mw_mysql, $user) . '" ORDER BY `rev_timestamp` LIMIT 0,1'
             );
             if ($res === false) {
@@ -183,10 +191,12 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
     }
     $res = mysqli_query(
         Globals::$mw_mysql,
-        'SELECT COUNT(*) as count FROM `page` JOIN `revision` ON `rev_page` = `page_id`' .
+        'SELECT COUNT(*) as count FROM `page`' .
+        ' JOIN `revision` ON `rev_page` = `page_id`'
+        ' JOIN `comment` ON `rev_comment_id` = `comment_id`'
         " WHERE `page_namespace` = 3 AND `page_title` = '" .
         mysqli_real_escape_string(Globals::$mw_mysql, $userPage) .
-        "' AND (`rev_comment` LIKE '%warning%' OR `rev_comment`" .
+        "' AND (`comment_text` LIKE '%warning%' OR `comment_text`" .
         " LIKE 'General note: Nonconstructive%')"
     );
     if ($res === false) {
@@ -197,8 +207,9 @@ function getCbData($user = '', $nsid = '', $title = '', $timestamp = '')
     }
     $res = mysqli_query(
         Globals::$mw_mysql,
-        "select count(distinct rev_page) as count from ' .
-        'revision_userindex where `rev_user_text` = '" . mysqli_real_escape_string(Globals::$mw_mysql, $userPage) . "'"
+        "SELECT count(distinct rev_page) AS count FROM' .
+        ' `revision_userindex` JOIN `actor` ON `actor_id` = `rev_actor`' .
+        ' WHERE `actor_name` = '" . mysqli_real_escape_string(Globals::$mw_mysql, $userPage) . "'"
     );
     if ($res !== false) {
         $d = mysqli_fetch_assoc($res);
