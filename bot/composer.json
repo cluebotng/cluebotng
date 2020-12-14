@@ -5,6 +5,11 @@
         "monolog/monolog": "^1.17",
         "raven/raven": "^0.11.0"
     },
+    "config": {
+        "platform": {
+            "php": "7.2.31"
+        }
+    },
     "license": "GNU General Public License",
     "authors": [
         {
