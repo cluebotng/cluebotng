@@ -159,6 +159,26 @@ def _update_code():
     sudo('cd "%(dir)s" && cat tools-crontab | crontab -' % {'dir': os.path.join(TOOL_DIR, 'apps', 'bot')})
 
 
+def _update_ui():
+    '''
+    Clone or pull the ui git repo into the apps path
+    '''
+    print('Resetting local changes')
+    sudo('cd "%(dir)s" && git reset --hard && git clean -fd' %
+         {'dir': os.path.join(TOOL_DIR, 'apps', 'report_interface')})
+
+    print('Updating code')
+    sudo('cd "%(dir)s" && git pull origin master' % {'dir': os.path.join(TOOL_DIR, 'apps', 'report_interface')})
+
+    print('Running composer')
+    sudo('cd "%(dir)s" && ./composer.phar self-update' % {
+        'dir': os.path.join(TOOL_DIR, 'apps', 'report_interface')
+    })
+    sudo('cd "%(dir)s" && ./composer.phar install' % {
+        'dir': os.path.join(TOOL_DIR, 'apps', 'report_interface')
+    })
+
+
 def _update_core():
     '''
     Download the core bins from bintray if they don't exist
@@ -266,6 +286,7 @@ def _deploy():
 
     _setup()
     _update_utils()
+    _update_ui()
     _update_code()
     _update_core()
     _update_core_configs()
