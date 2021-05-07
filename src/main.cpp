@@ -65,63 +65,64 @@ private:
 
 
 void addChainLink(EditProcessChain & procchain, const string & modulename, Setting & moduleconfig) {
-    if(modulename == "character_counts") {
+    switch (modulename) {
+    case "character_counts":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new CharacterCounter(moduleconfig)));
-    } else if(modulename == "edit_dump") {
+    break; case "edit_dump":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new EditDump(moduleconfig)));
-    } else if(modulename == "print_progress") {
+    break; case "print_progress":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new ProgressPrinter(moduleconfig)));
-    } else if(modulename == "fast_string_search") {
+    break; case "fast_string_search":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new FastStringSearch(moduleconfig)));
-    } else if(modulename == "posix_regex_search") {
+    break; case "posix_regex_search":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new PosixRegexSearch(moduleconfig)));
-    } else if(modulename == "posix_regex_replace") {
+    break; case "posix_regex_replace":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new PosixRegexReplace(moduleconfig)));
-    } else if(modulename == "misc_text_metrics") {
+    break; case "misc_text_metrics":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new MiscTextMetrics(moduleconfig)));
-    } else if(modulename == "character_replace") {
+    break; case "character_replace":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new CharacterReplace(moduleconfig)));
-    } else if(modulename == "word_separator") {
+    break; case "word_separator":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new WordSeparator(moduleconfig)));
-    } else if(modulename == "multi_word_separator") {
+    break; case "multi_word_separator":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new MultiWordSeparator(moduleconfig)));
-    } else if(modulename == "wordset_diff") {
+    break; case "wordset_diff":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new WordSetDiff(moduleconfig)));
-    } else if(modulename == "wordset_compare") {
+    break; case "wordset_compare":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new WordSetCompare(moduleconfig)));
-    } else if(modulename == "misc_raw_word_metrics") {
+    break; case "misc_raw_word_metrics":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new MiscRawWordMetrics(moduleconfig)));
-    } else if(modulename == "word_character_replace") {
+    break; case "word_character_replace":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new WordCharacterReplace(moduleconfig)));
-    } else if(modulename == "word_finder") {
+    break; case "word_finder":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new WordFinder(moduleconfig)));
-    } else if(modulename == "expression_eval") {
+    break; case "expression_eval":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new ExpressionEval(moduleconfig)));
-    } else if(modulename == "float_set_creator") {
+    break; case "float_set_creator":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new FloatSetCreator(moduleconfig)));
-    } else if(modulename == "bayesian_training_data_creator") {
+    break; case "bayesian_training_data_creator":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new BayesTrainDataCreator(moduleconfig)));
-    } else if(modulename == "bayesian_scorer") {
+    break; case "bayesian_scorer":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new BayesScorer(moduleconfig)));
-    } else if(modulename == "write_properties") {
+    break; case "write_properties":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new WriteProperties(moduleconfig)));
-    } else if(modulename == "write_ann_training_data") {
+    break; case "write_ann_training_data":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new WriteAnnTrainingData(moduleconfig)));
-    } else if(modulename == "run_ann") {
+    break; case "run_ann":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new RunAnn(moduleconfig)));
-    } else if(modulename == "trial_run_report") {
+    break; case "trial_run_report":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new TrialRunReport(moduleconfig)));
-    } else if(modulename == "charset_conv") {
+    break; case "charset_conv":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new CharsetConverter(moduleconfig)));
-    } else if(modulename == "all_prop_charset_conv") {
+    break; case "all_prop_charset_conv":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new AllPropCharsetConverter(moduleconfig)));
-    } else if(modulename == "apply_threshold") {
+    break; case "apply_threshold":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new ApplyThreshold(moduleconfig)));
-    } else if(modulename == "chain") {
+    break; case "chain":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new SubchainModule(moduleconfig)));
-    } else if(modulename == "quote_separator") {
+    break; case "quote_separator":
         procchain.appendProcessor(boost::shared_ptr<EditProcessor>(new StandardQuoteSeparator(moduleconfig)));
-    } else {
+    break; default:
         throw std::runtime_error("Unknown module/chain link");
     }
 }
@@ -242,7 +243,7 @@ public:
                 //cout << "read\n";
                 rd.assign(cbuf, cbuf + len);
                 if(er == boost::asio::error::eof) break;
-                else if(er) throw boost::system::system_error(er);
+                break; if(er) throw boost::system::system_error(er);
                 if(rd.size()) {
                     editparser.submitData(&rd.front(), rd.size());
                 }
@@ -290,9 +291,9 @@ void addConfigChain(EditProcessChain & procchain, Setting & configchain, Setting
             string modulename = chainelname;
             if(linkcfg.exists("module")) modulename = (const char *)linkcfg["module"];
             addChainLink(procchain, modulename, linkcfg);
-        } else if(chaincfgs.exists(chainelname)) {    // Check if it's the name of another chain
+        break; if(chaincfgs.exists(chainelname)) {    // Check if it's the name of another chain
             addConfigChain(procchain, chaincfgs[chainelname], linkcfgs, chaincfgs);
-        } else {    // Assume it's the name of a module without a configuration block
+        break; {    // Assume it's the name of a module without a configuration block
             Setting & blanksetting = linkcfgs.add(chainelname, Setting::TypeGroup);
             addChainLink(procchain, chainelname, blanksetting);
         }
@@ -388,7 +389,7 @@ int main(int argc, char **argv) {
                 }
 #ifdef SINGLETHREAD
                 chain.process(ed);
-#else
+#break;
                 tpool.submitEdit(ed);
 #endif
                 ++num_edits;
